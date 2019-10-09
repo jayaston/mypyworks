@@ -5,16 +5,16 @@ Created on Fri Apr 12 11:55:22 2019
 @author: XieJie
 """
 import sys
-sys.path.append(r'E:\pyworks\StatLedger\module')
+sys.path.append(r'.\StatLedger\module')
 import pandas as pd
 import numpy as np
-import shujuyuan as sj
+import tjfxdata as tjfx
 import openpyxl as oxl
 import shutil
 import os
 #import re    
 
-baobiaoriqi = '20191007'
+baobiaoriqi = '20191008'
 
 list1 = [['00','00718','d'],
          ['1001','00718','d'],
@@ -24,7 +24,7 @@ list1 = [['00','00718','d'],
          ['1004','00718','d'],
          ['1005','00718','d'],
          ['1007','00718','d']]
-shuju_df = sj.Datataizhang().getdata(baobiaoriqi,baobiaoriqi,list1)
+shuju_df = tjfx.TjfxData().getdata(baobiaoriqi,baobiaoriqi,list1)
 
 shuju_df.info()
 
