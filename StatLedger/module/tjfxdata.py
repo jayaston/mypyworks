@@ -33,8 +33,8 @@ class TjfxData:
             df_result = df        
         df_zhibiao = pd.read_sql(sql2,self.conn)
         df_bumen = pd.read_sql(sql3,self.conn)
-        df_result = pd.merge(df_result,df_zhibiao,how='left',on='QUOTA_CODE')
-        df_result = pd.merge(df_result,df_bumen,how='left',left_on='QUOTA_DEPT_CODE',right_on='GROUP_CODE').drop('GROUP_CODE',axis=1)
+        df_result = pd.merge(df_result,df_zhibiao,on='QUOTA_CODE')
+        df_result = pd.merge(df_result,df_bumen,left_on='QUOTA_DEPT_CODE',right_on='GROUP_CODE').drop('GROUP_CODE',axis=1)
         self.conn.close()            
         print(df_result.head())        
         return df_result
