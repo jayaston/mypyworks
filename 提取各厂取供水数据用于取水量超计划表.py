@@ -4,12 +4,15 @@ Created on Mon Mar  4 08:31:59 2019
 
 @author: XieJie
 """
-#
 import sys
-sys.path.append(r'E:\pyworks\StatLedger\module')
+import os
+try:
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"StatLedger\module")))
+except:
+    sys.path.append(r'.\StatLedger\module')
 import pandas as pd
 import numpy as np
-import shujuyuan as sj
+import tjfxdata as tjfx
 #import re    
 import datetime as dt
 
@@ -48,7 +51,7 @@ list3 = [
          ['1016','00718','m']                 
          ]
 
-shuju_df = sj.Datataizhang().getdata('20190101','20190831',list3)
+shuju_df = tjfx.TjfxData().getdata('20190101','20190831',list3)
 
 shuju_df.info()
 

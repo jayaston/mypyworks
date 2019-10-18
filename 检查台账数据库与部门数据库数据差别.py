@@ -4,6 +4,12 @@ Created on Tue Feb 12 15:21:48 2019
 
 @author: XieJie
 """
+import sys
+import os
+try:
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"StatLedger\module")))
+except:
+    sys.path.append(r'.\StatLedger\module')
 import pandas as pd
 import numpy as np
 import tjfxdata as tjfx

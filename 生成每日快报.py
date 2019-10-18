@@ -5,7 +5,11 @@ Created on Fri Apr 12 11:55:22 2019
 @author: XieJie
 """
 import sys
-sys.path.append(r'.\StatLedger\module')
+import os
+try:
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"StatLedger\module")))
+except:
+    sys.path.append(r'.\StatLedger\module')
 import pandas as pd
 import numpy as np
 import tjfxdata as tjfx
@@ -14,7 +18,7 @@ import shutil
 import os
 #import re    
 
-baobiaoriqi = '20191014'
+baobiaoriqi = '20191017'
 
 list1 = [['00','00718','d'],
          ['1001','00718','d'],

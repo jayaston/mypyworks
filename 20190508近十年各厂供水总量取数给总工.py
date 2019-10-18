@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
-
+import sys
+import os
+try:
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"StatLedger\module")))
+except:
+    sys.path.append(r'.\StatLedger\module')
 
 import pandas as pd
 import numpy as np
-import ShuJuCaoZuo.shujuyuan as sj
+import tjfxdata as tjfx
 #import re  
 list1 = [['1001','00718','m'],
          ['1002','00718','m'],
@@ -15,7 +20,7 @@ list1 = [['1001','00718','m'],
          ['1006','00718','m'],
          ['1007','00718','m']
          ]
-shuju_df = sj.Datataizhang().getdata('20090101','20181231',list1)
+shuju_df = tjfx.TjfxData().getdata('20090101','20181231',list1)
 
 shuju_df.info()
 

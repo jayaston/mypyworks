@@ -4,19 +4,22 @@ Created on Mon Mar  4 08:31:59 2019
 
 @author: XieJie
 """
-#
-#import sys
-#sys.path.append('E:\\pyworks')
+import sys
+import os
+try:
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"StatLedger\module")))
+except:
+    sys.path.append(r'.\StatLedger\module')
 import pandas as pd
 import numpy as np
-import ShuJuCaoZuo.shujuyuan as sj
+import tjfxdata as tjfx
 #import re    
 
 
 
 list1 = [['00','00718','d']
          ]
-shuju_df = sj.Datataizhang().getdata('20180101','20181231',list1)
+shuju_df = tjfx.TjfxData().getdata('20180101','20181231',list1)
 
 shuju_df.info()
 
