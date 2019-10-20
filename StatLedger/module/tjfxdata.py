@@ -6,10 +6,14 @@ Created on Wed Feb 20 09:50:53 2019
 """
 import pandas as pd
 import cx_Oracle
+import readConfig
 
 class TjfxData:    
-    def __init__(self):
-        self.conn = cx_Oracle.connect("zls_tjfx/tjfx10goracle@10.1.12.196:1521/orcl")        
+    def __init__(self,
+                 user=readConfig.tjfx_user,
+                 password=readConfig.tjfx_pwd,
+                 dsn=readConfig.tjfx_dsn):
+        self.conn = cx_Oracle.connect(user=user,password=password,dsn=dsn)        
     def getdata(self,startd,endd,quotas=None):
         sql1 = "select QUOTA_DATE,QUOTA_DEPT_CODE ,QUOTA_CODE,QUOTA_VALUE,RECORD_TYPE \
             from zls_tjfx.tj_quota_data \

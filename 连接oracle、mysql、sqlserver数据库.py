@@ -6,7 +6,7 @@ This is a temporary script file.
 """
 import pandas as pd
 import cx_Oracle
-conn = cx_Oracle.connect('zls_tjfx/tjfx10goracle@10.1.12.196:1521/orcl')
+conn = cx_Oracle.connect('')
 print (conn.version)  
 c=conn.cursor()
 c.execute("select QUOTA_DATE,QUOTA_DEPT_CODE ,QUOTA_CODE,QUOTA_VALUE,RECORD_TYPE \
@@ -38,11 +38,11 @@ conn.close()
 
 import pymysql
 conn2 = pymysql.connect(
-        host='10.1.80.197',
+        host='',
         port=3306,
-        database='TJFX',
-        user='admin',
-        password='200925',
+        database='',
+        user='',
+        password='',
         charset='utf8')
 
 sql2 = "select QUOTA_DATE,QUOTA_DEPT_CODE ,QUOTA_CODE,QUOTA_VALUE,RECORD_TYPE \
@@ -55,11 +55,11 @@ df2 = pd.read_sql(sql2,conn2)
 conn2.close()
 
 import pymssql
-conn3 = pymssql.connect(host='10.1.141.124',
+conn3 = pymssql.connect(host='',
                         port='1433',
                         database='ReadAliWeather',
-                        user='jitongbu',
-                        password='xiejie')
+                        user='',
+                        password='')
 sql3 = "select *  from \
 AliWeather2019 \
 where CONVERT(varchar(12) , fDate, 112 ) >= '20190101' \
@@ -69,6 +69,6 @@ and fNo in (1,4)"
 df3 = pd.read_sql(sql3,conn3) 
 conn3.close()
                                        
-help(execute)
+
 
 [(i,) for i in range(100)]

@@ -7,17 +7,19 @@ Created on Tue Sep  3 10:58:56 2019
 import pandas as pd
 import pymysql
 import traceback
+import readConfig
 
 class BumenData:
-    def __init__(self):
-        host='10.1.80.197'
-        self.port=3306
-        self.database='TJFX'
-        self._user='admin'
-        self._password='200925'
-        self.charset='utf8'
-        self.conn = pymysql.connect(host=host,port=self.port,database=self.database,
-                               user=self._user,password=self._password,charset=self.charset)
+    def __init__(self,
+                 host=readConfig.bumen_host,
+                 port=readConfig.bumen_port,
+                 database=readConfig.bumen_database,
+                 user=readConfig.bumen_user,
+                 password=readConfig.bumen_pwd,
+                 charset='utf8'):
+              
+        self.conn = pymysql.connect(host=host,port=port,database=database,
+                               user=user,password=password,charset=charset)
     def getdata(self,startd,endd,quotas=None):        
         try:
             sql = "select QUOTA_DATE,QUOTA_DEPT_CODE ,QUOTA_CODE,QUOTA_VALUE,RECORD_TYPE \
