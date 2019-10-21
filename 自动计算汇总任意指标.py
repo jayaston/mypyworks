@@ -9,7 +9,7 @@ import os
 try:
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"StatLedger\module")))
 except:
-    sys.path.append(r'.\StatLedger\module')
+    sys.path.append(r'.\mypyworks\StatLedger\module')
 import cumcalculate as cc
 import tjfxdata as tjfx
 

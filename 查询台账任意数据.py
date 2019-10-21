@@ -4,16 +4,18 @@ Created on Mon Mar  4 08:31:59 2019
 
 @author: XieJie
 """
-#
+
 import sys
 import os
+#os.getcwd()
 try:
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"StatLedger\module")))
 except:
-    sys.path.append(r'.\StatLedger\module')
+    sys.path.append(r'.\mypyworks\StatLedger\module')
 import pandas as pd
 import numpy as np
 import tjfxdata as tjfx
+import bumendata as bm
 #import re    
 import datetime as dt
 
@@ -45,7 +47,7 @@ list1 = [['00','11930','d'],
          ['1005','31195','d'],
          ['1007','31195','d']  
          ]
-shuju_df = tjfx.TjfxData().getdata('20190101','20191009',list1)
+shuju_df = bm.BumenData().getdata('20190101','20191009',list1)
 
 shuju_df.info()
 
