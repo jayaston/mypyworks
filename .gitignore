@@ -2,3 +2,6 @@
 汽车数据/
 自来水数据/
 StatLedger/数据表/SQlconfig.ini
+.ipynb_checkpoints/
+__pycache__/
+.idea/
