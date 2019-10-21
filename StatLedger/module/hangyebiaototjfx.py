@@ -84,8 +84,9 @@ def load_data_wuwandun(path):
     thedatetime = xlrd.xldate_as_datetime(sheet.cell(4,6).value, 0)
     quota_date = thedatetime.strftime('%Y-%m-%d %H:%M:%S')
     mon = thedatetime.strftime('%Y%m')
-    quota_dept = sheet.cell(4,1).value
-    quota_dept_code =str( list(dept_code[dept_code['部门']==quota_dept]['编码'])[0] )   
+#    quota_dept = sheet.cell(4,1).value
+#    quota_dept_code =str( list(dept_code[dept_code['部门']==quota_dept]['编码'])[0] )
+    quota_dept_code = '00'
     record_type = 'm'
     for j in [5,12]:
         for i in range(wuwandun_startrow, wuwandun_endrow):
