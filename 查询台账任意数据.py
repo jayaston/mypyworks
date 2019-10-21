@@ -15,7 +15,7 @@ except:
 import pandas as pd
 import numpy as np
 import tjfxdata as tjfx
-import bumendata as bm
+
 #import re    
 import datetime as dt
 
@@ -47,11 +47,11 @@ list1 = [['00','11930','d'],
          ['1005','31195','d'],
          ['1007','31195','d']  
          ]
-shuju_df = bm.BumenData().getdata('20190101','20191009',list1)
+shuju_df = tjfx.TjfxData().getdata('20190101','20191009',list1)
 
 shuju_df.info()
 
-shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coercs').fillna(0)
+shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
 
 test = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','QUOTA_NAME'],values='QUOTA_VALUE')
 #print(test)

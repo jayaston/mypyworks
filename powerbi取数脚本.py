@@ -17,7 +17,7 @@ startdate = (dt.datetime.now()-dt.timedelta(days=731)).strftime('%Y%m%d')
 
 shuju_df = tjfx.TjfxData().getdata(startdate,enddate)
 shuju_df = shuju_df.query("RECORD_TYPE!='h'")
-shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coercs').fillna(0)
+shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
 selectquota = pd.read_excel(r"C:\Users\XieJie\mypyworks\StatLedger\数据表\水厂看板指标.xlsx",
                             dtype={'QUOTA_CODE':object,'QUOTA_NAME':object},
                             usecols=['QUOTA_CODE'])

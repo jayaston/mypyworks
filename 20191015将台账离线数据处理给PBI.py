@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 
 data_df = pd.read_csv('./自来水数据/查询指标.csv',header=None,
-                      dtype={'QUOTA_CODE' : object,'DEPT_CODE':object},                      
+                      dtype={'QUOTA_CODE' : str,'DEPT_CODE':str},                      
                       usecols = ['QUOTA_CODE','QUOTA_DATE','QUOTA_VALUE','DEPT_CODE','RECORD_TYPE'],
                       names=['QUOTA_CODE','MON','QUOTA_DATE','QUOTA_VALUE','忽略1','DEPT_CODE','忽略2','忽略3','RECORD_TYPE'])
 data_df.info()
@@ -20,10 +20,9 @@ data_df.head()
 
 dept_df = pd.read_csv('./自来水数据/查询指标_部门编码.csv',header=None,
                       names = ['DEPT_CODE','DEPT_NAME'],
-                      dtype={'DEPT_CODE':object,'DEPT_NAME':object})
-dept_df.dtypes
+                      dtype={'DEPT_CODE':str,'DEPT_NAME':str})
+
 dept_df.drop_duplicates('DEPT_CODE',inplace=True)
-dept_df[dept_df.duplicated('DEPT_CODE')]
 
 
 quota_df = pd.read_csv('./自来水数据/查询指标_指标编码.csv',header=None,
