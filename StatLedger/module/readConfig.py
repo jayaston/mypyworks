@@ -7,8 +7,8 @@ Created on Sun Oct 20 20:32:48 2019
 import os
 import configparser
 #获取配置文件目录
-dir_path =  os.path.dirname(os.path.dirname(__file__))
-configPath = os.path.abspath(os.path.join(dir_path,"数据表/SQlconfig.ini"))    
+dir_path =  os.path.dirname(__file__)
+configPath = os.path.abspath(os.path.join(dir_path,"SQlconfig.ini"))    
 
 #读取配置文件信息
 conf = configparser.ConfigParser()

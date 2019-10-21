@@ -25,15 +25,15 @@ def open_excel(path):
 def load_datacode():
     dir = os.path.dirname(os.path.dirname(__file__))
     path = os.path.abspath(os.path.join(dir,"数据表/行业报表指标与台账指标编码对应表.xlsx")) 
-    data_code = pd.read_excel(path,sheet_name=2,dtype={'台账编码':np.object,'对应报表中指标名称':np.object})
+    data_code = pd.read_excel(path,sheet_name=2,dtype={'台账编码':str,'对应报表中指标名称':str})
     
     return data_code
-   
+ 
 #    set(data_code[ data_code.duplicated('对应报表中指标名称')]['对应报表中指标名称'])
 def load_deptcode():
     dir = os.path.dirname(os.path.dirname(__file__))
     path = os.path.abspath(os.path.join(dir,"数据表/行业部门与台账部门编码对应表.xlsx")) 
-    dept_code = pd.read_excel(path,sheet_name=0,dtype={'部门':np.object,'编码':np.object})
+    dept_code = pd.read_excel(path,sheet_name=0,dtype={'部门':str,'编码':str})
     
     return dept_code
 
@@ -91,7 +91,7 @@ def load_data_wuwandun(path):
         for i in range(wuwandun_startrow, wuwandun_endrow):
             quota_value = str(sheet.cell(i,j).value)
             if quota_value != '' : 
-                quota_name = sheet.cell(i,j-5).value
+                quota_name = sheet.cell(i,j-5).value.strip()
                 if quota_name in list(data_code['对应报表中指标名称']):
                     quota_code = str(list(data_code[data_code['对应报表中指标名称'] == quota_name]['台账编码'])[0] ) 
                     value = (quota_code,mon,quota_date,'%.0f'%float(quota_value),'',quota_dept_code,'','',record_type)
@@ -116,7 +116,7 @@ def dir_data(dirpath):
     allfiles = []            
     for root,dirs,files in os.walk(dirpath): 
         for file in files:
-            allfiles.append(os.path.join(root,file))   
+            allfiles.append(os.path.abspath(os.path.join(root,file)))   
     alldata=list(map(load_data,allfiles))
     totallist =[]
     for i in alldata:    
