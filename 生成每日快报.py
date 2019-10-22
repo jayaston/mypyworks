@@ -18,7 +18,7 @@ import shutil
 import os
 #import re    
 
-baobiaoriqi = '20191017'
+baobiaoriqi = '20191021'
 
 list1 = [['00','00718','d'],
          ['1001','00718','d'],
@@ -32,7 +32,7 @@ shuju_df = tjfx.TjfxData().getdata(baobiaoriqi,baobiaoriqi,list1)
 
 shuju_df.info()
 
-shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coercs').fillna(0)
+shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
 shuju_df.QUOTA_VALUE=shuju_df.QUOTA_VALUE/10000
 
 file_dir = "E:/每日快报营运周报/"
