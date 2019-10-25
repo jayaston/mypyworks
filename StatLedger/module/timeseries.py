@@ -21,19 +21,24 @@ import tjfxdata as tjfx
 from sklearn.metrics import mean_squared_error
 from math import sqrt 
 
+def dataForecast(startd,endd,forecastdata,):
+    pass
+
+
 list = [['00','00718','d']]
 shuju_df = tjfx.TjfxData().getdata('20160101','20191015',list)
 shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
 df = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','QUOTA_NAME'],values='QUOTA_VALUE')
-shuju_df.info()
 focastQuota = df.columns.values.tolist()[0][0]+df.columns.values.tolist()[0][1]
-df.columns =  [focastQuota]
-train = df[df.index <= dt.datetime.strptime('2018-12-31','%Y-%m-%d')]
-test = df[df.index > dt.datetime.strptime('2018-12-31','%Y-%m-%d')]
-
+df.columns =  [focastQuota] 
+df = df[df.index.strftime('%m')>'03']
+   
+train = df[df.index < dt.datetime.strptime('2019-1-1','%Y-%m-%d')]
+test = df[df.index >= dt.datetime.strptime('2019-1-1','%Y-%m-%d')]    
 train[focastQuota].plot( figsize=(12, 8),title= focastQuota)
 test[focastQuota].plot(figsize=(12, 8))
 plt.show()
+
 
 #朴素法
 
@@ -131,7 +136,8 @@ print(rms)
 from statsmodels.tsa.api import ExponentialSmoothing
  
 y_hat_avg = test.copy()
-fit1 = ExponentialSmoothing(np.asarray(train[focastQuota]), seasonal_periods=7, trend='add', seasonal='add', ).fit()
+fit1 = ExponentialSmoothing(np.asarray(train[focastQuota]), seasonal_periods=275, 
+                            trend='add', seasonal='add', ).fit(smoothing_level=0.999)
 y_hat_avg['Holt_Winter'] = fit1.forecast(len(test))
 plt.figure(figsize=(16, 8))
 plt.plot(train[focastQuota], label='Train')
@@ -147,8 +153,8 @@ print(rms)
 import statsmodels.api as sm
  
 y_hat_avg = test.copy()
-fit1 = sm.tsa.statespace.SARIMAX(train[focastQuota], order=(2, 1, 4), seasonal_order=(0, 1, 1, 7)).fit()
-y_hat_avg['SARIMA'] = fit1.predict(start="2013-11-1", end="2013-12-31", dynamic=True)
+fit1 = sm.tsa.statespace.SARIMAX(train[focastQuota], order=(2, 1, 4), seasonal_order=(0, 1, 1,7)).fit()
+y_hat_avg['SARIMA'] = fit1.predict(start="2019-1-1", end="2019-10-15", dynamic=True)
 plt.figure(figsize=(16, 8))
 plt.plot(train[focastQuota], label='Train')
 plt.plot(test[focastQuota], label='Test')
