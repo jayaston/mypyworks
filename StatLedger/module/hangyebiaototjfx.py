@@ -76,7 +76,7 @@ def load_data_hangye(path):
 
 def load_data_wuwandun(path):       
     sheet = open_excel(path)
-    dept_code = load_deptcode()
+#    dept_code = load_deptcode()
     data_code = load_datacode()
     wuwandun_startrow = sheet.col_values(0).index('大用户:(当月用5万立方米以上用户)')+2
     wuwandun_endrow = sheet.nrows-1

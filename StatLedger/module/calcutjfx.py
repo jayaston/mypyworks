@@ -8,6 +8,7 @@ Created on Thu Sep 19 08:39:30 2019
 #import sys
 import pandas as pd
 #import numpy as np
+
 from tjfxdata import TjfxData
 import re  
 import os 
@@ -62,15 +63,17 @@ def inter_calcu(startd,endd,quotalist):
         exec(i + "= zhibiaojidict.get(i,0)")        
     interquotadict = {}
     for i in quotalist:
-        formula = gongshiku[gongshiku.zhibiao == i].iat[0,1]
-        interquotadict.setdefault(i,eval(formula))        
+        formula = gongshiku[gongshiku.zhibiao == i].iat[0,1]        
+        interquotadict.setdefault(i,eval(formula)) 
     return interquotadict
 
 
 def out_calcu(startd,endd,quotalist):
-    diffquotadict = get_castdata(startd,endd,quotalist).to_dict('list')
-    resultdict = {i:sum(diffquotadict.get(i,[0])) for i in quotalist}
-    return resultdict
+    diffquotadf = get_castdata(startd,endd,quotalist).reindex(columns=quotalist,fill_value=0)
+    diffquotadict = diffquotadf.to_dict('series') 
+#    resultdict = {i:diffquotadict.get(i,0) for i in quotalist}
+
+    return diffquotadict
 
 def all_calcu(startd,endd,quotalist):
     diffquotalist = list(set(quotalist) - set(gongshiku.zhibiao))
@@ -86,12 +89,22 @@ def all_calcu(startd,endd,quotalist):
             resultdict = dict(dic1,**dic2) 
     return resultdict
             
+def calcu_tjfx(startd,endd):
+    quotalist = list(set(gongshiku['zhibiao']))
+    resultdict = all_calcu(startd,endd,quotalist)
+    resultlist= []
+    for i in resultdict.keys():
+        for j,k in list(zip(resultdict[i].index,resultdict[i])):            
+            value = (i.split('_')[2],j.strftime('%Y%m'),j.strftime('%Y-%m-%d %H:%M:%S'),'%.2f'%float(k),'',i.split('_')[1],'','',i.split('_')[0])
+            resultlist.append(value)
+    TjfxData().importdata(resultlist)
+    
+   
 
 
-
-
-#if __name__ == "__main__" :  
-#    
-#    startd,endd,quotalist = '20190930','20190930',['d_00_18230','d_1004_18230','d_1005_18230','d_1007_18230']
-#    test = all_calcu(startd,endd,quotalist)
+if __name__ == "__main__" :    
+    startd,endd = '20191001','20191028'
+    quotalist = list(set(gongshiku['zhibiao']))
+    resultdict = all_calcu(startd,endd,quotalist)
+    
 
