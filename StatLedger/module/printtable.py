@@ -22,7 +22,7 @@ def print_table(df):
     #'e', # float (exponent)
     #'i', # integer
     #'a' # automatic]
-    tb.header(df.columns.get_values())
+    tb.header(df.columns.to_numpy())
     tb.add_rows(df.values,header=False)
     print(tb.draw())
     

@@ -51,11 +51,11 @@ list3 = [
          ['1016','00718','m']                 
          ]
 
-shuju_df = tjfx.TjfxData().getdata('20190101','20190831',list3)
+shuju_df = tjfx.TjfxData().getdata('20180101','20181231',list1)
 
 shuju_df.info()
 
-shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coercs').fillna(0)
+shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
 
 test = pd.pivot_table(shuju_df,index = ['QUOTA_DATE','QUOTA_NAME'],columns = ['GROUP_NAME'],values='QUOTA_VALUE')
 print(test)
@@ -69,4 +69,9 @@ test.info()
 test = test[['江村水厂','西村水厂','石门水厂','北部水厂', '南洲水厂','西洲水厂', '新塘水厂']].T
 
 #test = test.resample("Y").sum()
-test.to_excel(r'E:\pyworks\输出\2019取供水监控数据.xlsx')
+
+try:
+    path = os.path.abspath(os.path.join(os.path.dirname(__file__),r"输出\2019取供水监控数据.xlsx"))
+    test.to_excel(path)    
+except:
+    test.to_excel(r'./输出/2019取供水监控数据.xlsx')

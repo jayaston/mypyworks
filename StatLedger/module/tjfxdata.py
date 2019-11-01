@@ -79,9 +79,10 @@ class TjfxData:
         try:            
             c.execute(sql)       #删除已经存在的临时表
             self.conn.commit()#提交到数据库执行
-        except:            
+        except Exception as e:            
             self.conn.rollback()#发生错误时，回滚！ 
-            print("无法创建临时表！导入失败")            
+            print("无法创建临时表！导入失败")
+            print(e)
         else:
             #try:
             #c.execute('truncate table TJ_DATA_SJY')#清除临时表数据
@@ -94,8 +95,9 @@ class TjfxData:
             try:
                 c.executemany(sql,mylist)#执行sql语句
                 self.conn.commit()#提交到数据库执行
-            except:
-                print ('报表数据写入数据库错误！导入失败')
+            except Exception as e:
+                print('报表数据写入数据库错误！导入失败')
+                print(e)
                 self.conn.rollback()#发生错误时，回滚！
             else:
                 sql = "MERGE INTO ZLS_TJFX.TJ_QUOTA_DATA z USING \
@@ -123,8 +125,9 @@ class TjfxData:
                     c.execute(sql)#执行sql语句
                     self.conn.commit()
                    
-                except:
+                except Exception as e:
                     print ('写入台账主数据错误！导入失败')
+                    print(e)
                     self.conn.rollback()#发生错误时，回滚！ 
                 else:
                      print("数据导入成功！")#提交到数据库执行
