@@ -16,6 +16,10 @@ import numpy as np
 import tjfxdata as tjfx
 #import re    
 import datetime as dt
+import matplotlib as mpl
+mpl.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
+mpl.rcParams['axes.unicode_minus'] = False # 用来正常显示负号
+import matplotlib.pyplot as plt
 
 
 list1 = [
@@ -35,7 +39,7 @@ list1 = [
                         
          ]
 list2 = [      
-         ['00','00718','m']]
+         ['0023','00718','d']]
 list3 = [
          
          
@@ -46,16 +50,18 @@ list3 = [
                        
          ]
 
-shuju_df = tjfx.TjfxData().getdata('20180101','20181031',list2)
+shuju_df = tjfx.TjfxData().getdata('20160101','20191031',list2)
 
-shuju_df.info()
+
 
 shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
 
 test = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','QUOTA_NAME'],values='QUOTA_VALUE')
+
 #print(test)
 #test.info()
-#test.columns
+test.columns=['花都供水总量']
+test.sort_values('花都供水总量')
 #按月份删选
 #test['mon'] = test.index.strftime('%m')
 #test = test[test.mon=='08']
@@ -63,8 +69,8 @@ test = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','Q
 #按照指定的顺序对列排序
 #test = test[['江村水厂','西村水厂','石门水厂','北部水厂', '南洲水厂','西洲水厂', '新塘水厂']].T
 
-#test = test.resample("Y").sum()
-
+test = test.resample("Y").sum()
+data = test['2018'].resample("m").sum()
 try:
     path = os.path.abspath(os.path.join(os.path.dirname(__file__),r"输出\20191101何总需要供水数据5.xlsx"))
     test.to_excel(path)    
