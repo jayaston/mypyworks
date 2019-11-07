@@ -20,27 +20,29 @@ import datetime as dt
 import tjfxdata as tjfx
 from sklearn.metrics import mean_squared_error
 from math import sqrt 
+import statsmodels.api as sm
 
 def dataForecast(startd,endd,forecastdata,):
     pass
 
 
-list = [['00','00718','d']]
-shuju_df = tjfx.TjfxData().getdata('20160101','20191015',list)
+list = [['00','00718','m']]
+shuju_df = tjfx.TjfxData().getdata('20160101','20191031',list)
 shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
 df = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','QUOTA_NAME'],values='QUOTA_VALUE')
 focastQuota = df.columns.values.tolist()[0][0]+df.columns.values.tolist()[0][1]
 df.columns =  [focastQuota] 
-df = df[df.index.strftime('%m')>'03']
+#df = df[df.index.strftime('%m')>'03']
    
 train = df[df.index < dt.datetime.strptime('2019-1-1','%Y-%m-%d')]
 test = df[df.index >= dt.datetime.strptime('2019-1-1','%Y-%m-%d')]    
+
 train[focastQuota].plot( figsize=(12, 8),title= focastQuota)
 test[focastQuota].plot(figsize=(12, 8))
 plt.show()
 
-
-#朴素法
+sm.tsa.seasonal_decompose(train[focastQuota]).plot()
+#朴素法,采用最近一期的数据预测下一期
 
 dd = np.asarray(train.iloc[:,0])
 y_hat = test.copy()
@@ -53,14 +55,12 @@ plt.plot(y_hat.index, y_hat['naive'], label='Naive Forecast')
 plt.legend(loc='best')
 plt.title("Naive Forecast")
 plt.show()
-
-
-
+##计算根方误差
 rms = sqrt(mean_squared_error(test[focastQuota],y_hat['naive']))
 print(rms)
 
 
-# 简单平均法
+# 简单平均法，采用有所训练数据的平均数作为预测值
 y_hat_avg = test.copy()
 y_hat_avg['avg_forecast'] = train[focastQuota].mean()
 plt.figure(figsize=(12,8))
@@ -69,11 +69,32 @@ plt.plot(test[focastQuota], label='Test')
 plt.plot(y_hat_avg['avg_forecast'], label='Average Forecast')
 plt.legend(loc='best')
 plt.show()
-
-
- 
 rms = sqrt(mean_squared_error(test[focastQuota], y_hat_avg['avg_forecast']))
 print(rms)
+
+# 带有季节因素的简单平均法
+y_hat_avg = test.copy()
+y_train = train.copy()
+#y_hat_avg["weekday"]=train[focastQuota].index.weekday#工作日0-6
+#y_hat_avg["hour"]= train[focastQuota].index.hour
+
+y_train["month"] =  y_train[focastQuota].index.month
+y_hat_avg["month"] =  y_hat_avg[focastQuota].index.month
+df_season_avg_forecast = y_train.groupby("month").mean()
+df_season_avg_forecast.columns = ['season_avg_forecast']
+y_hat_avg = pd.merge(y_hat_avg,df_season_avg_forecast,how="left",left_on="month",right_index=True)
+plt.figure(figsize=(12,8))
+plt.plot(train[focastQuota], label='Train')
+plt.plot(test[focastQuota], label='Test')
+plt.plot(y_hat_avg['season_avg_forecast'], label='Season Average Forecast')
+plt.legend(loc='best')
+plt.show()
+rms = sqrt(mean_squared_error(test[focastQuota], y_hat_avg['season_avg_forecast']))
+print(rms)
+
+
+
+
 
 #移动平均法
 y_hat_avg = test.copy()
@@ -109,7 +130,7 @@ print(rms)
 
 #霍尔特(Holt)线性趋势法
 
-import statsmodels.api as sm
+
  
 sm.tsa.seasonal_decompose(train[focastQuota]).plot()
 result = sm.tsa.stattools.adfuller(train[focastQuota])
