@@ -18,7 +18,7 @@ import shutil
 import os
 #import re    
 
-baobiaoriqi = '20191106'
+baobiaoriqi = '20191107'
 
 list1 = [['00','00718','d'],
          ['1001','00718','d'],
