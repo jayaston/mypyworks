@@ -267,15 +267,18 @@ for param in pdq:
         except:
             continue
 
-
-
-
-#开始预测
-
+##拟合检验
+    
+##应用测试数据集（泛化能力测试）
 y_hat_avg = test.copy()
 fit1 = sm.tsa.SARIMAX(train[focastQuota], order=(1, 1, 0), seasonal_order=(0, 1, 1,12),
                       enforce_stationarity=False,enforce_invertibility=False).fit()
-y_hat_avg['SARIMA'] = fit1.predict(start="2019-1-1", end="2019-10-30", dynamic=True)
+y_hat_avg['SARIMA'] = fit1.predict(start="2019-1-1", end="2019-10-1", dynamic=True)
+ #ARIMAResults.predict(start=None, end=None, exog=None, typ=‘linear‘, dynamic=False)
+ #dynamic，逻辑值，True表样本外预测，默认False样本预测，样本内预测可以通过设置结束值跨样本外预测
+ #typ，取值‘linear‘, ‘levels‘表示根据内生变量的差分做线性预测，预测原数据的水平（源数据的模型预测值）
+ #ARIMAResults.forecast（step=n）函数可预测未来N期数据
+
 plt.figure(figsize=(16, 8))
 plt.plot(train[focastQuota], label='Train')
 plt.plot(test[focastQuota], label='Test')
@@ -286,9 +289,10 @@ plt.show()
 rms = sqrt(mean_squared_error(test[focastQuota], y_hat_avg['SARIMA']))
 print(rms)
 
-
-
-
+#自回归差分移动平均模型ARIMA或者ARMA
+##一个自动确定P，q的函数
+#(p, q) =(sm.tsa.arma_order_select_ic(dta,max_ar=3,max_ma=3,ic='aic')['aic_min_order'])
+#这里需要设定自动取阶的 p和q 的最大值，即函数里面的max_ar,和max_ma。ic 参数表示选用的选取标准，这里设置的为aic,当然也可以用bic。然后函数会算出每个 p和q 组合(这里是(0,0)~(3,3)的AIC的值，取其中最小的,这里的结果是(p=0,q=1)。
 
 
  
