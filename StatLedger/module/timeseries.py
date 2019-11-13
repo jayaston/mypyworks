@@ -22,7 +22,7 @@ import tjfxdata as tjfx
 from sklearn.metrics import mean_squared_error
 from math import sqrt 
 import statsmodels.api as sm
-from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+#from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 # 移动平均图
 def draw_trend(timeSeries, size):
     plt.figure(facecolor='white')
@@ -51,9 +51,9 @@ def testStationarity(ts):
 def draw_acf_pacf(ts, lags=20):
     f = plt.figure(facecolor='white')
     ax1 = f.add_subplot(211)
-    plot_acf(ts, lags=lags, ax=ax1)
+    sm.graphics.tsa.plot_acf(ts, lags=lags, ax=ax1)
     ax2 = f.add_subplot(212)
-    plot_pacf(ts, lags=lags, ax=ax2)
+    sm.graphics.tsa.plot_pacf(ts, lags=lags, ax=ax2)
     plt.show()
 
 
@@ -237,10 +237,10 @@ data_diff1 = train[focastQuota].diff(1)
 data_diff1.dropna(inplace=True)
 testStationarity(data_diff1)
 sm.tsa.seasonal_decompose(data_diff1).plot()
-draw_acf_pacf(data_diff1)
+draw_acf_pacf(data_diff1,10)
 
 # Define the p, d and q parameters to take any value between 0 and 2
-p = d = q = range(0,12)
+p = d = q = range(0,2)
 # Generate all different combinations of p, q and q triplets
 import itertools
 pdq = list(itertools.product(p, d, q))
@@ -268,10 +268,11 @@ for param in pdq:
             continue
 
 ##拟合检验
-    
+#df1.to_excel("pdq.xls")    
 ##应用测试数据集（泛化能力测试）
+
 y_hat_avg = test.copy()
-fit1 = sm.tsa.SARIMAX(train[focastQuota], order=(1, 1, 0), seasonal_order=(0, 1, 1,12),
+fit1 = sm.tsa.SARIMAX(train[focastQuota], order=(1, 1, 1), seasonal_order=(1, 1, 0,12),
                       enforce_stationarity=False,enforce_invertibility=False).fit()
 y_hat_avg['SARIMA'] = fit1.predict(start="2019-1-1", end="2019-10-1", dynamic=True)
  #ARIMAResults.predict(start=None, end=None, exog=None, typ=‘linear‘, dynamic=False)
