@@ -12,11 +12,11 @@ from tjfxdata import TjfxData
 import re  
 import os 
 #import cx_Oracle
-def order_gongshiku():
+def order_gongshiku(sheet_name="d"):
     
     dir = os.path.dirname(os.path.dirname(__file__))
-    path = os.path.abspath(os.path.join(dir,"数据表/日数据计算公式库.xlsx"))    
-    gongshiku = pd.read_excel(path,dtype='object')
+    path = os.path.abspath(os.path.join(dir,"数据表/全新公式库北部太和.xlsx"))    
+    gongshiku = pd.read_excel(path,sheet_name=sheet_name,dtype={'var_code':str,'var_dept':str})
     gongshiku = gongshiku.drop(['zbming'],axis=1)
     
     gongshiku['zhibiao'] = gongshiku['RECORD_TYPE']+'_'+gongshiku['var_dept']+'_'+gongshiku['var_code']
@@ -33,7 +33,7 @@ def order_gongshiku():
     gongshiku.drop(['var_code','var_dept'],axis=1,inplace=True)      
     
     return gongshiku
-gongshiku = order_gongshiku()
+gongshiku = order_gongshiku("d")
 def get_castdata(startd,endd,quotalist): 
     thequotalist=[i.split('_') for i in quotalist]    
     tmp = []
@@ -90,8 +90,8 @@ def all_calcu(startd,endd,quotalist):
 
 
 
-#if __name__ == "__main__" :  
-#    
-#    startd,endd,quotalist = '20190930','20190930',['d_00_18230','d_1004_18230','d_1005_18230','d_1007_18230']
-#    test = all_calcu(startd,endd,quotalist)
+if __name__ == "__main__" :  
+    
+    startd,endd,quotalist = '20190930','20190930',['d_00_18230','d_1004_18230','d_1005_18230','d_1007_18230']
+    test = all_calcu(startd,endd,quotalist)
 

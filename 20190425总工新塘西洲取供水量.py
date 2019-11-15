@@ -20,7 +20,7 @@ shuju_df = tjfx.TjfxData().getdata('20140101','20190831',list1)
 
 shuju_df.info()
 
-shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coercs').fillna(0)
+shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
 
 
 
@@ -45,10 +45,6 @@ get_max.__name__ = "maxd"
 dongjiang_gongshuiliang_max = dongjiang.resample('Y').agg(get_max)
 
 
-# ## 这是给总工室的数据
-# 水资源论证所需要的数据
-
-# In[12]:
 
 
 dongjiang_gongshuiliang_max.to_excel(r"E:\pyworks\2014-2019年新塘西洲年最大日供水总量.xlsx")
