@@ -23,6 +23,7 @@ from sklearn.metrics import mean_squared_error
 from math import sqrt 
 import statsmodels.api as sm
 #from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+
 # 移动平均图
 def draw_trend(timeSeries, size):
     plt.figure(facecolor='white')
@@ -56,9 +57,131 @@ def draw_acf_pacf(ts, lags=20):
     sm.graphics.tsa.plot_pacf(ts, lags=lags, ax=ax2)
     plt.show()
 
+def tsForecast(startd:str,endd:str,quota:list,method:str,roll:int=3,
+               smoothing_level:float=0.8,seasonal_periods:int=12,splitdate:str,
+               lens:int) : 
+    """此函数用于预测时间序列数据。
+    method方法有'naive','average','moving_avg','simpleExpSmoothing','Holt_Winter'。
+    startd,endd,splitdate需要填入六位日期如‘20190101’，quota是列表如['00','00718','m']。"""
+    list1 = [quota]
+    shuju_df = tjfx.TjfxData().getdata(startd,endd,list1)
+    shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
+    df = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','QUOTA_NAME'],values='QUOTA_VALUE')
+    focastQuota = df.columns.values.tolist()[0][0]+df.columns.values.tolist()[0][1]
+    df.columns =  [focastQuota] 
+    #划分数据集
+    train = df[df.index < dt.datetime.strptime(splitdate,'%Y%m%d')]
+    test = df[df.index >= dt.datetime.strptime(splitdate,'%Y%m%d')]
+    #绘制曲线图
+    train[focastQuota].plot( figsize=(12, 8),title= focastQuota)
+    test[focastQuota].plot(figsize=(12, 8))
+    plt.show()
+    if method == 'naive':
+        dd = np.asarray(train.iloc[:,0])
+        y_hat = test.copy()
+        y_hat['naive'] = dd[len(dd) - 1]
+        #画图
+        plt.figure(figsize=(12, 8))
+        plt.plot(train.index, train[focastQuota], label='Train')
+        plt.plot(test.index, test[focastQuota], label='Test')
+        plt.plot(y_hat.index, y_hat['naive'], label='Naive Forecast')
+        plt.legend(loc='best')
+        plt.title("Naive Forecast")
+        plt.show()
+        #输出根方平均误
+        abs_=(test[focastQuota]-y_hat['naive']).abs()
+        mae=abs_.mean()#Mean Absolute Error ，平均绝对误差
+        rmse= sqrt((abs_**2).mean()) #Root Mean Square Error,均方根误差
+        mape=(abs_/test[focastQuota]).mean()# mean absolute percentage error，平均绝对百分比误差
+        print("平均绝对误差MAE={mae}；\n均方根误差RMSE={rmse:.3f}；\n平均绝对百分比误差MAPE={mape:.2%}。".format(mae,rmse,mape))
+        dd = np.asarray(df.iloc[:,0])
+        result = dd[-1]
+        print(f"未来{lens}期的预测数据是：{result:s}")
+        #plt.figure(figsize=(12,8))
+        #plt.plot(df[focastQuota], label='历史')
+        #plt.plot(pd.date_range(start=endd,periods=lens,freq="MS",closed='right'),(result,)*lens，label='预测')
+        #plt.legend(loc='best')
+        #plt.show()
+    if method == "average":
+        y_hat_avg = test.copy()
+        y_hat_avg['avg_forecast'] = train[focastQuota].mean()
+        plt.figure(figsize=(12,8))
+        plt.plot(train[focastQuota], label='Train')
+        plt.plot(test[focastQuota], label='Test')
+        plt.plot(y_hat_avg['avg_forecast'], label='Average Forecast')
+        plt.legend(loc='best')
+        plt.show()
+        
+        abs_=(test[focastQuota]-y_hat_avg['avg_forecast']).abs()
+        mae=abs_.mean()#Mean Absolute Error ，平均绝对误差
+        rmse= sqrt((abs_**2).mean()) #Root Mean Square Error,均方根误差
+        mape=(abs_/test[focastQuota]).mean()# mean absolute percentage error，平均绝对百分比误差
+        print("平均绝对误差MAE={mae}；\n均方根误差RMSE={rmse:.3f}；\n平均绝对百分比误差MAPE={mape:.2%}。".format(mae,rmse,mape))       
+        result = df[focastQuota].mean()
+        print(f"未来{lens}期的预测数据是：{result:s}")
+    if method == 'moving_avg':
+        y_hat_avg = test.copy()
+        y_hat_avg['moving_avg_forecast'] = train[focastQuota].rolling(roll).mean().iloc[-1]
+        plt.figure(figsize=(16,8))
+        plt.plot(train[focastQuota], label='Train')
+        plt.plot(test[focastQuota], label='Test')
+        plt.plot(y_hat_avg['moving_avg_forecast'], label='Moving Average Forecast')
+        plt.legend(loc='best')
+        plt.show() 
+        
+        abs_=(test[focastQuota]-y_hat_avg['moving_avg_forecast']).abs()
+        mae=abs_.mean()#Mean Absolute Error ，平均绝对误差
+        rmse= sqrt((abs_**2).mean()) #Root Mean Square Error,均方根误差
+        mape=(abs_/test[focastQuota]).mean()# mean absolute percentage error，平均绝对百分比误差
+        print("平均绝对误差MAE={mae}；\n均方根误差RMSE={rmse:.3f}；\n平均绝对百分比误差MAPE={mape:.2%}。".format(mae,rmse,mape))       
+        result = df[focastQuota].rolling(roll).mean().iloc[-1]
+        print(f"未来{lens}期的预测数据是：{result:s}")
+    if method == "simpleExpSmoothing":
+        y_hat_avg = test.copy()
+        fit = sm.tsa.SimpleExpSmoothing(np.asarray(train[focastQuota])).fit(smoothing_level=smoothing_level, optimized=False)
+        y_hat_avg['SES'] = fit.forecast(len(test))
+        plt.figure(figsize=(16, 8))
+        plt.plot(train[focastQuota], label='Train')
+        plt.plot(test[focastQuota], label='Test')
+        plt.plot(y_hat_avg['SES'], label='SES')
+        plt.legend(loc='best')
+        plt.show() 
+        
+        abs_=(test[focastQuota]-y_hat_avg['SES']).abs()
+        mae=abs_.mean()#Mean Absolute Error ，平均绝对误差
+        rmse= sqrt((abs_**2).mean()) #Root Mean Square Error,均方根误差
+        mape=(abs_/test[focastQuota]).mean()# mean absolute percentage error，平均绝对百分比误差
+        print("平均绝对误差MAE={mae}；\n均方根误差RMSE={rmse:.3f}；\n平均绝对百分比误差MAPE={mape:.2%}。".format(mae,rmse,mape))       
+        fit1 = sm.tsa.SimpleExpSmoothing(np.asarray(df[focastQuota])).fit(smoothing_level=smoothing_level, optimized=False)
+        result = fit1.forecast(lens)
+        print(f"未来{lens}期的预测数据是：{result:s}")
+    if method == 'Holt_Winter':
+        y_hat_avg = test.copy()
+        fit = sm.tsa.ExponentialSmoothing(np.asarray(train[focastQuota]),seasonal_periods=seasonal_periods,
+                                    trend='add',seasonal='add').fit(smoothing_level=smoothing_level)
+        y_hat_avg['Holt_Winter'] = fit.forecast(len(test))
+        plt.figure(figsize=(16, 8))
+        plt.plot(train[focastQuota], label='Train')
+        plt.plot(test[focastQuota], label='Test')
+        plt.plot(y_hat_avg['Holt_Winter'], label='Holt_Winter')
+        plt.legend(loc='best')
+        plt.show()
+        
+        abs_=(test[focastQuota]-y_hat_avg['Holt_Winter']).abs()
+        mae=abs_.mean()#Mean Absolute Error ，平均绝对误差
+        rmse= sqrt((abs_**2).mean()) #Root Mean Square Error,均方根误差
+        mape=(abs_/test[focastQuota]).mean()# mean absolute percentage error，平均绝对百分比误差
+        print("平均绝对误差MAE={mae}；\n均方根误差RMSE={rmse:.3f}；\n平均绝对百分比误差MAPE={mape:.2%}。".format(mae,rmse,mape))
+                
+        fit1 = sm.tsa.ExponentialSmoothing(np.asarray(df[focastQuota]),seasonal_periods=seasonal_periods,
+                                    trend='add',seasonal='add').fit(smoothing_level=smoothing_level)
+        result= fit1.forecast(lens)
+        print(f"未来{lens}期的预测数据是：{result:s}")
+        
+
 
 #获取数据
-list1 = [['00','00718','m']]
+list1=[['00','00718','m']]
 shuju_df = tjfx.TjfxData().getdata('20160101','20191031',list1)
 shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
 df = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','QUOTA_NAME'],values='QUOTA_VALUE')
@@ -99,9 +222,6 @@ plt.show()
 rms = sqrt(mean_squared_error(test[focastQuota],y_hat['naive']))
 print(rms)
 
-
-
-
 # 简单平均法，采用有所训练数据的平均数作为预测值
 y_hat_avg = test.copy()
 y_hat_avg['avg_forecast'] = train[focastQuota].mean()
@@ -113,32 +233,6 @@ plt.legend(loc='best')
 plt.show()
 rms = sqrt(mean_squared_error(test[focastQuota], y_hat_avg['avg_forecast']))
 print(rms)
-
-
-
-
-
-# 带有季节因素的简单平均法
-y_hat_avg = test.copy()
-y_train = train.copy()
-#y_hat_avg["weekday"]=train[focastQuota].index.weekday#工作日0-6
-#y_hat_avg["hour"]= train[focastQuota].index.hour
-y_train["month"] =  y_train[focastQuota].index.month
-y_hat_avg["month"] =  y_hat_avg[focastQuota].index.month
-df_season_avg_forecast = y_train.groupby("month").mean()
-df_season_avg_forecast.columns = ['season_avg_forecast']
-y_hat_avg = pd.merge(y_hat_avg,df_season_avg_forecast,how="left",left_on="month",right_index=True)
-plt.figure(figsize=(12,8))
-plt.plot(train[focastQuota], label='Train')
-plt.plot(test[focastQuota], label='Test')
-plt.plot(y_hat_avg['season_avg_forecast'], label='Season Average Forecast')
-plt.legend(loc='best')
-plt.show()
-rms = sqrt(mean_squared_error(test[focastQuota], y_hat_avg['season_avg_forecast']))
-print(rms)
-
-
-
 
 #移动平均法
 y_hat_avg = test.copy()
@@ -179,7 +273,7 @@ plt.legend(loc='best')
 plt.show()
 rms = sqrt(mean_squared_error(test[focastQuota], y_hat_avg['Holt_Winter']))
 print(rms)
-
+plt.figure(1)
 
 #指数平滑模型参数
 #model = ExponentialSmoothing(train, seasonal='additive', seasonal_periods = seasonal_periods).fit()
@@ -221,7 +315,24 @@ print(rms)
 #print(rms)
 
 
-
+# 带有季节因素的简单平均法
+y_hat_avg = test.copy()
+y_train = train.copy()
+#y_hat_avg["weekday"]=train[focastQuota].index.weekday#工作日0-6
+#y_hat_avg["hour"]= train[focastQuota].index.hour
+y_train["month"] =  y_train[focastQuota].index.month
+y_hat_avg["month"] =  y_hat_avg[focastQuota].index.month
+df_season_avg_forecast = y_train.groupby("month").mean()
+df_season_avg_forecast.columns = ['season_avg_forecast']
+y_hat_avg = pd.merge(y_hat_avg,df_season_avg_forecast,how="left",left_on="month",right_index=True)
+plt.figure(figsize=(12,8))
+plt.plot(train[focastQuota], label='Train')
+plt.plot(test[focastQuota], label='Test')
+plt.plot(y_hat_avg['season_avg_forecast'], label='Season Average Forecast')
+plt.legend(loc='best')
+plt.show()
+rms = sqrt(mean_squared_error(test[focastQuota], y_hat_avg['season_avg_forecast']))
+print(rms)
 
 
 #季节性自回归差分移动平均模型SARIMAX
