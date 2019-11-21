@@ -50,7 +50,7 @@ list3 = [
                        
          ]
 
-shuju_df = tjfx.TjfxData().getdata('20160101','20191031',list2)
+shuju_df = tjfx.TjfxData().getdata('20140101','20181231',list2)
 
 
 
@@ -69,10 +69,10 @@ test.sort_values('花都供水总量')
 #按照指定的顺序对列排序
 #test = test[['江村水厂','西村水厂','石门水厂','北部水厂', '南洲水厂','西洲水厂', '新塘水厂']].T
 
-test = test.resample("Y").sum()
+test = test.resample("m").sum()
 data = test['2018'].resample("m").sum()
 try:
     path = os.path.abspath(os.path.join(os.path.dirname(__file__),r"输出\20191101何总需要供水数据5.xlsx"))
     test.to_excel(path)    
 except:
-    test.to_excel(r'./mypyworks/输出/20191101何总需要供水数据5.xlsx')
+    test.to_excel(r'./mypyworks/输出/2014-2018花都供水量.xlsx')

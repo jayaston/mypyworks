@@ -146,9 +146,9 @@ class TjfxData:
        
 if __name__=="__main__":
     a = TjfxData()
-    quotas = [['00','00752','m']
-             ]
-    df1 = a.getdata('20181231','20190101')
-    df2 = a.get_all_quota()
-    
+#    quotas = [['00','00752','m']
+#             ]
+#    df1 = a.getdata('20181231','20190101')
+    df2 = a.get_all_dept()
+    df2.to_excel(r'C:\\Users\\XieJie\\mypyworks\\部门表.xlsx')
     

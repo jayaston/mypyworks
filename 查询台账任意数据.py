@@ -7,7 +7,7 @@ Created on Mon Mar  4 08:31:59 2019
 
 import sys
 import os
-#os.getcwd()
+os.getcwd()
 try:
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"StatLedger\module")))
 except:
@@ -73,4 +73,4 @@ test['新塘水厂去年同期取供比'] = test['新塘水厂']['取供比'] - 
 test['西洲水厂去年同期取供比'] = test['西洲水厂']['取供比'] - test['西洲水厂']['取供比'].diff(365)
 test['南洲水厂去年同期取供比'] = test['南洲水厂']['取供比'] - test['南洲水厂']['取供比'].diff(365)
 test.sort_values('QUOTA_DATE')
-test.to_excel(r'.\输出\20191009累计取供水量数据.xlsx')
+test.to_excel(r'C:\Users\XieJie\mypyworks\输出\1999-2019售水量.xlsx')
