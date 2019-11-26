@@ -7,21 +7,20 @@ Created on Tue Nov 26 17:05:35 2019
 
 from math import sqrt
 from numpy import concatenate
-from matplotlib import pyplot
-from pandas import read_csv
-from pandas import DataFrame
-from pandas import concat
+import matplotlib.pyplot as plt
+import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import mean_squared_error
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
+import datetime as dt
  
 # 将序列转换为监督学习问题
 def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
     n_vars = 1 if type(data) is list else data.shape[1]
-    df = DataFrame(data)
+    df = pd.DataFrame(data)
     cols, names = list(), list()
     # input sequence (t-n, ... t-1)
     for i in range(n_in, 0, -1):
@@ -35,7 +34,7 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
         else:
             names += [('var%d(t+%d)' % (j+1, i)) for j in range(n_vars)]
     # put it all togethe
-    agg = concat(cols, axis=1)
+    agg = pd.concat(cols, axis=1)
     agg.columns = names
     # drop rows with NaN values
     if dropnan:
@@ -43,8 +42,42 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
     return agg
  
 # 加载数据集
-dataset = read_csv('pollution.csv', header=0, index_col=0)
+def parse(y,m,d,h):
+    return dt.datetime.strptime(' '.join([y,m,d,h]), '%Y %m %d %H')
+
+dataset = pd.read_csv(r'.\mypyworks\StatLedger\数据表\raw.csv', 
+                      parse_dates = [['year', 'month', 'day', 'hour']], index_col=0, date_parser=parse)
+
+dataset.drop('No', axis=1, inplace=True)
+# 手动更改列名
+dataset.columns = ['pollution', 'dew', 'temp', 'press', 'wnd_dir', 'wnd_spd', 'snow', 'rain']
+dataset.index.name = 'date'
+# 把所有NA值用0替换
+dataset['pollution'].fillna(0, inplace=True)
+# 丢弃前24小时
+dataset = dataset[24:] 
+# 输出前五行
+print(dataset.head(5))
+# 保存到文件中
+#dataset.to_csv('pollution.csv')
+
+# 加载数据集
+#dataset = pd.read_csv('pollution.csv', header=0, index_col=0)
 values = dataset.values
+# 指定要绘制的列
+groups = [0, 1, 2, 3, 5, 6, 7]
+i = 1
+# 绘制每一列
+plt.figure()
+for group in groups:
+    plt.subplot(len(groups), 1, i)
+    plt.plot(values[:, group])
+    plt.title(dataset.columns[group], y=0.5, loc='right')
+    i += 1
+plt.show()  
+
+#dataset = read_csv('pollution.csv', header=0, index_col=0)
+#values = dataset.values
 # 整数编码
 encoder = LabelEncoder()
 values[:,4] = encoder.fit_transform(values[:,4])
@@ -83,10 +116,10 @@ model.compile(loss='mae', optimizer='adam')
 # 拟合网络模型
 history = model.fit(train_X, train_y, epochs=50, batch_size=72, validation_data=(test_X, test_y), verbose=2, shuffle=False)
 # 绘制历史数据
-pyplot.plot(history.history['loss'], label='train')
-pyplot.plot(history.history['val_loss'], label='test')
-pyplot.legend()
-pyplot.show()
+plt.plot(history.history['loss'], label='train')
+plt.plot(history.history['val_loss'], label='test')
+plt.legend()
+plt.show()
  
 # 作出预测
 yhat = model.predict(test_X)
