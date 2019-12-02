@@ -4,17 +4,8 @@ Created on Tue Nov 26 17:05:35 2019
 
 @author: XieJie
 """
-
-from math import sqrt
-from numpy import concatenate
 import matplotlib.pyplot as plt
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import mean_squared_error
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.layers import LSTM
 import datetime as dt
  
 # 将序列转换为监督学习问题
@@ -76,6 +67,15 @@ for group in groups:
     i += 1
 plt.show()  
 
+from math import sqrt
+from numpy import concatenate
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import mean_squared_error
+from keras.models import Sequential 
+from keras.layers import Dense 
+from keras.layers import LSTM 
+
 #dataset = read_csv('pollution.csv', header=0, index_col=0)
 #values = dataset.values
 # 整数编码
@@ -136,3 +136,6 @@ inv_y = inv_y[:,0]
 # 计算RMSE大小
 rmse = sqrt(mean_squared_error(inv_y, inv_yhat))
 print('Test RMSE: %.3f' % rmse)
+
+#画出预测结果：蓝色为原数据，绿色为训练数据集的预测值，红色为测试数据集的预测值
+
