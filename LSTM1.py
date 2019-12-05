@@ -33,12 +33,15 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
     return agg
  
 # 加载数据集
-def parse(y,m,d,h):
-    return dt.datetime.strptime(' '.join([y,m,d,h]), '%Y %m %d %H')
-
-dataset = pd.read_csv(r'.\mypyworks\StatLedger\数据表\raw.csv', 
-                      parse_dates = [['year', 'month', 'day', 'hour']], index_col=0, date_parser=parse)
-
+#def parse(y,m,d,h):
+#    return dt.datetime.strptime(' '.join([y,m,d,h]), '%Y %m %d %H')
+#
+#dataset = pd.read_csv(r'.\mypyworks\StatLedger\数据表\raw.csv', 
+#                      parse_dates = [['year', 'month', 'day', 'hour']], index_col=0, date_parser=parse)
+    
+dataset = pd.read_excel(r"C:\Users\Jay\mypyworks\自来水数据\售水相关月数据1999-2019(20191204整合).xlsx",
+                         parse_dates = ['日期'],usecols="A:V,X:AC")
+dataset.info()
 dataset.drop('No', axis=1, inplace=True)
 # 手动更改列名
 dataset.columns = ['pollution', 'dew', 'temp', 'press', 'wnd_dir', 'wnd_spd', 'snow', 'rain']
