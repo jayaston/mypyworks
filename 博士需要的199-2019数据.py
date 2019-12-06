@@ -21,7 +21,8 @@ import datetime as dt
 
 
 list1 = [['00','04660','m'],         
-         ['00','04847','m']
+         ['00','04847','m'],
+         ['00','00718','m']
          
          ]
 shuju_df = tjfx.TjfxData().getdata('19990101','20191009',list1)
@@ -42,4 +43,4 @@ test.info()
 #test = test[['西村水厂','石门水厂','江村水厂','新塘水厂','西洲水厂','南洲水厂']]
 #test = test.resample("Y").sum()
 
-test.to_excel(r'C:\Users\XieJie\mypyworks\输出\1999-2019博士需要售水数据.xlsx')
+test.to_excel(r'C:\Users\XieJie\mypyworks\输出\1999-2019博士需要售水数据1.xlsx')
