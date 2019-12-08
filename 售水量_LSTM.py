@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import datetime as dt
  
-# 将序列转换为监督学习问题
+# 构建将时间序列转换为监督学习特征的函数
 def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
     n_vars = 1 if type(data) is list else data.shape[1]
     df = pd.DataFrame(data)
@@ -33,19 +33,38 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
     return agg
  
 # 加载数据集
-def parse(y,m,d,h):
-    return dt.datetime.strptime(' '.join([y,m,d,h]), '%Y %m %d %H')
+#def parse(y,m,d,h):
+#    return dt.datetime.strptime(' '.join([y,m,d,h]), '%Y %m %d %H')
+#
+#dataset = pd.read_csv(r'.\mypyworks\StatLedger\数据表\raw.csv', 
+#                      parse_dates = [['year', 'month', 'day', 'hour']], index_col=0, date_parser=parse)
+#加载温度、湿度日数据
+dataset_d = pd.read_excel(r"C:\Users\Jay\mypyworks\自来水数据\20191120刘博士温度湿度降雨量.xlsx",
+                         parse_dates = ['日期'])
 
-dataset = pd.read_csv(r'.\mypyworks\StatLedger\数据表\raw.csv', 
-                      parse_dates = [['year', 'month', 'day', 'hour']], index_col=0, date_parser=parse)
-    
+
+dataset_M = dataset_d.groupby(pd.Grouper(key='日期',freq='MS')).mean()
+
+
+# 加载售水数据集    
+dataset = pd.read_excel(r"C:\Users\Jay\mypyworks\自来水数据\售水相关月数据1999-2019(20191204整合).xlsx",
+                         parse_dates = ['日期'],index_col=0)
+
+dataset = pd.merge(dataset,dataset_M,how='outer',left_index=True,right_index=True)
 dataset.info()
-dataset.drop('No', axis=1, inplace=True)
+
+#选择样本时期
+
+
+#特征选择
+
+
+
 # 手动更改列名
 dataset.columns = ['pollution', 'dew', 'temp', 'press', 'wnd_dir', 'wnd_spd', 'snow', 'rain']
 dataset.index.name = 'date'
 # 把所有NA值用0替换
-dataset['pollution'].fillna(0, inplace=True)
+dataset.fillna(0, inplace=True)
 # 丢弃前24小时
 dataset = dataset[24:] 
 # 输出前五行
