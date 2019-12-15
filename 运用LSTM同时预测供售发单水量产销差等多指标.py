@@ -4,11 +4,14 @@ Created on Tue Nov 26 17:05:35 2019
 
 @author: XieJie
 """
+import matplotlib as mpl
+mpl.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
+mpl.rcParams['axes.unicode_minus'] = False # 用来正常显示负号
 import matplotlib.pyplot as plt
 import pandas as pd
 import datetime as dt
  
-# 构建将时间序列转换为监督学习特征的函数
+# 构建将间序列转换为监督学习的函数
 def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
     n_vars = 1 if type(data) is list else data.shape[1]
     df = pd.DataFrame(data)
@@ -52,31 +55,31 @@ dataset = pd.read_excel(r"C:\Users\Jay\mypyworks\自来水数据\售水相关月
 
 dataset = pd.merge(dataset,dataset_M,how='outer',left_index=True,right_index=True)
 dataset.info()
-
+# 保存到文件中
+#dataset.to_csv('处理后数据.csv')
+# 加载数据集
+#dataset = pd.read_csv('处理后数据.csv', header=0, index_col=0)
 #选择样本时期
-
-
+dataset = dataset['2015':'2019-10']
+dataset.info()
 #特征选择
-
+dataset = dataset[['公司净水售水量','水厂供水总量','产销差率','发单水量合计',
+         '自然增长用户','存量用户','抄表到户改造总表数(增加数量）','平均温度（C）','降雨量','日照时数']]
 
 
 # 手动更改列名
-dataset.columns = ['pollution', 'dew', 'temp', 'press', 'wnd_dir', 'wnd_spd', 'snow', 'rain']
+
 dataset.index.name = 'date'
 # 把所有NA值用0替换
 dataset.fillna(0, inplace=True)
-# 丢弃前24小时
-dataset = dataset[24:] 
-# 输出前五行
-print(dataset.head(5))
-# 保存到文件中
-#dataset.to_csv('pollution.csv')
 
-# 加载数据集
-#dataset = pd.read_csv('pollution.csv', header=0, index_col=0)
+
+
+
 values = dataset.values
+type(values)
 # 指定要绘制的列
-groups = [0, 1, 2, 3, 5, 6, 7]
+groups = range(10)
 i = 1
 # 绘制每一列
 plt.figure()
@@ -90,51 +93,50 @@ plt.show()
 from math import sqrt
 from numpy import concatenate
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import mean_squared_error
+#from sklearn.preprocessing import LabelEncoder
+#from sklearn.metrics import mean_squared_error
 from keras.models import Sequential 
 from keras.layers import Dense 
 from keras.layers import LSTM 
 
-#dataset = read_csv('pollution.csv', header=0, index_col=0)
-#values = dataset.values
-# 整数编码
-encoder = LabelEncoder()
-values[:,4] = encoder.fit_transform(values[:,4])
-# 确保所有数据是浮动的
+
+
+# 确保所有数据是浮点数
 values = values.astype('float32')
 # 归一化特征
 scaler = MinMaxScaler(feature_range=(0, 1))
 scaled = scaler.fit_transform(values)
 # 指定滞后时间大小
-n_hours = 3
-n_features = 8
+n_steps = 1
+n_features = 10
 # 构建监督学习问题
-reframed = series_to_supervised(scaled, n_hours, 1)
-print(reframed.shape)
+reframed = series_to_supervised(scaled, n_steps, 1)
+# 丢弃不想预测的列
+reframed.drop(reframed.columns[[14,15,16,17,18,19]], axis=1, inplace=True)
+print(reframed.head())
  
 # 分为训练集和测试集
 values = reframed.values
-n_train_hours = 365 * 24
-train = values[:n_train_hours, :]
-test = values[n_train_hours:, :]
+n_train_months = 4 * 12
+train = values[:n_train_months, :]
+test = values[n_train_months:, :]
 # 分为输入和输出
-n_obs = n_hours * n_features
-train_X, train_y = train[:, :n_obs], train[:, -n_features]
-test_X, test_y = test[:, :n_obs], test[:, -n_features]
+n_obs = n_steps * n_features
+train_X, train_y = train[:, :n_obs], train[:, n_obs:]
+test_X, test_y = test[:, :n_obs], test[:, n_obs:]
 print(train_X.shape, len(train_X), train_y.shape)
 # 重塑为3D形状 [samples, timesteps, features]
-train_X = train_X.reshape((train_X.shape[0], n_hours, n_features))
-test_X = test_X.reshape((test_X.shape[0], n_hours, n_features))
+train_X = train_X.reshape((train_X.shape[0], n_steps, n_features))
+test_X = test_X.reshape((test_X.shape[0], n_steps, n_features))
 print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
  
 # 设计网络
 model = Sequential()
-model.add(LSTM(50, input_shape=(train_X.shape[1], train_X.shape[2])))
-model.add(Dense(1))
+model.add(LSTM(10, input_shape=(train_X.shape[1], train_X.shape[2])))
+model.add(Dense(4))
 model.compile(loss='mae', optimizer='adam')
 # 拟合网络模型
-history = model.fit(train_X, train_y, epochs=50, batch_size=72, validation_data=(test_X, test_y), verbose=2, shuffle=False)
+history = model.fit(train_X, train_y, epochs=50, batch_size=10, validation_data=(test_X, test_y), verbose=2, shuffle=False)
 # 绘制历史数据
 plt.plot(history.history['loss'], label='train')
 plt.plot(history.history['val_loss'], label='test')
@@ -143,19 +145,45 @@ plt.show()
  
 # 作出预测
 yhat = model.predict(test_X)
-test_X = test_X.reshape((test_X.shape[0], n_hours*n_features))
+test_X = test_X.reshape((test_X.shape[0], n_steps*n_features))
 # 反向转换预测值比例
-inv_yhat = concatenate((yhat, test_X[:, -7:]), axis=1)
+inv_yhat = concatenate((yhat, test_X[:, -6:]), axis=1)
 inv_yhat = scaler.inverse_transform(inv_yhat)
-inv_yhat = inv_yhat[:,0]
+inv_yhat = inv_yhat[:,:4]
 # 反向转换实际值大小
-test_y = test_y.reshape((len(test_y), 1))
-inv_y = concatenate((test_y, test_X[:, -7:]), axis=1)
+test_y = test_y.reshape((len(test_y), 4))
+inv_y = concatenate((test_y, test_X[:, -6:]), axis=1)
 inv_y = scaler.inverse_transform(inv_y)
-inv_y = inv_y[:,0]
-# 计算RMSE大小
-rmse = sqrt(mean_squared_error(inv_y, inv_yhat))
-print('Test RMSE: %.3f' % rmse)
+inv_y = inv_y[:,:4]
 
-#画出预测结果：蓝色为原数据，绿色为训练数据集的预测值，红色为测试数据集的预测值
+
+
+
+groups = range(inv_y.shape[1])
+#计算预测指标的平均绝对误差（mae），均方根误差(rmse)，平均绝对百分比误差(mape)
+def print_rmse_mape(abs_):
+    mae=abs_.mean()#Mean Absolute Error ，平均绝对误差
+    rmse= sqrt((abs_**2).mean()) #Root Mean Square Error,均方根误差
+    mape=(abs_/inv_y[:,group]).mean()# mean absolute percentage error，平均绝对百分比误差
+    print("{}的平均绝对误差MAE={}；\n均方根误差RMSE={:.3f}；\n平均绝对百分比误差MAPE={:.2%}。".format(dataset.columns[group],mae,rmse,mape))
+
+for group in groups:
+    
+    abs_=pd.Series(inv_y[:,group]-inv_yhat[:,group]).abs()
+    
+    print_rmse_mape(abs_)       
+
+
+#画出预测结果：蓝色为原数据，红色为测试数据集的预测值
+i = 1
+# 绘制每一列
+plt.figure()
+for group in groups:
+    plt.subplot(len(groups), 1, i)
+    plt.plot(inv_y[:, group])
+    plt.plot(inv_yhat[:, group])
+    plt.title(dataset.columns[group], y=0.5, loc='right')
+    i += 1
+plt.show()  
+
 
