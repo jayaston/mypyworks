@@ -9,8 +9,10 @@ mpl.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
 mpl.rcParams['axes.unicode_minus'] = False # 用来正常显示负号
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 import datetime as dt
- 
+import os
+os.getcwd() 
 # 构建将间序列转换为监督学习的函数
 def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
     n_vars = 1 if type(data) is list else data.shape[1]
@@ -42,15 +44,15 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
 #dataset = pd.read_csv(r'.\mypyworks\StatLedger\数据表\raw.csv', 
 #                      parse_dates = [['year', 'month', 'day', 'hour']], index_col=0, date_parser=parse)
 #加载温度、湿度日数据
-dataset_d = pd.read_excel(r"C:\Users\Jay\mypyworks\自来水数据\20191120刘博士温度湿度降雨量.xlsx",
+dataset_d = pd.read_excel(r"./mypyworks/自来水数据\20191120刘博士温度湿度降雨量.xlsx",
                          parse_dates = ['日期'])
 
-
+ 
 dataset_M = dataset_d.groupby(pd.Grouper(key='日期',freq='MS')).mean()
 
 
 # 加载售水数据集    
-dataset = pd.read_excel(r"C:\Users\Jay\mypyworks\自来水数据\售水相关月数据1999-2019(20191204整合).xlsx",
+dataset = pd.read_excel(r"./mypyworks/自来水数据/售水相关月数据1999-2019(20191204整合).xlsx",
                          parse_dates = ['日期'],index_col=0)
 
 dataset = pd.merge(dataset,dataset_M,how='outer',left_index=True,right_index=True)
@@ -114,10 +116,13 @@ reframed = series_to_supervised(scaled, n_steps, 1)
 # 丢弃不想预测的列
 reframed.drop(reframed.columns[[14,15,16,17,18,19]], axis=1, inplace=True)
 print(reframed.head())
- 
+reframed.to_csv('处理后数据.csv')
+
+# 加载数据集
+reframed = pd.read_csv('处理后数据.csv', header=0, index_col=0)
 # 分为训练集和测试集
 values = reframed.values
-n_train_months = 4 * 12
+n_train_months = 4 * 12 - 1
 train = values[:n_train_months, :]
 test = values[n_train_months:, :]
 # 分为输入和输出
@@ -125,12 +130,12 @@ n_obs = n_steps * n_features
 train_X, train_y = train[:, :n_obs], train[:, n_obs:]
 test_X, test_y = test[:, :n_obs], test[:, n_obs:]
 print(train_X.shape, len(train_X), train_y.shape)
-# 重塑为3D形状 [samples, timesteps, features]
+# 为了lstm模型将训练数据集重塑为三维形状 [samples, timesteps, features]
 train_X = train_X.reshape((train_X.shape[0], n_steps, n_features))
 test_X = test_X.reshape((test_X.shape[0], n_steps, n_features))
 print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
  
-# 设计网络
+# 设计神经网络
 model = Sequential()
 model.add(LSTM(10, input_shape=(train_X.shape[1], train_X.shape[2])))
 model.add(Dense(4))
@@ -138,11 +143,26 @@ model.compile(loss='mae', optimizer='adam')
 # 拟合网络模型
 history = model.fit(train_X, train_y, epochs=50, batch_size=10, validation_data=(test_X, test_y), verbose=2, shuffle=False)
 # 绘制历史数据
+
 plt.plot(history.history['loss'], label='train')
 plt.plot(history.history['val_loss'], label='test')
 plt.legend()
 plt.show()
- 
+
+
+
+#计算R方
+trainyhat = model.predict(train_X)
+train_X = train_X.reshape((train_X.shape[0], n_steps*n_features))
+
+from sklearn.metrics import mean_squared_error
+for i in range(train_y.shape[1]):
+    R_square = 1-(mean_squared_error(train_y[:,i],trainyhat[:,i])/np.var(train_y[:,i]))
+    print(R_square)
+
+
+
+
 # 作出预测
 yhat = model.predict(test_X)
 test_X = test_X.reshape((test_X.shape[0], n_steps*n_features))
@@ -155,6 +175,9 @@ test_y = test_y.reshape((len(test_y), 4))
 inv_y = concatenate((test_y, test_X[:, -6:]), axis=1)
 inv_y = scaler.inverse_transform(inv_y)
 inv_y = inv_y[:,:4]
+
+
+
 
 
 
