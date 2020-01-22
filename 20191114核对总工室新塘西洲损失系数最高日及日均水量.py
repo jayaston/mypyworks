@@ -40,12 +40,10 @@ shuju_df1.eval("损失系数=(取水量-水厂供水量)/取水量*100",inplace=
 shuju_df1['损失系数'].mean()
 
 
-list2 = [['1004','04281','d'],
-         ['1005','04281','d'],
-         ['1004','00752','d'],
-         ['1005','00752','d']
+list2 = [['00','00718','m']
+         
          ]
-shuju_df = tjfx.TjfxData().getdata('20140101','20181231',list2)
+shuju_df = tjfx.TjfxData().getdata('20100101','20191231',list2)
 shuju_df.info()
 shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
 

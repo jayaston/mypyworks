@@ -51,7 +51,7 @@ list3 = [
          ['1016','00718','m']                 
          ]
 
-shuju_df = tjfx.TjfxData().getdata('20180101','20181231',list1)
+shuju_df = tjfx.TjfxData().getdata('20190101','20191231',list3)
 
 shuju_df.info()
 

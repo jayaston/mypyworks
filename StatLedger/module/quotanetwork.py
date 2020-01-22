@@ -5,7 +5,11 @@ Created on Mon Sep 23 10:01:23 2019
 @author: XieJie
 """
 #import sys
-#sys.path.append(r'E:\pyworks\StatLedger\module')
+#import os
+#try:
+#    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"StatLedger\module")))
+#except:
+#    sys.path.append(r'.\mypyworks\StatLedger\module')
 import cumcalculate as cc
 from tjfxdata import TjfxData
 import re 
@@ -91,8 +95,8 @@ def subgraphviz(quota,path):
     dot.render(path, view=True)
 
 if __name__ == "__main__" :  
-    subgraphviz('d_1001_01005',r'E:\pyworks\输出\network-output\round-table.gv')
-    subnetwork('d_1001_01005',r'E:\pyworks\输出\network-output\test.png')
+    subgraphviz('d_1001_31195',r'E:\pyworks\输出\network-output\round-table.gv')
+    subnetwork('d_1001_31195',r'E:\pyworks\输出\network-output\test.png')
 
 ##文字格式network
 #def zhibiao_codetoname(x):#对数字编码还原成名称

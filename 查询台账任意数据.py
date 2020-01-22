@@ -4,7 +4,10 @@ Created on Mon Mar  4 08:31:59 2019
 
 @author: XieJie
 """
-
+import matplotlib as mpl
+mpl.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
+mpl.rcParams['axes.unicode_minus'] = False # 用来正常显示负号
+import matplotlib.pyplot as plt
 import sys
 import os
 os.getcwd()
@@ -20,21 +23,20 @@ import tjfxdata as tjfx
 import datetime as dt
 
 
-list1 = [['00','05337','m'],         
-         ['00','05338','m'],
-         ['00','05340','m'],
-         ['00','05339','m'],
-         ['00','05341','m']
+list1 = [['1004','04281','d']
          ]
-shuju_df = tjfx.TjfxData().getdata('19990101','20191009',list1)
+shuju_df = tjfx.TjfxData().getdata('20190101','20191231',list1)
 
 shuju_df.info()
 
 shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
 
+
 test = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','QUOTA_NAME'],values='QUOTA_VALUE')
 #print(test)
 test.info()
+test.plot()
+#plt.axhline(y=583357,ls="--")#添加水平直线
 
 ##按月份删选
 #test['mon'] = test.index.strftime('%m')
