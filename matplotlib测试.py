@@ -1,25 +1,30 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Jan 23 09:06:18 2020
-
-@author: XieJie
-"""
-
 
 import numpy as np
-import matplotlib.pyplot as plt 
- 
+import matplotlib.pyplot as plt
 
-ax1 = plt.subplot(211) # 在图表2中创建子图1
-ax2 = plt.subplot(212) # 在图表2中创建子图2
- 
-x = np.linspace(0, 3, 100)
-i = 1
-#for i in range(5):
-plt.figure(1)  #选择图表1
-plt.plot(x, np.exp(i*x/3))
-plt.sca(ax1)   #选择图表2的子图1
-plt.plot(x, np.sin(i*x))
-plt.sca(ax2)  # 选择图表2的子图2
-plt.plot(x, np.cos(i*x))
+np.random.seed(0)
 
+n_bins = 10
+x = np.random.randn(1000, 3)
+
+fig, axes = plt.subplots(nrows=2, ncols=2)
+ax0, ax1, ax2, ax3 = axes.flatten()
+
+colors = ['red', 'tan', 'lime']
+ax0.hist(x, n_bins, normed=5)
+ax0.legend(prop={'size': 10})
+ax0.set_title('bars with legend')
+
+ax1.hist(x, n_bins, normed=1, histtype='bar', stacked=True)
+ax1.set_title('stacked bar')
+
+ax2.hist(x, n_bins, histtype='step', stacked=True, fill=False)
+ax2.set_title('stack step (unfilled)')
+
+# Make a multiple-histogram of data-sets with different length.
+x_multi = [np.random.randn(n) for n in [10000, 5000, 2000]]
+ax3.hist(x_multi, n_bins, histtype='bar')
+ax3.set_title('different sample sizes')
+
+fig.tight_layout()
+plt.show()
