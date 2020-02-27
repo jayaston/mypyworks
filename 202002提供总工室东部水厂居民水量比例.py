@@ -27,8 +27,15 @@ list1 = [['00','00409','m'],
          ['0900','00409','m'],
          ['00','05339','m'],
          ['06','05339','m'],
-         ['08','05339','m']
+         ['08','05339','m'],
+         ['00','05337','m'],
+         ['06','05337','m'],
+         ['08','05337','m'],
+         ['1004','00718','m'],
+         ['1005','00718','m']          
          ]
+
+
 shuju_df = tjfx.TjfxData().getdata('20150101','20191231',list1)
 
 shuju_df.info()
@@ -39,7 +46,7 @@ shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').filln
 test = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','QUOTA_NAME'],values='QUOTA_VALUE')
 #print(test)
 test.info()
-test.plot()
+#test.plot()
 #plt.axhline(y=583357,ls="--")#添加水平直线
 
 ##按月份删选
@@ -58,4 +65,7 @@ test['新塘水厂去年同期取供比'] = test['新塘水厂']['取供比'] - 
 test['西洲水厂去年同期取供比'] = test['西洲水厂']['取供比'] - test['西洲水厂']['取供比'].diff(365)
 test['南洲水厂去年同期取供比'] = test['南洲水厂']['取供比'] - test['南洲水厂']['取供比'].diff(365)
 test.sort_values('QUOTA_DATE')
-test.to_excel(r'C:\Users\XieJie\mypyworks\输出\2015-2019售水.xlsx')
+test.to_excel(r'C:\Users\XieJie\mypyworks\输出\2015-2019生活售水nian.xlsx')
+
+
+test.resample("Y").sum().to_excel(r'C:\Users\XieJie\mypyworks\输出\2015-2019生活售水.xlsx')
