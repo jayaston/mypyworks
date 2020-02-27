@@ -38,8 +38,11 @@ test = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','Q
 test.info()
 test.plot()
 test.columns=['小时供水量']
-test.resample('d').min().to_excel(r'C:\Users\XieJie\mypyworks\输出\2020夜间最小供水流量.xlsx')
-test['小时'] = list(pd.Series(test.index).dt.strftime("%H"))
-test.query("小时 )
 test.sort_index()
-test.to_excel(r'C:\Users\XieJie\mypyworks\输出\2015-2019售水.xlsx')
+test.resample('d').min().to_excel(
+        r'C:\Users\XieJie\mypyworks\输出\2020夜间最小供水流量.xlsx')
+test['小时'] = list(pd.Series(test.index).dt.strftime("%H"))
+test.query("小时 in ['07','08']").resample('d')['小时供水量'].sum(
+        ).to_excel(r'C:\Users\XieJie\mypyworks\输出\2020年7-9时供水流量.xlsx')
+
+
