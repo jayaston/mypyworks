@@ -1,6 +1,8 @@
 ﻿输出/
+数据导出/
 汽车数据/
 自来水数据/
+行业表/
 StatLedger/module/SQlconfig.ini
 StatLedger/module/__pycache__/
 .ipynb_checkpoints/
