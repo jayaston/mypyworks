@@ -1,0 +1,4039 @@
+From: <Saved by Blink>
+Subject: codecs ? Codec registry and base classes ? Python 3.8.2 documentation
+Date: Mon, 15 Mar 2020 02:05:52 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--eNh9j64JWQhnoyMT9QIoulEeDd81IbTdQlKysH3W6M----"
+
+------MultipartBoundary--eNh9j64JWQhnoyMT9QIoulEeDd81IbTdQlKysH3W6M----
+Content-Type: text/html
+Content-ID: <frame-34-ebe9483d-838f-4f1c-90fa-12d402733409@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://docs.python.org/3/library/codecs.html#standard-encodings
+
+<!DOCTYPE html><html xmlns=3D"http://www.w3.org/1999/xhtml"><head><meta htt=
+p-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8">
+   =20
+    <title>codecs =E2=80=94 Codec registry and base classes =E2=80=94 Pytho=
+n 3.8.2 documentation</title>
+    <link rel=3D"stylesheet" href=3D"https://docs.python.org/3/_static/pydo=
+ctheme.css" type=3D"text/css">
+    <link rel=3D"stylesheet" href=3D"https://docs.python.org/3/_static/pygm=
+ents.css" type=3D"text/css">
+   =20
+   =20
+   =20
+   =20
+   =20
+   =20
+   =20
+   =20
+   =20
+    <link rel=3D"search" type=3D"application/opensearchdescription+xml" tit=
+le=3D"Search within Python 3.8.2 documentation" href=3D"https://docs.python=
+.org/3/_static/opensearch.xml">
+    <link rel=3D"author" title=3D"About these documents" href=3D"https://do=
+cs.python.org/3/about.html">
+    <link rel=3D"index" title=3D"Index" href=3D"https://docs.python.org/3/g=
+enindex.html">
+    <link rel=3D"search" title=3D"Search" href=3D"https://docs.python.org/3=
+/search.html">
+    <link rel=3D"copyright" title=3D"Copyright" href=3D"https://docs.python=
+.org/3/copyright.html">
+    <link rel=3D"next" title=3D"Data Types" href=3D"https://docs.python.org=
+/3/library/datatypes.html">
+    <link rel=3D"prev" title=3D"struct =E2=80=94 Interpret bytes as packed =
+binary data" href=3D"https://docs.python.org/3/library/struct.html">
+    <link rel=3D"canonical" href=3D"https://docs.python.org/3/library/codec=
+s.html">
+   =20
+     =20
+     =20
+     =20
+   =20
+
+   =20
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+
+    <link rel=3D"shortcut icon" type=3D"image/png" href=3D"https://docs.pyt=
+hon.org/3/_static/py.png">
+   =20
+   =20
+   =20
+    =20
+
+
+  <style type=3D"text/css">#maxthon-1eec22d4-0232-4212-8283-6f2ac8f967-ifra=
+me{display:block!important;position:absolute!important;visibility:visible!i=
+mportant;z-index:2147483647!important;border-style:none!important;opacity:1=
+!important;margin:0!important;padding:0!important;box-shadow:0 0 5px rgba(0=
+,0,0,.3)!important;border:1px solid #b3b3b3!important}</style></head><body>
+ =20
+    <div class=3D"related" role=3D"navigation" aria-label=3D"related naviga=
+tion">
+      <h3>Navigation</h3>
+      <ul>
+        <li class=3D"right" style=3D"margin-right: 10px">
+          <a href=3D"https://docs.python.org/3/genindex.html" title=3D"Gene=
+ral Index" accesskey=3D"I">index</a></li>
+        <li class=3D"right">
+          <a href=3D"https://docs.python.org/3/py-modindex.html" title=3D"P=
+ython Module Index">modules</a> |</li>
+        <li class=3D"right">
+          <a href=3D"https://docs.python.org/3/library/datatypes.html" titl=
+e=3D"Data Types" accesskey=3D"N">next</a> |</li>
+        <li class=3D"right">
+          <a href=3D"https://docs.python.org/3/library/struct.html" title=
+=3D"struct =E2=80=94 Interpret bytes as packed binary data" accesskey=3D"P"=
+>previous</a> |</li>
+
+    <li><img src=3D"https://docs.python.org/3/_static/py.png" alt=3D"" styl=
+e=3D"vertical-align: middle; margin-top: -1px"></li>
+    <li><a href=3D"https://www.python.org/">Python</a> =C2=BB</li>
+   =20
+
+    <li>
+      <span class=3D"language_switcher_placeholder"><select><option value=
+=3D"en" selected=3D"selected">English</option><option value=3D"fr">French</=
+option><option value=3D"ja">Japanese</option><option value=3D"ko">Korean</o=
+ption><option value=3D"pt-br">Brazilian Portuguese</option><option value=3D=
+"zh-cn">Simplified Chinese</option></select></span>
+      <span class=3D"version_switcher_placeholder"><select><option value=3D=
+"3.9">dev (3.9)</option><option value=3D"3.8" selected=3D"selected">3.8.2</=
+option><option value=3D"3.7">3.7</option><option value=3D"3.6">3.6</option>=
+<option value=3D"3.5">3.5</option><option value=3D"2.7">2.7</option></selec=
+t></span>
+      <a href=3D"https://docs.python.org/3/index.html">Documentation </a> =
+=C2=BB
+    </li>
+
+          <li class=3D"nav-item nav-item-1"><a href=3D"https://docs.python.=
+org/3/library/index.html">The Python Standard Library</a> =C2=BB</li>
+          <li class=3D"nav-item nav-item-2"><a href=3D"https://docs.python.=
+org/3/library/binary.html" accesskey=3D"U">Binary Data Services</a> =C2=BB<=
+/li>
+    <li class=3D"right">
+       =20
+
+    <div class=3D"inline-search" style=3D"" role=3D"search">
+        <form class=3D"inline-search" action=3D"https://docs.python.org/3/s=
+earch.html" method=3D"get">
+          <input placeholder=3D"Quick search" type=3D"text" name=3D"q">
+          <input type=3D"submit" value=3D"Go">
+          <input type=3D"hidden" name=3D"check_keywords" value=3D"yes">
+          <input type=3D"hidden" name=3D"area" value=3D"default">
+        </form>
+    </div>
+   =20
+         |
+    </li>
+
+      </ul>
+    </div>   =20
+
+    <div class=3D"document">
+      <div class=3D"documentwrapper">
+        <div class=3D"bodywrapper">
+          <div class=3D"body" role=3D"main">
+           =20
+  <div class=3D"section" id=3D"module-codecs">
+<span id=3D"codecs-codec-registry-and-base-classes"></span><h1><a class=3D"=
+reference internal" href=3D"https://docs.python.org/3/library/codecs.html#m=
+odule-codecs" title=3D"codecs: Encode and decode data and streams."><code c=
+lass=3D"xref py py-mod docutils literal notranslate"><span class=3D"pre">co=
+decs</span></code></a> =E2=80=94 Codec registry and base classes<a class=3D=
+"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#module-c=
+odecs" title=3D"Permalink to this headline">=C2=B6</a></h1>
+<p><strong>Source code:</strong> <a class=3D"reference external" href=3D"ht=
+tps://github.com/python/cpython/tree/3.8/Lib/codecs.py">Lib/codecs.py</a></=
+p>
+<hr class=3D"docutils" id=3D"index-0">
+<p>This module defines base classes for standard Python codecs (encoders an=
+d
+decoders) and provides access to the internal Python codec registry, which
+manages the codec and error handling lookup process. Most standard codecs
+are <a class=3D"reference internal" href=3D"https://docs.python.org/3/gloss=
+ary.html#term-text-encoding"><span class=3D"xref std std-term">text encodin=
+gs</span></a>, which encode text to bytes,
+but there are also codecs provided that encode text to text, and bytes to
+bytes. Custom codecs may encode and decode between arbitrary types, but som=
+e
+module features are restricted to use specifically with
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/glossary.=
+html#term-text-encoding"><span class=3D"xref std std-term">text encodings</=
+span></a>, or with codecs that encode to
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/s=
+tdtypes.html#bytes" title=3D"bytes"><code class=3D"xref py py-class docutil=
+s literal notranslate"><span class=3D"pre">bytes</span></code></a>.</p>
+<p>The module defines the following functions for encoding and decoding wit=
+h
+any codec:</p>
+<dl class=3D"function">
+<dt id=3D"codecs.encode">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">encode</code><span class=3D"sig-paren">(</span><em class=3D"=
+sig-param">obj</em>, <em class=3D"sig-param">encoding=3D'utf-8'</em>, <em c=
+lass=3D"sig-param">errors=3D'strict'</em><span class=3D"sig-paren">)</span>=
+<a class=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.ht=
+ml#codecs.encode" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Encodes <em>obj</em> using the codec registered for <em>encoding</em=
+>.</p>
+<p><em>Errors</em> may be given to set the desired error handling scheme. T=
+he
+default error handler is <code class=3D"docutils literal notranslate"><span=
+ class=3D"pre">'strict'</span></code> meaning that encoding errors raise
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/e=
+xceptions.html#ValueError" title=3D"ValueError"><code class=3D"xref py py-e=
+xc docutils literal notranslate"><span class=3D"pre">ValueError</span></cod=
+e></a> (or a more codec specific subclass, such as
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/e=
+xceptions.html#UnicodeEncodeError" title=3D"UnicodeEncodeError"><code class=
+=3D"xref py py-exc docutils literal notranslate"><span class=3D"pre">Unicod=
+eEncodeError</span></code></a>). Refer to <a class=3D"reference internal" h=
+ref=3D"https://docs.python.org/3/library/codecs.html#codec-base-classes"><s=
+pan class=3D"std std-ref">Codec Base Classes</span></a> for more
+information on codec error handling.</p>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"codecs.decode">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">decode</code><span class=3D"sig-paren">(</span><em class=3D"=
+sig-param">obj</em>, <em class=3D"sig-param">encoding=3D'utf-8'</em>, <em c=
+lass=3D"sig-param">errors=3D'strict'</em><span class=3D"sig-paren">)</span>=
+<a class=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.ht=
+ml#codecs.decode" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Decodes <em>obj</em> using the codec registered for <em>encoding</em=
+>.</p>
+<p><em>Errors</em> may be given to set the desired error handling scheme. T=
+he
+default error handler is <code class=3D"docutils literal notranslate"><span=
+ class=3D"pre">'strict'</span></code> meaning that decoding errors raise
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/e=
+xceptions.html#ValueError" title=3D"ValueError"><code class=3D"xref py py-e=
+xc docutils literal notranslate"><span class=3D"pre">ValueError</span></cod=
+e></a> (or a more codec specific subclass, such as
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/e=
+xceptions.html#UnicodeDecodeError" title=3D"UnicodeDecodeError"><code class=
+=3D"xref py py-exc docutils literal notranslate"><span class=3D"pre">Unicod=
+eDecodeError</span></code></a>). Refer to <a class=3D"reference internal" h=
+ref=3D"https://docs.python.org/3/library/codecs.html#codec-base-classes"><s=
+pan class=3D"std std-ref">Codec Base Classes</span></a> for more
+information on codec error handling.</p>
+</dd></dl>
+
+<p>The full details for each codec can also be looked up directly:</p>
+<dl class=3D"function">
+<dt id=3D"codecs.lookup">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">lookup</code><span class=3D"sig-paren">(</span><em class=3D"=
+sig-param">encoding</em><span class=3D"sig-paren">)</span><a class=3D"heade=
+rlink" href=3D"https://docs.python.org/3/library/codecs.html#codecs.lookup"=
+ title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Looks up the codec info in the Python codec registry and returns a
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.CodecInfo" title=3D"codecs.CodecInfo"><code class=3D"xref=
+ py py-class docutils literal notranslate"><span class=3D"pre">CodecInfo</s=
+pan></code></a> object as defined below.</p>
+<p>Encodings are first looked up in the registry=E2=80=99s cache. If not fo=
+und, the list of
+registered search functions is scanned. If no <a class=3D"reference interna=
+l" href=3D"https://docs.python.org/3/library/codecs.html#codecs.CodecInfo" =
+title=3D"codecs.CodecInfo"><code class=3D"xref py py-class docutils literal=
+ notranslate"><span class=3D"pre">CodecInfo</span></code></a> object is
+found, a <a class=3D"reference internal" href=3D"https://docs.python.org/3/=
+library/exceptions.html#LookupError" title=3D"LookupError"><code class=3D"x=
+ref py py-exc docutils literal notranslate"><span class=3D"pre">LookupError=
+</span></code></a> is raised. Otherwise, the <a class=3D"reference internal=
+" href=3D"https://docs.python.org/3/library/codecs.html#codecs.CodecInfo" t=
+itle=3D"codecs.CodecInfo"><code class=3D"xref py py-class docutils literal =
+notranslate"><span class=3D"pre">CodecInfo</span></code></a> object
+is stored in the cache and returned to the caller.</p>
+</dd></dl>
+
+<dl class=3D"class">
+<dt id=3D"codecs.CodecInfo">
+<em class=3D"property">class </em><code class=3D"sig-prename descclassname"=
+>codecs.</code><code class=3D"sig-name descname">CodecInfo</code><span clas=
+s=3D"sig-paren">(</span><em class=3D"sig-param">encode</em>, <em class=3D"s=
+ig-param">decode</em>, <em class=3D"sig-param">streamreader=3DNone</em>, <e=
+m class=3D"sig-param">streamwriter=3DNone</em>, <em class=3D"sig-param">inc=
+rementalencoder=3DNone</em>, <em class=3D"sig-param">incrementaldecoder=3DN=
+one</em>, <em class=3D"sig-param">name=3DNone</em><span class=3D"sig-paren"=
+>)</span><a class=3D"headerlink" href=3D"https://docs.python.org/3/library/=
+codecs.html#codecs.CodecInfo" title=3D"Permalink to this definition">=C2=B6=
+</a></dt>
+<dd><p>Codec details when looking up the codec registry. The constructor
+arguments are stored in attributes of the same name:</p>
+<dl class=3D"attribute">
+<dt id=3D"codecs.CodecInfo.name">
+<code class=3D"sig-name descname">name</code><a class=3D"headerlink" href=
+=3D"https://docs.python.org/3/library/codecs.html#codecs.CodecInfo.name" ti=
+tle=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>The name of the encoding.</p>
+</dd></dl>
+
+<dl class=3D"attribute">
+<dt id=3D"codecs.CodecInfo.encode">
+<code class=3D"sig-name descname">encode</code><a class=3D"headerlink" href=
+=3D"https://docs.python.org/3/library/codecs.html#codecs.CodecInfo.encode" =
+title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dt id=3D"codecs.CodecInfo.decode">
+<code class=3D"sig-name descname">decode</code><a class=3D"headerlink" href=
+=3D"https://docs.python.org/3/library/codecs.html#codecs.CodecInfo.decode" =
+title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>The stateless encoding and decoding functions. These must be
+functions or methods which have the same interface as
+the <a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#codecs.Codec.encode" title=3D"codecs.Codec.encode"><code cla=
+ss=3D"xref py py-meth docutils literal notranslate"><span class=3D"pre">enc=
+ode()</span></code></a> and <a class=3D"reference internal" href=3D"https:/=
+/docs.python.org/3/library/codecs.html#codecs.Codec.decode" title=3D"codecs=
+.Codec.decode"><code class=3D"xref py py-meth docutils literal notranslate"=
+><span class=3D"pre">decode()</span></code></a> methods of Codec
+instances (see <a class=3D"reference internal" href=3D"https://docs.python.=
+org/3/library/codecs.html#codec-objects"><span class=3D"std std-ref">Codec =
+Interface</span></a>).
+The functions or methods are expected to work in a stateless mode.</p>
+</dd></dl>
+
+<dl class=3D"attribute">
+<dt id=3D"codecs.CodecInfo.incrementalencoder">
+<code class=3D"sig-name descname">incrementalencoder</code><a class=3D"head=
+erlink" href=3D"https://docs.python.org/3/library/codecs.html#codecs.CodecI=
+nfo.incrementalencoder" title=3D"Permalink to this definition">=C2=B6</a></=
+dt>
+<dt id=3D"codecs.CodecInfo.incrementaldecoder">
+<code class=3D"sig-name descname">incrementaldecoder</code><a class=3D"head=
+erlink" href=3D"https://docs.python.org/3/library/codecs.html#codecs.CodecI=
+nfo.incrementaldecoder" title=3D"Permalink to this definition">=C2=B6</a></=
+dt>
+<dd><p>Incremental encoder and decoder classes or factory functions.
+These have to provide the interface defined by the base classes
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.IncrementalEncoder" title=3D"codecs.IncrementalEncoder"><=
+code class=3D"xref py py-class docutils literal notranslate"><span class=3D=
+"pre">IncrementalEncoder</span></code></a> and <a class=3D"reference intern=
+al" href=3D"https://docs.python.org/3/library/codecs.html#codecs.Incrementa=
+lDecoder" title=3D"codecs.IncrementalDecoder"><code class=3D"xref py py-cla=
+ss docutils literal notranslate"><span class=3D"pre">IncrementalDecoder</sp=
+an></code></a>,
+respectively. Incremental codecs can maintain state.</p>
+</dd></dl>
+
+<dl class=3D"attribute">
+<dt id=3D"codecs.CodecInfo.streamwriter">
+<code class=3D"sig-name descname">streamwriter</code><a class=3D"headerlink=
+" href=3D"https://docs.python.org/3/library/codecs.html#codecs.CodecInfo.st=
+reamwriter" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dt id=3D"codecs.CodecInfo.streamreader">
+<code class=3D"sig-name descname">streamreader</code><a class=3D"headerlink=
+" href=3D"https://docs.python.org/3/library/codecs.html#codecs.CodecInfo.st=
+reamreader" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Stream writer and reader classes or factory functions. These have to
+provide the interface defined by the base classes
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.StreamWriter" title=3D"codecs.StreamWriter"><code class=
+=3D"xref py py-class docutils literal notranslate"><span class=3D"pre">Stre=
+amWriter</span></code></a> and <a class=3D"reference internal" href=3D"http=
+s://docs.python.org/3/library/codecs.html#codecs.StreamReader" title=3D"cod=
+ecs.StreamReader"><code class=3D"xref py py-class docutils literal notransl=
+ate"><span class=3D"pre">StreamReader</span></code></a>, respectively.
+Stream codecs can maintain state.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>To simplify access to the various codec components, the module provides
+these additional functions which use <a class=3D"reference internal" href=
+=3D"https://docs.python.org/3/library/codecs.html#codecs.lookup" title=3D"c=
+odecs.lookup"><code class=3D"xref py py-func docutils literal notranslate">=
+<span class=3D"pre">lookup()</span></code></a> for the codec lookup:</p>
+<dl class=3D"function">
+<dt id=3D"codecs.getencoder">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">getencoder</code><span class=3D"sig-paren">(</span><em class=
+=3D"sig-param">encoding</em><span class=3D"sig-paren">)</span><a class=3D"h=
+eaderlink" href=3D"https://docs.python.org/3/library/codecs.html#codecs.get=
+encoder" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Look up the codec for the given encoding and return its encoder func=
+tion.</p>
+<p>Raises a <a class=3D"reference internal" href=3D"https://docs.python.org=
+/3/library/exceptions.html#LookupError" title=3D"LookupError"><code class=
+=3D"xref py py-exc docutils literal notranslate"><span class=3D"pre">Lookup=
+Error</span></code></a> in case the encoding cannot be found.</p>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"codecs.getdecoder">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">getdecoder</code><span class=3D"sig-paren">(</span><em class=
+=3D"sig-param">encoding</em><span class=3D"sig-paren">)</span><a class=3D"h=
+eaderlink" href=3D"https://docs.python.org/3/library/codecs.html#codecs.get=
+decoder" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Look up the codec for the given encoding and return its decoder func=
+tion.</p>
+<p>Raises a <a class=3D"reference internal" href=3D"https://docs.python.org=
+/3/library/exceptions.html#LookupError" title=3D"LookupError"><code class=
+=3D"xref py py-exc docutils literal notranslate"><span class=3D"pre">Lookup=
+Error</span></code></a> in case the encoding cannot be found.</p>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"codecs.getincrementalencoder">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">getincrementalencoder</code><span class=3D"sig-paren">(</spa=
+n><em class=3D"sig-param">encoding</em><span class=3D"sig-paren">)</span><a=
+ class=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html=
+#codecs.getincrementalencoder" title=3D"Permalink to this definition">=C2=
+=B6</a></dt>
+<dd><p>Look up the codec for the given encoding and return its incremental =
+encoder
+class or factory function.</p>
+<p>Raises a <a class=3D"reference internal" href=3D"https://docs.python.org=
+/3/library/exceptions.html#LookupError" title=3D"LookupError"><code class=
+=3D"xref py py-exc docutils literal notranslate"><span class=3D"pre">Lookup=
+Error</span></code></a> in case the encoding cannot be found or the codec
+doesn=E2=80=99t support an incremental encoder.</p>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"codecs.getincrementaldecoder">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">getincrementaldecoder</code><span class=3D"sig-paren">(</spa=
+n><em class=3D"sig-param">encoding</em><span class=3D"sig-paren">)</span><a=
+ class=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html=
+#codecs.getincrementaldecoder" title=3D"Permalink to this definition">=C2=
+=B6</a></dt>
+<dd><p>Look up the codec for the given encoding and return its incremental =
+decoder
+class or factory function.</p>
+<p>Raises a <a class=3D"reference internal" href=3D"https://docs.python.org=
+/3/library/exceptions.html#LookupError" title=3D"LookupError"><code class=
+=3D"xref py py-exc docutils literal notranslate"><span class=3D"pre">Lookup=
+Error</span></code></a> in case the encoding cannot be found or the codec
+doesn=E2=80=99t support an incremental decoder.</p>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"codecs.getreader">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">getreader</code><span class=3D"sig-paren">(</span><em class=
+=3D"sig-param">encoding</em><span class=3D"sig-paren">)</span><a class=3D"h=
+eaderlink" href=3D"https://docs.python.org/3/library/codecs.html#codecs.get=
+reader" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Look up the codec for the given encoding and return its <a class=3D"=
+reference internal" href=3D"https://docs.python.org/3/library/codecs.html#c=
+odecs.StreamReader" title=3D"codecs.StreamReader"><code class=3D"xref py py=
+-class docutils literal notranslate"><span class=3D"pre">StreamReader</span=
+></code></a>
+class or factory function.</p>
+<p>Raises a <a class=3D"reference internal" href=3D"https://docs.python.org=
+/3/library/exceptions.html#LookupError" title=3D"LookupError"><code class=
+=3D"xref py py-exc docutils literal notranslate"><span class=3D"pre">Lookup=
+Error</span></code></a> in case the encoding cannot be found.</p>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"codecs.getwriter">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">getwriter</code><span class=3D"sig-paren">(</span><em class=
+=3D"sig-param">encoding</em><span class=3D"sig-paren">)</span><a class=3D"h=
+eaderlink" href=3D"https://docs.python.org/3/library/codecs.html#codecs.get=
+writer" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Look up the codec for the given encoding and return its <a class=3D"=
+reference internal" href=3D"https://docs.python.org/3/library/codecs.html#c=
+odecs.StreamWriter" title=3D"codecs.StreamWriter"><code class=3D"xref py py=
+-class docutils literal notranslate"><span class=3D"pre">StreamWriter</span=
+></code></a>
+class or factory function.</p>
+<p>Raises a <a class=3D"reference internal" href=3D"https://docs.python.org=
+/3/library/exceptions.html#LookupError" title=3D"LookupError"><code class=
+=3D"xref py py-exc docutils literal notranslate"><span class=3D"pre">Lookup=
+Error</span></code></a> in case the encoding cannot be found.</p>
+</dd></dl>
+
+<p>Custom codecs are made available by registering a suitable codec search
+function:</p>
+<dl class=3D"function">
+<dt id=3D"codecs.register">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">register</code><span class=3D"sig-paren">(</span><em class=
+=3D"sig-param">search_function</em><span class=3D"sig-paren">)</span><a cla=
+ss=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#cod=
+ecs.register" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Register a codec search function. Search functions are expected to t=
+ake one
+argument, being the encoding name in all lower case letters, and return a
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.CodecInfo" title=3D"codecs.CodecInfo"><code class=3D"xref=
+ py py-class docutils literal notranslate"><span class=3D"pre">CodecInfo</s=
+pan></code></a> object. In case a search function cannot find
+a given encoding, it should return <code class=3D"docutils literal notransl=
+ate"><span class=3D"pre">None</span></code>.</p>
+<div class=3D"admonition note">
+<p class=3D"admonition-title">Note</p>
+<p>Search function registration is not currently reversible,
+which may cause problems in some cases, such as unit testing or
+module reloading.</p>
+</div>
+</dd></dl>
+
+<p>While the builtin <a class=3D"reference internal" href=3D"https://docs.p=
+ython.org/3/library/functions.html#open" title=3D"open"><code class=3D"xref=
+ py py-func docutils literal notranslate"><span class=3D"pre">open()</span>=
+</code></a> and the associated <a class=3D"reference internal" href=3D"http=
+s://docs.python.org/3/library/io.html#module-io" title=3D"io: Core tools fo=
+r working with streams."><code class=3D"xref py py-mod docutils literal not=
+ranslate"><span class=3D"pre">io</span></code></a> module are the
+recommended approach for working with encoded text files, this module
+provides additional utility functions and classes that allow the use of a
+wider range of codecs when working with binary files:</p>
+<dl class=3D"function">
+<dt id=3D"codecs.open">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">open</code><span class=3D"sig-paren">(</span><em class=3D"si=
+g-param">filename</em>, <em class=3D"sig-param">mode=3D'r'</em>, <em class=
+=3D"sig-param">encoding=3DNone</em>, <em class=3D"sig-param">errors=3D'stri=
+ct'</em>, <em class=3D"sig-param">buffering=3D-1</em><span class=3D"sig-par=
+en">)</span><a class=3D"headerlink" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#codecs.open" title=3D"Permalink to this definition">=C2=B6</=
+a></dt>
+<dd><p>Open an encoded file using the given <em>mode</em> and return an ins=
+tance of
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.StreamReaderWriter" title=3D"codecs.StreamReaderWriter"><=
+code class=3D"xref py py-class docutils literal notranslate"><span class=3D=
+"pre">StreamReaderWriter</span></code></a>, providing transparent encoding/=
+decoding.
+The default file mode is <code class=3D"docutils literal notranslate"><span=
+ class=3D"pre">'r'</span></code>, meaning to open the file in read mode.</p=
+>
+<div class=3D"admonition note">
+<p class=3D"admonition-title">Note</p>
+<p>Underlying encoded files are always opened in binary mode.
+No automatic conversion of <code class=3D"docutils literal notranslate"><sp=
+an class=3D"pre">'\n'</span></code> is done on reading and writing.
+The <em>mode</em> argument may be any binary mode acceptable to the built-i=
+n
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/f=
+unctions.html#open" title=3D"open"><code class=3D"xref py py-func docutils =
+literal notranslate"><span class=3D"pre">open()</span></code></a> function;=
+ the <code class=3D"docutils literal notranslate"><span class=3D"pre">'b'</=
+span></code> is automatically added.</p>
+</div>
+<p><em>encoding</em> specifies the encoding which is to be used for the fil=
+e.
+Any encoding that encodes to and decodes from bytes is allowed, and
+the data types supported by the file methods depend on the codec used.</p>
+<p><em>errors</em> may be given to define the error handling. It defaults t=
+o <code class=3D"docutils literal notranslate"><span class=3D"pre">'strict'=
+</span></code>
+which causes a <a class=3D"reference internal" href=3D"https://docs.python.=
+org/3/library/exceptions.html#ValueError" title=3D"ValueError"><code class=
+=3D"xref py py-exc docutils literal notranslate"><span class=3D"pre">ValueE=
+rror</span></code></a> to be raised in case an encoding error occurs.</p>
+<p><em>buffering</em> has the same meaning as for the built-in <a class=3D"=
+reference internal" href=3D"https://docs.python.org/3/library/functions.htm=
+l#open" title=3D"open"><code class=3D"xref py py-func docutils literal notr=
+anslate"><span class=3D"pre">open()</span></code></a> function.
+It defaults to -1 which means that the default buffer size will be used.</p=
+>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"codecs.EncodedFile">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">EncodedFile</code><span class=3D"sig-paren">(</span><em clas=
+s=3D"sig-param">file</em>, <em class=3D"sig-param">data_encoding</em>, <em =
+class=3D"sig-param">file_encoding=3DNone</em>, <em class=3D"sig-param">erro=
+rs=3D'strict'</em><span class=3D"sig-paren">)</span><a class=3D"headerlink"=
+ href=3D"https://docs.python.org/3/library/codecs.html#codecs.EncodedFile" =
+title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Return a <a class=3D"reference internal" href=3D"https://docs.python=
+.org/3/library/codecs.html#codecs.StreamRecoder" title=3D"codecs.StreamReco=
+der"><code class=3D"xref py py-class docutils literal notranslate"><span cl=
+ass=3D"pre">StreamRecoder</span></code></a> instance, a wrapped version of =
+<em>file</em>
+which provides transparent transcoding. The original file is closed
+when the wrapped version is closed.</p>
+<p>Data written to the wrapped file is decoded according to the given
+<em>data_encoding</em> and then written to the original file as bytes using
+<em>file_encoding</em>. Bytes read from the original file are decoded
+according to <em>file_encoding</em>, and the result is encoded
+using <em>data_encoding</em>.</p>
+<p>If <em>file_encoding</em> is not given, it defaults to <em>data_encoding=
+</em>.</p>
+<p><em>errors</em> may be given to define the error handling. It defaults t=
+o
+<code class=3D"docutils literal notranslate"><span class=3D"pre">'strict'</=
+span></code>, which causes <a class=3D"reference internal" href=3D"https://=
+docs.python.org/3/library/exceptions.html#ValueError" title=3D"ValueError">=
+<code class=3D"xref py py-exc docutils literal notranslate"><span class=3D"=
+pre">ValueError</span></code></a> to be raised in case an encoding
+error occurs.</p>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"codecs.iterencode">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">iterencode</code><span class=3D"sig-paren">(</span><em class=
+=3D"sig-param">iterator</em>, <em class=3D"sig-param">encoding</em>, <em cl=
+ass=3D"sig-param">errors=3D'strict'</em>, <em class=3D"sig-param">**kwargs<=
+/em><span class=3D"sig-paren">)</span><a class=3D"headerlink" href=3D"https=
+://docs.python.org/3/library/codecs.html#codecs.iterencode" title=3D"Permal=
+ink to this definition">=C2=B6</a></dt>
+<dd><p>Uses an incremental encoder to iteratively encode the input provided=
+ by
+<em>iterator</em>. This function is a <a class=3D"reference internal" href=
+=3D"https://docs.python.org/3/glossary.html#term-generator"><span class=3D"=
+xref std std-term">generator</span></a>.
+The <em>errors</em> argument (as well as any
+other keyword argument) is passed through to the incremental encoder.</p>
+<p>This function requires that the codec accept text <a class=3D"reference =
+internal" href=3D"https://docs.python.org/3/library/stdtypes.html#str" titl=
+e=3D"str"><code class=3D"xref py py-class docutils literal notranslate"><sp=
+an class=3D"pre">str</span></code></a> objects
+to encode. Therefore it does not support bytes-to-bytes encoders such as
+<code class=3D"docutils literal notranslate"><span class=3D"pre">base64_cod=
+ec</span></code>.</p>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"codecs.iterdecode">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">iterdecode</code><span class=3D"sig-paren">(</span><em class=
+=3D"sig-param">iterator</em>, <em class=3D"sig-param">encoding</em>, <em cl=
+ass=3D"sig-param">errors=3D'strict'</em>, <em class=3D"sig-param">**kwargs<=
+/em><span class=3D"sig-paren">)</span><a class=3D"headerlink" href=3D"https=
+://docs.python.org/3/library/codecs.html#codecs.iterdecode" title=3D"Permal=
+ink to this definition">=C2=B6</a></dt>
+<dd><p>Uses an incremental decoder to iteratively decode the input provided=
+ by
+<em>iterator</em>. This function is a <a class=3D"reference internal" href=
+=3D"https://docs.python.org/3/glossary.html#term-generator"><span class=3D"=
+xref std std-term">generator</span></a>.
+The <em>errors</em> argument (as well as any
+other keyword argument) is passed through to the incremental decoder.</p>
+<p>This function requires that the codec accept <a class=3D"reference inter=
+nal" href=3D"https://docs.python.org/3/library/stdtypes.html#bytes" title=
+=3D"bytes"><code class=3D"xref py py-class docutils literal notranslate"><s=
+pan class=3D"pre">bytes</span></code></a> objects
+to decode. Therefore it does not support text-to-text encoders such as
+<code class=3D"docutils literal notranslate"><span class=3D"pre">rot_13</sp=
+an></code>, although <code class=3D"docutils literal notranslate"><span cla=
+ss=3D"pre">rot_13</span></code> may be used equivalently with
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.iterencode" title=3D"codecs.iterencode"><code class=3D"xr=
+ef py py-func docutils literal notranslate"><span class=3D"pre">iterencode(=
+)</span></code></a>.</p>
+</dd></dl>
+
+<p>The module also provides the following constants which are useful for re=
+ading
+and writing to platform dependent files:</p>
+<dl class=3D"data">
+<dt id=3D"codecs.BOM">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">BOM</code><a class=3D"headerlink" href=3D"https://docs.pytho=
+n.org/3/library/codecs.html#codecs.BOM" title=3D"Permalink to this definiti=
+on">=C2=B6</a></dt>
+<dt id=3D"codecs.BOM_BE">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">BOM_BE</code><a class=3D"headerlink" href=3D"https://docs.py=
+thon.org/3/library/codecs.html#codecs.BOM_BE" title=3D"Permalink to this de=
+finition">=C2=B6</a></dt>
+<dt id=3D"codecs.BOM_LE">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">BOM_LE</code><a class=3D"headerlink" href=3D"https://docs.py=
+thon.org/3/library/codecs.html#codecs.BOM_LE" title=3D"Permalink to this de=
+finition">=C2=B6</a></dt>
+<dt id=3D"codecs.BOM_UTF8">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">BOM_UTF8</code><a class=3D"headerlink" href=3D"https://docs.=
+python.org/3/library/codecs.html#codecs.BOM_UTF8" title=3D"Permalink to thi=
+s definition">=C2=B6</a></dt>
+<dt id=3D"codecs.BOM_UTF16">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">BOM_UTF16</code><a class=3D"headerlink" href=3D"https://docs=
+.python.org/3/library/codecs.html#codecs.BOM_UTF16" title=3D"Permalink to t=
+his definition">=C2=B6</a></dt>
+<dt id=3D"codecs.BOM_UTF16_BE">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">BOM_UTF16_BE</code><a class=3D"headerlink" href=3D"https://d=
+ocs.python.org/3/library/codecs.html#codecs.BOM_UTF16_BE" title=3D"Permalin=
+k to this definition">=C2=B6</a></dt>
+<dt id=3D"codecs.BOM_UTF16_LE">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">BOM_UTF16_LE</code><a class=3D"headerlink" href=3D"https://d=
+ocs.python.org/3/library/codecs.html#codecs.BOM_UTF16_LE" title=3D"Permalin=
+k to this definition">=C2=B6</a></dt>
+<dt id=3D"codecs.BOM_UTF32">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">BOM_UTF32</code><a class=3D"headerlink" href=3D"https://docs=
+.python.org/3/library/codecs.html#codecs.BOM_UTF32" title=3D"Permalink to t=
+his definition">=C2=B6</a></dt>
+<dt id=3D"codecs.BOM_UTF32_BE">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">BOM_UTF32_BE</code><a class=3D"headerlink" href=3D"https://d=
+ocs.python.org/3/library/codecs.html#codecs.BOM_UTF32_BE" title=3D"Permalin=
+k to this definition">=C2=B6</a></dt>
+<dt id=3D"codecs.BOM_UTF32_LE">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">BOM_UTF32_LE</code><a class=3D"headerlink" href=3D"https://d=
+ocs.python.org/3/library/codecs.html#codecs.BOM_UTF32_LE" title=3D"Permalin=
+k to this definition">=C2=B6</a></dt>
+<dd><p>These constants define various byte sequences,
+being Unicode byte order marks (BOMs) for several encodings. They are
+used in UTF-16 and UTF-32 data streams to indicate the byte order used,
+and in UTF-8 as a Unicode signature. <a class=3D"reference internal" href=
+=3D"https://docs.python.org/3/library/codecs.html#codecs.BOM_UTF16" title=
+=3D"codecs.BOM_UTF16"><code class=3D"xref py py-const docutils literal notr=
+anslate"><span class=3D"pre">BOM_UTF16</span></code></a> is either
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.BOM_UTF16_BE" title=3D"codecs.BOM_UTF16_BE"><code class=
+=3D"xref py py-const docutils literal notranslate"><span class=3D"pre">BOM_=
+UTF16_BE</span></code></a> or <a class=3D"reference internal" href=3D"https=
+://docs.python.org/3/library/codecs.html#codecs.BOM_UTF16_LE" title=3D"code=
+cs.BOM_UTF16_LE"><code class=3D"xref py py-const docutils literal notransla=
+te"><span class=3D"pre">BOM_UTF16_LE</span></code></a> depending on the pla=
+tform=E2=80=99s
+native byte order, <a class=3D"reference internal" href=3D"https://docs.pyt=
+hon.org/3/library/codecs.html#codecs.BOM" title=3D"codecs.BOM"><code class=
+=3D"xref py py-const docutils literal notranslate"><span class=3D"pre">BOM<=
+/span></code></a> is an alias for <a class=3D"reference internal" href=3D"h=
+ttps://docs.python.org/3/library/codecs.html#codecs.BOM_UTF16" title=3D"cod=
+ecs.BOM_UTF16"><code class=3D"xref py py-const docutils literal notranslate=
+"><span class=3D"pre">BOM_UTF16</span></code></a>,
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.BOM_LE" title=3D"codecs.BOM_LE"><code class=3D"xref py py=
+-const docutils literal notranslate"><span class=3D"pre">BOM_LE</span></cod=
+e></a> for <a class=3D"reference internal" href=3D"https://docs.python.org/=
+3/library/codecs.html#codecs.BOM_UTF16_LE" title=3D"codecs.BOM_UTF16_LE"><c=
+ode class=3D"xref py py-const docutils literal notranslate"><span class=3D"=
+pre">BOM_UTF16_LE</span></code></a> and <a class=3D"reference internal" hre=
+f=3D"https://docs.python.org/3/library/codecs.html#codecs.BOM_BE" title=3D"=
+codecs.BOM_BE"><code class=3D"xref py py-const docutils literal notranslate=
+"><span class=3D"pre">BOM_BE</span></code></a> for
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.BOM_UTF16_BE" title=3D"codecs.BOM_UTF16_BE"><code class=
+=3D"xref py py-const docutils literal notranslate"><span class=3D"pre">BOM_=
+UTF16_BE</span></code></a>. The others represent the BOM in UTF-8 and UTF-3=
+2
+encodings.</p>
+</dd></dl>
+
+<div class=3D"section" id=3D"codec-base-classes">
+<span id=3D"id1"></span><h2>Codec Base Classes<a class=3D"headerlink" href=
+=3D"https://docs.python.org/3/library/codecs.html#codec-base-classes" title=
+=3D"Permalink to this headline">=C2=B6</a></h2>
+<p>The <a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/codecs.html#module-codecs" title=3D"codecs: Encode and decode data an=
+d streams."><code class=3D"xref py py-mod docutils literal notranslate"><sp=
+an class=3D"pre">codecs</span></code></a> module defines a set of base clas=
+ses which define the
+interfaces for working with codec objects, and can also be used as the basi=
+s
+for custom codec implementations.</p>
+<p>Each codec has to define four interfaces to make it usable as codec in P=
+ython:
+stateless encoder, stateless decoder, stream reader and stream writer. The
+stream reader and writers typically reuse the stateless encoder/decoder to
+implement the file protocols. Codec authors also need to define how the
+codec will handle encoding and decoding errors.</p>
+<div class=3D"section" id=3D"error-handlers">
+<span id=3D"surrogateescape"></span><span id=3D"id2"></span><h3>Error Handl=
+ers<a class=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs=
+.html#error-handlers" title=3D"Permalink to this headline">=C2=B6</a></h3>
+<p>To simplify and standardize error handling,
+codecs may implement different error handling schemes by
+accepting the <em>errors</em> string argument. The following string values =
+are
+defined and implemented by all standard Python codecs:</p>
+<table class=3D"docutils align-default">
+<colgroup>
+<col style=3D"width: 35%">
+<col style=3D"width: 65%">
+</colgroup>
+<thead>
+<tr class=3D"row-odd"><th class=3D"head"><p>Value</p></th>
+<th class=3D"head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class=3D"row-even"><td><p><code class=3D"docutils literal notranslate">=
+<span class=3D"pre">'strict'</span></code></p></td>
+<td><p>Raise <a class=3D"reference internal" href=3D"https://docs.python.or=
+g/3/library/exceptions.html#UnicodeError" title=3D"UnicodeError"><code clas=
+s=3D"xref py py-exc docutils literal notranslate"><span class=3D"pre">Unico=
+deError</span></code></a> (or a subclass);
+this is the default. Implemented in
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.strict_errors" title=3D"codecs.strict_errors"><code class=
+=3D"xref py py-func docutils literal notranslate"><span class=3D"pre">stric=
+t_errors()</span></code></a>.</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p><code class=3D"docutils literal notranslate"><=
+span class=3D"pre">'ignore'</span></code></p></td>
+<td><p>Ignore the malformed data and continue
+without further notice. Implemented in
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.ignore_errors" title=3D"codecs.ignore_errors"><code class=
+=3D"xref py py-func docutils literal notranslate"><span class=3D"pre">ignor=
+e_errors()</span></code></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p>The following error handlers are only applicable to
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/glossary.=
+html#term-text-encoding"><span class=3D"xref std std-term">text encodings</=
+span></a>:</p>
+<table class=3D"docutils align-default" id=3D"index-1">
+<colgroup>
+<col style=3D"width: 35%">
+<col style=3D"width: 65%">
+</colgroup>
+<thead>
+<tr class=3D"row-odd"><th class=3D"head"><p>Value</p></th>
+<th class=3D"head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class=3D"row-even"><td><p><code class=3D"docutils literal notranslate">=
+<span class=3D"pre">'replace'</span></code></p></td>
+<td><p>Replace with a suitable replacement
+marker; Python will use the official
+<code class=3D"docutils literal notranslate"><span class=3D"pre">U+FFFD</sp=
+an></code> REPLACEMENT CHARACTER for the
+built-in codecs on decoding, and =E2=80=98?=E2=80=99 on
+encoding. Implemented in
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.replace_errors" title=3D"codecs.replace_errors"><code cla=
+ss=3D"xref py py-func docutils literal notranslate"><span class=3D"pre">rep=
+lace_errors()</span></code></a>.</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p><code class=3D"docutils literal notranslate"><=
+span class=3D"pre">'xmlcharrefreplace'</span></code></p></td>
+<td><p>Replace with the appropriate XML character
+reference (only for encoding). Implemented
+in <a class=3D"reference internal" href=3D"https://docs.python.org/3/librar=
+y/codecs.html#codecs.xmlcharrefreplace_errors" title=3D"codecs.xmlcharrefre=
+place_errors"><code class=3D"xref py py-func docutils literal notranslate">=
+<span class=3D"pre">xmlcharrefreplace_errors()</span></code></a>.</p></td>
+</tr>
+<tr class=3D"row-even"><td><p><code class=3D"docutils literal notranslate">=
+<span class=3D"pre">'backslashreplace'</span></code></p></td>
+<td><p>Replace with backslashed escape sequences.
+Implemented in
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.backslashreplace_errors" title=3D"codecs.backslashreplace=
+_errors"><code class=3D"xref py py-func docutils literal notranslate"><span=
+ class=3D"pre">backslashreplace_errors()</span></code></a>.</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p><code class=3D"docutils literal notranslate"><=
+span class=3D"pre">'namereplace'</span></code></p></td>
+<td><p>Replace with <code class=3D"docutils literal notranslate"><span clas=
+s=3D"pre">\N{...}</span></code> escape sequences
+(only for encoding). Implemented in
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.namereplace_errors" title=3D"codecs.namereplace_errors"><=
+code class=3D"xref py py-func docutils literal notranslate"><span class=3D"=
+pre">namereplace_errors()</span></code></a>.</p></td>
+</tr>
+<tr class=3D"row-even"><td><p><code class=3D"docutils literal notranslate">=
+<span class=3D"pre">'surrogateescape'</span></code></p></td>
+<td><p>On decoding, replace byte with individual
+surrogate code ranging from <code class=3D"docutils literal notranslate"><s=
+pan class=3D"pre">U+DC80</span></code> to
+<code class=3D"docutils literal notranslate"><span class=3D"pre">U+DCFF</sp=
+an></code>. This code will then be turned
+back into the same byte when the
+<code class=3D"docutils literal notranslate"><span class=3D"pre">'surrogate=
+escape'</span></code> error handler is used
+when encoding the data. (See <span class=3D"target" id=3D"index-2"></span><=
+a class=3D"pep reference external" href=3D"https://www.python.org/dev/peps/=
+pep-0383"><strong>PEP 383</strong></a> for
+more.)</p></td>
+</tr>
+</tbody>
+</table>
+<p>In addition, the following error handler is specific to the given codecs=
+:</p>
+<table class=3D"docutils align-default">
+<colgroup>
+<col style=3D"width: 22%">
+<col style=3D"width: 28%">
+<col style=3D"width: 50%">
+</colgroup>
+<thead>
+<tr class=3D"row-odd"><th class=3D"head"><p>Value</p></th>
+<th class=3D"head"><p>Codecs</p></th>
+<th class=3D"head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class=3D"row-even"><td><p><code class=3D"docutils literal notranslate">=
+<span class=3D"pre">'surrogatepass'</span></code></p></td>
+<td><p>utf-8, utf-16, utf-32,
+utf-16-be, utf-16-le,
+utf-32-be, utf-32-le</p></td>
+<td><p>Allow encoding and decoding of surrogate
+codes. These codecs normally treat the
+presence of surrogates as an error.</p></td>
+</tr>
+</tbody>
+</table>
+<div class=3D"versionadded">
+<p><span class=3D"versionmodified added">New in version 3.1: </span>The <co=
+de class=3D"docutils literal notranslate"><span class=3D"pre">'surrogateesc=
+ape'</span></code> and <code class=3D"docutils literal notranslate"><span c=
+lass=3D"pre">'surrogatepass'</span></code> error handlers.</p>
+</div>
+<div class=3D"versionchanged">
+<p><span class=3D"versionmodified changed">Changed in version 3.4: </span>T=
+he <code class=3D"docutils literal notranslate"><span class=3D"pre">'surrog=
+atepass'</span></code> error handlers now works with utf-16* and utf-32* co=
+decs.</p>
+</div>
+<div class=3D"versionadded">
+<p><span class=3D"versionmodified added">New in version 3.5: </span>The <co=
+de class=3D"docutils literal notranslate"><span class=3D"pre">'namereplace'=
+</span></code> error handler.</p>
+</div>
+<div class=3D"versionchanged">
+<p><span class=3D"versionmodified changed">Changed in version 3.5: </span>T=
+he <code class=3D"docutils literal notranslate"><span class=3D"pre">'backsl=
+ashreplace'</span></code> error handlers now works with decoding and
+translating.</p>
+</div>
+<p>The set of allowed values can be extended by registering a new named err=
+or
+handler:</p>
+<dl class=3D"function">
+<dt id=3D"codecs.register_error">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">register_error</code><span class=3D"sig-paren">(</span><em c=
+lass=3D"sig-param">name</em>, <em class=3D"sig-param">error_handler</em><sp=
+an class=3D"sig-paren">)</span><a class=3D"headerlink" href=3D"https://docs=
+.python.org/3/library/codecs.html#codecs.register_error" title=3D"Permalink=
+ to this definition">=C2=B6</a></dt>
+<dd><p>Register the error handling function <em>error_handler</em> under th=
+e name <em>name</em>.
+The <em>error_handler</em> argument will be called during encoding and deco=
+ding
+in case of an error, when <em>name</em> is specified as the errors paramete=
+r.</p>
+<p>For encoding, <em>error_handler</em> will be called with a <a class=3D"r=
+eference internal" href=3D"https://docs.python.org/3/library/exceptions.htm=
+l#UnicodeEncodeError" title=3D"UnicodeEncodeError"><code class=3D"xref py p=
+y-exc docutils literal notranslate"><span class=3D"pre">UnicodeEncodeError<=
+/span></code></a>
+instance, which contains information about the location of the error. The
+error handler must either raise this or a different exception, or return a
+tuple with a replacement for the unencodable part of the input and a positi=
+on
+where encoding should continue. The replacement may be either <a class=3D"r=
+eference internal" href=3D"https://docs.python.org/3/library/stdtypes.html#=
+str" title=3D"str"><code class=3D"xref py py-class docutils literal notrans=
+late"><span class=3D"pre">str</span></code></a> or
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/s=
+tdtypes.html#bytes" title=3D"bytes"><code class=3D"xref py py-class docutil=
+s literal notranslate"><span class=3D"pre">bytes</span></code></a>. If the =
+replacement is bytes, the encoder will simply copy
+them into the output buffer. If the replacement is a string, the encoder wi=
+ll
+encode the replacement. Encoding continues on original input at the
+specified position. Negative position values will be treated as being
+relative to the end of the input string. If the resulting position is out o=
+f
+bound an <a class=3D"reference internal" href=3D"https://docs.python.org/3/=
+library/exceptions.html#IndexError" title=3D"IndexError"><code class=3D"xre=
+f py py-exc docutils literal notranslate"><span class=3D"pre">IndexError</s=
+pan></code></a> will be raised.</p>
+<p>Decoding and translating works similarly, except <a class=3D"reference i=
+nternal" href=3D"https://docs.python.org/3/library/exceptions.html#UnicodeD=
+ecodeError" title=3D"UnicodeDecodeError"><code class=3D"xref py py-exc docu=
+tils literal notranslate"><span class=3D"pre">UnicodeDecodeError</span></co=
+de></a> or
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/e=
+xceptions.html#UnicodeTranslateError" title=3D"UnicodeTranslateError"><code=
+ class=3D"xref py py-exc docutils literal notranslate"><span class=3D"pre">=
+UnicodeTranslateError</span></code></a> will be passed to the handler and t=
+hat the
+replacement from the error handler will be put into the output directly.</p=
+>
+</dd></dl>
+
+<p>Previously registered error handlers (including the standard error handl=
+ers)
+can be looked up by name:</p>
+<dl class=3D"function">
+<dt id=3D"codecs.lookup_error">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">lookup_error</code><span class=3D"sig-paren">(</span><em cla=
+ss=3D"sig-param">name</em><span class=3D"sig-paren">)</span><a class=3D"hea=
+derlink" href=3D"https://docs.python.org/3/library/codecs.html#codecs.looku=
+p_error" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Return the error handler previously registered under the name <em>na=
+me</em>.</p>
+<p>Raises a <a class=3D"reference internal" href=3D"https://docs.python.org=
+/3/library/exceptions.html#LookupError" title=3D"LookupError"><code class=
+=3D"xref py py-exc docutils literal notranslate"><span class=3D"pre">Lookup=
+Error</span></code></a> in case the handler cannot be found.</p>
+</dd></dl>
+
+<p>The following standard error handlers are also made available as module =
+level
+functions:</p>
+<dl class=3D"function">
+<dt id=3D"codecs.strict_errors">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">strict_errors</code><span class=3D"sig-paren">(</span><em cl=
+ass=3D"sig-param">exception</em><span class=3D"sig-paren">)</span><a class=
+=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#codec=
+s.strict_errors" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Implements the <code class=3D"docutils literal notranslate"><span cl=
+ass=3D"pre">'strict'</span></code> error handling: each encoding or
+decoding error raises a <a class=3D"reference internal" href=3D"https://doc=
+s.python.org/3/library/exceptions.html#UnicodeError" title=3D"UnicodeError"=
+><code class=3D"xref py py-exc docutils literal notranslate"><span class=3D=
+"pre">UnicodeError</span></code></a>.</p>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"codecs.replace_errors">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">replace_errors</code><span class=3D"sig-paren">(</span><em c=
+lass=3D"sig-param">exception</em><span class=3D"sig-paren">)</span><a class=
+=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#codec=
+s.replace_errors" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Implements the <code class=3D"docutils literal notranslate"><span cl=
+ass=3D"pre">'replace'</span></code> error handling (for <a class=3D"referen=
+ce internal" href=3D"https://docs.python.org/3/glossary.html#term-text-enco=
+ding"><span class=3D"xref std std-term">text encodings</span></a> only): su=
+bstitutes <code class=3D"docutils literal notranslate"><span class=3D"pre">=
+'?'</span></code> for encoding errors
+(to be encoded by the codec), and <code class=3D"docutils literal notransla=
+te"><span class=3D"pre">'\ufffd'</span></code> (the Unicode replacement
+character) for decoding errors.</p>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"codecs.ignore_errors">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">ignore_errors</code><span class=3D"sig-paren">(</span><em cl=
+ass=3D"sig-param">exception</em><span class=3D"sig-paren">)</span><a class=
+=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#codec=
+s.ignore_errors" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Implements the <code class=3D"docutils literal notranslate"><span cl=
+ass=3D"pre">'ignore'</span></code> error handling: malformed data is ignore=
+d and
+encoding or decoding is continued without further notice.</p>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"codecs.xmlcharrefreplace_errors">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">xmlcharrefreplace_errors</code><span class=3D"sig-paren">(</=
+span><em class=3D"sig-param">exception</em><span class=3D"sig-paren">)</spa=
+n><a class=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.=
+html#codecs.xmlcharrefreplace_errors" title=3D"Permalink to this definition=
+">=C2=B6</a></dt>
+<dd><p>Implements the <code class=3D"docutils literal notranslate"><span cl=
+ass=3D"pre">'xmlcharrefreplace'</span></code> error handling (for encoding =
+with
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/glossary.=
+html#term-text-encoding"><span class=3D"xref std std-term">text encodings</=
+span></a> only): the
+unencodable character is replaced by an appropriate XML character reference=
+.</p>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"codecs.backslashreplace_errors">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">backslashreplace_errors</code><span class=3D"sig-paren">(</s=
+pan><em class=3D"sig-param">exception</em><span class=3D"sig-paren">)</span=
+><a class=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.h=
+tml#codecs.backslashreplace_errors" title=3D"Permalink to this definition">=
+=C2=B6</a></dt>
+<dd><p>Implements the <code class=3D"docutils literal notranslate"><span cl=
+ass=3D"pre">'backslashreplace'</span></code> error handling (for
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/glossary.=
+html#term-text-encoding"><span class=3D"xref std std-term">text encodings</=
+span></a> only): malformed data is
+replaced by a backslashed escape sequence.</p>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"codecs.namereplace_errors">
+<code class=3D"sig-prename descclassname">codecs.</code><code class=3D"sig-=
+name descname">namereplace_errors</code><span class=3D"sig-paren">(</span><=
+em class=3D"sig-param">exception</em><span class=3D"sig-paren">)</span><a c=
+lass=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#c=
+odecs.namereplace_errors" title=3D"Permalink to this definition">=C2=B6</a>=
+</dt>
+<dd><p>Implements the <code class=3D"docutils literal notranslate"><span cl=
+ass=3D"pre">'namereplace'</span></code> error handling (for encoding with
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/glossary.=
+html#term-text-encoding"><span class=3D"xref std std-term">text encodings</=
+span></a> only): the
+unencodable character is replaced by a <code class=3D"docutils literal notr=
+anslate"><span class=3D"pre">\N{...}</span></code> escape sequence.</p>
+<div class=3D"versionadded">
+<p><span class=3D"versionmodified added">New in version 3.5.</span></p>
+</div>
+</dd></dl>
+
+</div>
+<div class=3D"section" id=3D"stateless-encoding-and-decoding">
+<span id=3D"codec-objects"></span><h3>Stateless Encoding and Decoding<a cla=
+ss=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#sta=
+teless-encoding-and-decoding" title=3D"Permalink to this headline">=C2=B6</=
+a></h3>
+<p>The base <code class=3D"xref py py-class docutils literal notranslate"><=
+span class=3D"pre">Codec</span></code> class defines these methods which al=
+so define the
+function interfaces of the stateless encoder and decoder:</p>
+<dl class=3D"method">
+<dt id=3D"codecs.Codec.encode">
+<code class=3D"sig-prename descclassname">Codec.</code><code class=3D"sig-n=
+ame descname">encode</code><span class=3D"sig-paren">(</span><em class=3D"s=
+ig-param">input</em><span class=3D"optional">[</span>, <em class=3D"sig-par=
+am">errors</em><span class=3D"optional">]</span><span class=3D"sig-paren">)=
+</span><a class=3D"headerlink" href=3D"https://docs.python.org/3/library/co=
+decs.html#codecs.Codec.encode" title=3D"Permalink to this definition">=C2=
+=B6</a></dt>
+<dd><p>Encodes the object <em>input</em> and returns a tuple (output object=
+, length consumed).
+For instance, <a class=3D"reference internal" href=3D"https://docs.python.o=
+rg/3/glossary.html#term-text-encoding"><span class=3D"xref std std-term">te=
+xt encoding</span></a> converts
+a string object to a bytes object using a particular
+character set encoding (e.g., <code class=3D"docutils literal notranslate">=
+<span class=3D"pre">cp1252</span></code> or <code class=3D"docutils literal=
+ notranslate"><span class=3D"pre">iso-8859-1</span></code>).</p>
+<p>The <em>errors</em> argument defines the error handling to apply.
+It defaults to <code class=3D"docutils literal notranslate"><span class=3D"=
+pre">'strict'</span></code> handling.</p>
+<p>The method may not store state in the <code class=3D"xref py py-class do=
+cutils literal notranslate"><span class=3D"pre">Codec</span></code> instanc=
+e. Use
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.StreamWriter" title=3D"codecs.StreamWriter"><code class=
+=3D"xref py py-class docutils literal notranslate"><span class=3D"pre">Stre=
+amWriter</span></code></a> for codecs which have to keep state in order to =
+make
+encoding efficient.</p>
+<p>The encoder must be able to handle zero length input and return an empty=
+ object
+of the output object type in this situation.</p>
+</dd></dl>
+
+<dl class=3D"method">
+<dt id=3D"codecs.Codec.decode">
+<code class=3D"sig-prename descclassname">Codec.</code><code class=3D"sig-n=
+ame descname">decode</code><span class=3D"sig-paren">(</span><em class=3D"s=
+ig-param">input</em><span class=3D"optional">[</span>, <em class=3D"sig-par=
+am">errors</em><span class=3D"optional">]</span><span class=3D"sig-paren">)=
+</span><a class=3D"headerlink" href=3D"https://docs.python.org/3/library/co=
+decs.html#codecs.Codec.decode" title=3D"Permalink to this definition">=C2=
+=B6</a></dt>
+<dd><p>Decodes the object <em>input</em> and returns a tuple (output object=
+, length
+consumed). For instance, for a <a class=3D"reference internal" href=3D"http=
+s://docs.python.org/3/glossary.html#term-text-encoding"><span class=3D"xref=
+ std std-term">text encoding</span></a>, decoding converts
+a bytes object encoded using a particular
+character set encoding to a string object.</p>
+<p>For text encodings and bytes-to-bytes codecs,
+<em>input</em> must be a bytes object or one which provides the read-only
+buffer interface =E2=80=93 for example, buffer objects and memory mapped fi=
+les.</p>
+<p>The <em>errors</em> argument defines the error handling to apply.
+It defaults to <code class=3D"docutils literal notranslate"><span class=3D"=
+pre">'strict'</span></code> handling.</p>
+<p>The method may not store state in the <code class=3D"xref py py-class do=
+cutils literal notranslate"><span class=3D"pre">Codec</span></code> instanc=
+e. Use
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.StreamReader" title=3D"codecs.StreamReader"><code class=
+=3D"xref py py-class docutils literal notranslate"><span class=3D"pre">Stre=
+amReader</span></code></a> for codecs which have to keep state in order to =
+make
+decoding efficient.</p>
+<p>The decoder must be able to handle zero length input and return an empty=
+ object
+of the output object type in this situation.</p>
+</dd></dl>
+
+</div>
+<div class=3D"section" id=3D"incremental-encoding-and-decoding">
+<h3>Incremental Encoding and Decoding<a class=3D"headerlink" href=3D"https:=
+//docs.python.org/3/library/codecs.html#incremental-encoding-and-decoding" =
+title=3D"Permalink to this headline">=C2=B6</a></h3>
+<p>The <a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/codecs.html#codecs.IncrementalEncoder" title=3D"codecs.IncrementalEnc=
+oder"><code class=3D"xref py py-class docutils literal notranslate"><span c=
+lass=3D"pre">IncrementalEncoder</span></code></a> and <a class=3D"reference=
+ internal" href=3D"https://docs.python.org/3/library/codecs.html#codecs.Inc=
+rementalDecoder" title=3D"codecs.IncrementalDecoder"><code class=3D"xref py=
+ py-class docutils literal notranslate"><span class=3D"pre">IncrementalDeco=
+der</span></code></a> classes provide
+the basic interface for incremental encoding and decoding. Encoding/decodin=
+g the
+input isn=E2=80=99t done with one call to the stateless encoder/decoder fun=
+ction, but
+with multiple calls to the
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.IncrementalEncoder.encode" title=3D"codecs.IncrementalEnc=
+oder.encode"><code class=3D"xref py py-meth docutils literal notranslate"><=
+span class=3D"pre">encode()</span></code></a>/<a class=3D"reference interna=
+l" href=3D"https://docs.python.org/3/library/codecs.html#codecs.Incremental=
+Decoder.decode" title=3D"codecs.IncrementalDecoder.decode"><code class=3D"x=
+ref py py-meth docutils literal notranslate"><span class=3D"pre">decode()</=
+span></code></a> method of
+the incremental encoder/decoder. The incremental encoder/decoder keeps trac=
+k of
+the encoding/decoding process during method calls.</p>
+<p>The joined output of calls to the
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.IncrementalEncoder.encode" title=3D"codecs.IncrementalEnc=
+oder.encode"><code class=3D"xref py py-meth docutils literal notranslate"><=
+span class=3D"pre">encode()</span></code></a>/<a class=3D"reference interna=
+l" href=3D"https://docs.python.org/3/library/codecs.html#codecs.Incremental=
+Decoder.decode" title=3D"codecs.IncrementalDecoder.decode"><code class=3D"x=
+ref py py-meth docutils literal notranslate"><span class=3D"pre">decode()</=
+span></code></a> method is
+the same as if all the single inputs were joined into one, and this input w=
+as
+encoded/decoded with the stateless encoder/decoder.</p>
+<div class=3D"section" id=3D"incrementalencoder-objects">
+<span id=3D"incremental-encoder-objects"></span><h4>IncrementalEncoder Obje=
+cts<a class=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs=
+.html#incrementalencoder-objects" title=3D"Permalink to this headline">=C2=
+=B6</a></h4>
+<p>The <a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/codecs.html#codecs.IncrementalEncoder" title=3D"codecs.IncrementalEnc=
+oder"><code class=3D"xref py py-class docutils literal notranslate"><span c=
+lass=3D"pre">IncrementalEncoder</span></code></a> class is used for encodin=
+g an input in multiple
+steps. It defines the following methods which every incremental encoder mus=
+t
+define in order to be compatible with the Python codec registry.</p>
+<dl class=3D"class">
+<dt id=3D"codecs.IncrementalEncoder">
+<em class=3D"property">class </em><code class=3D"sig-prename descclassname"=
+>codecs.</code><code class=3D"sig-name descname">IncrementalEncoder</code><=
+span class=3D"sig-paren">(</span><em class=3D"sig-param">errors=3D'strict'<=
+/em><span class=3D"sig-paren">)</span><a class=3D"headerlink" href=3D"https=
+://docs.python.org/3/library/codecs.html#codecs.IncrementalEncoder" title=
+=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Constructor for an <a class=3D"reference internal" href=3D"https://d=
+ocs.python.org/3/library/codecs.html#codecs.IncrementalEncoder" title=3D"co=
+decs.IncrementalEncoder"><code class=3D"xref py py-class docutils literal n=
+otranslate"><span class=3D"pre">IncrementalEncoder</span></code></a> instan=
+ce.</p>
+<p>All incremental encoders must provide this constructor interface. They a=
+re free
+to add additional keyword arguments, but only the ones defined here are use=
+d by
+the Python codec registry.</p>
+<p>The <a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/codecs.html#codecs.IncrementalEncoder" title=3D"codecs.IncrementalEnc=
+oder"><code class=3D"xref py py-class docutils literal notranslate"><span c=
+lass=3D"pre">IncrementalEncoder</span></code></a> may implement different e=
+rror handling schemes
+by providing the <em>errors</em> keyword argument. See <a class=3D"referenc=
+e internal" href=3D"https://docs.python.org/3/library/codecs.html#error-han=
+dlers"><span class=3D"std std-ref">Error Handlers</span></a> for
+possible values.</p>
+<p>The <em>errors</em> argument will be assigned to an attribute of the sam=
+e name.
+Assigning to this attribute makes it possible to switch between different e=
+rror
+handling strategies during the lifetime of the <a class=3D"reference intern=
+al" href=3D"https://docs.python.org/3/library/codecs.html#codecs.Incrementa=
+lEncoder" title=3D"codecs.IncrementalEncoder"><code class=3D"xref py py-cla=
+ss docutils literal notranslate"><span class=3D"pre">IncrementalEncoder</sp=
+an></code></a>
+object.</p>
+<dl class=3D"method">
+<dt id=3D"codecs.IncrementalEncoder.encode">
+<code class=3D"sig-name descname">encode</code><span class=3D"sig-paren">(<=
+/span><em class=3D"sig-param">object</em><span class=3D"optional">[</span>,=
+ <em class=3D"sig-param">final</em><span class=3D"optional">]</span><span c=
+lass=3D"sig-paren">)</span><a class=3D"headerlink" href=3D"https://docs.pyt=
+hon.org/3/library/codecs.html#codecs.IncrementalEncoder.encode" title=3D"Pe=
+rmalink to this definition">=C2=B6</a></dt>
+<dd><p>Encodes <em>object</em> (taking the current state of the encoder int=
+o account)
+and returns the resulting encoded object. If this is the last call to
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.encode" title=3D"codecs.encode"><code class=3D"xref py py=
+-meth docutils literal notranslate"><span class=3D"pre">encode()</span></co=
+de></a> <em>final</em> must be true (the default is false).</p>
+</dd></dl>
+
+<dl class=3D"method">
+<dt id=3D"codecs.IncrementalEncoder.reset">
+<code class=3D"sig-name descname">reset</code><span class=3D"sig-paren">(</=
+span><span class=3D"sig-paren">)</span><a class=3D"headerlink" href=3D"http=
+s://docs.python.org/3/library/codecs.html#codecs.IncrementalEncoder.reset" =
+title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Reset the encoder to the initial state. The output is discarded: cal=
+l
+<code class=3D"docutils literal notranslate"><span class=3D"pre">.encode(ob=
+ject,</span> <span class=3D"pre">final=3DTrue)</span></code>, passing an em=
+pty byte or text string
+if necessary, to reset the encoder and to get the output.</p>
+</dd></dl>
+
+<dl class=3D"method">
+<dt id=3D"codecs.IncrementalEncoder.getstate">
+<code class=3D"sig-name descname">getstate</code><span class=3D"sig-paren">=
+(</span><span class=3D"sig-paren">)</span><a class=3D"headerlink" href=3D"h=
+ttps://docs.python.org/3/library/codecs.html#codecs.IncrementalEncoder.gets=
+tate" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Return the current state of the encoder which must be an integer. Th=
+e
+implementation should make sure that <code class=3D"docutils literal notran=
+slate"><span class=3D"pre">0</span></code> is the most common
+state. (States that are more complicated than integers can be converted
+into an integer by marshaling/pickling the state and encoding the bytes
+of the resulting string into an integer.)</p>
+</dd></dl>
+
+<dl class=3D"method">
+<dt id=3D"codecs.IncrementalEncoder.setstate">
+<code class=3D"sig-name descname">setstate</code><span class=3D"sig-paren">=
+(</span><em class=3D"sig-param">state</em><span class=3D"sig-paren">)</span=
+><a class=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.h=
+tml#codecs.IncrementalEncoder.setstate" title=3D"Permalink to this definiti=
+on">=C2=B6</a></dt>
+<dd><p>Set the state of the encoder to <em>state</em>. <em>state</em> must =
+be an encoder state
+returned by <a class=3D"reference internal" href=3D"https://docs.python.org=
+/3/library/codecs.html#codecs.IncrementalEncoder.getstate" title=3D"codecs.=
+IncrementalEncoder.getstate"><code class=3D"xref py py-meth docutils litera=
+l notranslate"><span class=3D"pre">getstate()</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class=3D"section" id=3D"incrementaldecoder-objects">
+<span id=3D"incremental-decoder-objects"></span><h4>IncrementalDecoder Obje=
+cts<a class=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs=
+.html#incrementaldecoder-objects" title=3D"Permalink to this headline">=C2=
+=B6</a></h4>
+<p>The <a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/codecs.html#codecs.IncrementalDecoder" title=3D"codecs.IncrementalDec=
+oder"><code class=3D"xref py py-class docutils literal notranslate"><span c=
+lass=3D"pre">IncrementalDecoder</span></code></a> class is used for decodin=
+g an input in multiple
+steps. It defines the following methods which every incremental decoder mus=
+t
+define in order to be compatible with the Python codec registry.</p>
+<dl class=3D"class">
+<dt id=3D"codecs.IncrementalDecoder">
+<em class=3D"property">class </em><code class=3D"sig-prename descclassname"=
+>codecs.</code><code class=3D"sig-name descname">IncrementalDecoder</code><=
+span class=3D"sig-paren">(</span><em class=3D"sig-param">errors=3D'strict'<=
+/em><span class=3D"sig-paren">)</span><a class=3D"headerlink" href=3D"https=
+://docs.python.org/3/library/codecs.html#codecs.IncrementalDecoder" title=
+=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Constructor for an <a class=3D"reference internal" href=3D"https://d=
+ocs.python.org/3/library/codecs.html#codecs.IncrementalDecoder" title=3D"co=
+decs.IncrementalDecoder"><code class=3D"xref py py-class docutils literal n=
+otranslate"><span class=3D"pre">IncrementalDecoder</span></code></a> instan=
+ce.</p>
+<p>All incremental decoders must provide this constructor interface. They a=
+re free
+to add additional keyword arguments, but only the ones defined here are use=
+d by
+the Python codec registry.</p>
+<p>The <a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/codecs.html#codecs.IncrementalDecoder" title=3D"codecs.IncrementalDec=
+oder"><code class=3D"xref py py-class docutils literal notranslate"><span c=
+lass=3D"pre">IncrementalDecoder</span></code></a> may implement different e=
+rror handling schemes
+by providing the <em>errors</em> keyword argument. See <a class=3D"referenc=
+e internal" href=3D"https://docs.python.org/3/library/codecs.html#error-han=
+dlers"><span class=3D"std std-ref">Error Handlers</span></a> for
+possible values.</p>
+<p>The <em>errors</em> argument will be assigned to an attribute of the sam=
+e name.
+Assigning to this attribute makes it possible to switch between different e=
+rror
+handling strategies during the lifetime of the <a class=3D"reference intern=
+al" href=3D"https://docs.python.org/3/library/codecs.html#codecs.Incrementa=
+lDecoder" title=3D"codecs.IncrementalDecoder"><code class=3D"xref py py-cla=
+ss docutils literal notranslate"><span class=3D"pre">IncrementalDecoder</sp=
+an></code></a>
+object.</p>
+<dl class=3D"method">
+<dt id=3D"codecs.IncrementalDecoder.decode">
+<code class=3D"sig-name descname">decode</code><span class=3D"sig-paren">(<=
+/span><em class=3D"sig-param">object</em><span class=3D"optional">[</span>,=
+ <em class=3D"sig-param">final</em><span class=3D"optional">]</span><span c=
+lass=3D"sig-paren">)</span><a class=3D"headerlink" href=3D"https://docs.pyt=
+hon.org/3/library/codecs.html#codecs.IncrementalDecoder.decode" title=3D"Pe=
+rmalink to this definition">=C2=B6</a></dt>
+<dd><p>Decodes <em>object</em> (taking the current state of the decoder int=
+o account)
+and returns the resulting decoded object. If this is the last call to
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.decode" title=3D"codecs.decode"><code class=3D"xref py py=
+-meth docutils literal notranslate"><span class=3D"pre">decode()</span></co=
+de></a> <em>final</em> must be true (the default is false). If <em>final</e=
+m> is
+true the decoder must decode the input completely and must flush all
+buffers. If this isn=E2=80=99t possible (e.g. because of incomplete byte se=
+quences
+at the end of the input) it must initiate error handling just like in the
+stateless case (which might raise an exception).</p>
+</dd></dl>
+
+<dl class=3D"method">
+<dt id=3D"codecs.IncrementalDecoder.reset">
+<code class=3D"sig-name descname">reset</code><span class=3D"sig-paren">(</=
+span><span class=3D"sig-paren">)</span><a class=3D"headerlink" href=3D"http=
+s://docs.python.org/3/library/codecs.html#codecs.IncrementalDecoder.reset" =
+title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Reset the decoder to the initial state.</p>
+</dd></dl>
+
+<dl class=3D"method">
+<dt id=3D"codecs.IncrementalDecoder.getstate">
+<code class=3D"sig-name descname">getstate</code><span class=3D"sig-paren">=
+(</span><span class=3D"sig-paren">)</span><a class=3D"headerlink" href=3D"h=
+ttps://docs.python.org/3/library/codecs.html#codecs.IncrementalDecoder.gets=
+tate" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Return the current state of the decoder. This must be a tuple with t=
+wo
+items, the first must be the buffer containing the still undecoded
+input. The second must be an integer and can be additional state
+info. (The implementation should make sure that <code class=3D"docutils lit=
+eral notranslate"><span class=3D"pre">0</span></code> is the most common
+additional state info.) If this additional state info is <code class=3D"doc=
+utils literal notranslate"><span class=3D"pre">0</span></code> it must be
+possible to set the decoder to the state which has no input buffered and
+<code class=3D"docutils literal notranslate"><span class=3D"pre">0</span></=
+code> as the additional state info, so that feeding the previously
+buffered input to the decoder returns it to the previous state without
+producing any output. (Additional state info that is more complicated than
+integers can be converted into an integer by marshaling/pickling the info
+and encoding the bytes of the resulting string into an integer.)</p>
+</dd></dl>
+
+<dl class=3D"method">
+<dt id=3D"codecs.IncrementalDecoder.setstate">
+<code class=3D"sig-name descname">setstate</code><span class=3D"sig-paren">=
+(</span><em class=3D"sig-param">state</em><span class=3D"sig-paren">)</span=
+><a class=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.h=
+tml#codecs.IncrementalDecoder.setstate" title=3D"Permalink to this definiti=
+on">=C2=B6</a></dt>
+<dd><p>Set the state of the decoder to <em>state</em>. <em>state</em> must =
+be a decoder state
+returned by <a class=3D"reference internal" href=3D"https://docs.python.org=
+/3/library/codecs.html#codecs.IncrementalDecoder.getstate" title=3D"codecs.=
+IncrementalDecoder.getstate"><code class=3D"xref py py-meth docutils litera=
+l notranslate"><span class=3D"pre">getstate()</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class=3D"section" id=3D"stream-encoding-and-decoding">
+<h3>Stream Encoding and Decoding<a class=3D"headerlink" href=3D"https://doc=
+s.python.org/3/library/codecs.html#stream-encoding-and-decoding" title=3D"P=
+ermalink to this headline">=C2=B6</a></h3>
+<p>The <a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/codecs.html#codecs.StreamWriter" title=3D"codecs.StreamWriter"><code =
+class=3D"xref py py-class docutils literal notranslate"><span class=3D"pre"=
+>StreamWriter</span></code></a> and <a class=3D"reference internal" href=3D=
+"https://docs.python.org/3/library/codecs.html#codecs.StreamReader" title=
+=3D"codecs.StreamReader"><code class=3D"xref py py-class docutils literal n=
+otranslate"><span class=3D"pre">StreamReader</span></code></a> classes prov=
+ide generic
+working interfaces which can be used to implement new encoding submodules v=
+ery
+easily. See <code class=3D"xref py py-mod docutils literal notranslate"><sp=
+an class=3D"pre">encodings.utf_8</span></code> for an example of how this i=
+s done.</p>
+<div class=3D"section" id=3D"streamwriter-objects">
+<span id=3D"stream-writer-objects"></span><h4>StreamWriter Objects<a class=
+=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#strea=
+mwriter-objects" title=3D"Permalink to this headline">=C2=B6</a></h4>
+<p>The <a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/codecs.html#codecs.StreamWriter" title=3D"codecs.StreamWriter"><code =
+class=3D"xref py py-class docutils literal notranslate"><span class=3D"pre"=
+>StreamWriter</span></code></a> class is a subclass of <code class=3D"xref =
+py py-class docutils literal notranslate"><span class=3D"pre">Codec</span><=
+/code> and defines the
+following methods which every stream writer must define in order to be
+compatible with the Python codec registry.</p>
+<dl class=3D"class">
+<dt id=3D"codecs.StreamWriter">
+<em class=3D"property">class </em><code class=3D"sig-prename descclassname"=
+>codecs.</code><code class=3D"sig-name descname">StreamWriter</code><span c=
+lass=3D"sig-paren">(</span><em class=3D"sig-param">stream</em>, <em class=
+=3D"sig-param">errors=3D'strict'</em><span class=3D"sig-paren">)</span><a c=
+lass=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#c=
+odecs.StreamWriter" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Constructor for a <a class=3D"reference internal" href=3D"https://do=
+cs.python.org/3/library/codecs.html#codecs.StreamWriter" title=3D"codecs.St=
+reamWriter"><code class=3D"xref py py-class docutils literal notranslate"><=
+span class=3D"pre">StreamWriter</span></code></a> instance.</p>
+<p>All stream writers must provide this constructor interface. They are fre=
+e to add
+additional keyword arguments, but only the ones defined here are used by th=
+e
+Python codec registry.</p>
+<p>The <em>stream</em> argument must be a file-like object open for writing
+text or binary data, as appropriate for the specific codec.</p>
+<p>The <a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/codecs.html#codecs.StreamWriter" title=3D"codecs.StreamWriter"><code =
+class=3D"xref py py-class docutils literal notranslate"><span class=3D"pre"=
+>StreamWriter</span></code></a> may implement different error handling sche=
+mes by
+providing the <em>errors</em> keyword argument. See <a class=3D"reference i=
+nternal" href=3D"https://docs.python.org/3/library/codecs.html#error-handle=
+rs"><span class=3D"std std-ref">Error Handlers</span></a> for
+the standard error handlers the underlying stream codec may support.</p>
+<p>The <em>errors</em> argument will be assigned to an attribute of the sam=
+e name.
+Assigning to this attribute makes it possible to switch between different e=
+rror
+handling strategies during the lifetime of the <a class=3D"reference intern=
+al" href=3D"https://docs.python.org/3/library/codecs.html#codecs.StreamWrit=
+er" title=3D"codecs.StreamWriter"><code class=3D"xref py py-class docutils =
+literal notranslate"><span class=3D"pre">StreamWriter</span></code></a> obj=
+ect.</p>
+<dl class=3D"method">
+<dt id=3D"codecs.StreamWriter.write">
+<code class=3D"sig-name descname">write</code><span class=3D"sig-paren">(</=
+span><em class=3D"sig-param">object</em><span class=3D"sig-paren">)</span><=
+a class=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.htm=
+l#codecs.StreamWriter.write" title=3D"Permalink to this definition">=C2=B6<=
+/a></dt>
+<dd><p>Writes the object=E2=80=99s contents encoded to the stream.</p>
+</dd></dl>
+
+<dl class=3D"method">
+<dt id=3D"codecs.StreamWriter.writelines">
+<code class=3D"sig-name descname">writelines</code><span class=3D"sig-paren=
+">(</span><em class=3D"sig-param">list</em><span class=3D"sig-paren">)</spa=
+n><a class=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.=
+html#codecs.StreamWriter.writelines" title=3D"Permalink to this definition"=
+>=C2=B6</a></dt>
+<dd><p>Writes the concatenated list of strings to the stream (possibly by r=
+eusing
+the <a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#codecs.StreamWriter.write" title=3D"codecs.StreamWriter.writ=
+e"><code class=3D"xref py py-meth docutils literal notranslate"><span class=
+=3D"pre">write()</span></code></a> method). The standard bytes-to-bytes cod=
+ecs
+do not support this method.</p>
+</dd></dl>
+
+<dl class=3D"method">
+<dt id=3D"codecs.StreamWriter.reset">
+<code class=3D"sig-name descname">reset</code><span class=3D"sig-paren">(</=
+span><span class=3D"sig-paren">)</span><a class=3D"headerlink" href=3D"http=
+s://docs.python.org/3/library/codecs.html#codecs.StreamWriter.reset" title=
+=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Flushes and resets the codec buffers used for keeping state.</p>
+<p>Calling this method should ensure that the data on the output is put int=
+o
+a clean state that allows appending of new fresh data without having to
+rescan the whole stream to recover state.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>In addition to the above methods, the <a class=3D"reference internal" hr=
+ef=3D"https://docs.python.org/3/library/codecs.html#codecs.StreamWriter" ti=
+tle=3D"codecs.StreamWriter"><code class=3D"xref py py-class docutils litera=
+l notranslate"><span class=3D"pre">StreamWriter</span></code></a> must also=
+ inherit
+all other methods and attributes from the underlying stream.</p>
+</div>
+<div class=3D"section" id=3D"streamreader-objects">
+<span id=3D"stream-reader-objects"></span><h4>StreamReader Objects<a class=
+=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#strea=
+mreader-objects" title=3D"Permalink to this headline">=C2=B6</a></h4>
+<p>The <a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/codecs.html#codecs.StreamReader" title=3D"codecs.StreamReader"><code =
+class=3D"xref py py-class docutils literal notranslate"><span class=3D"pre"=
+>StreamReader</span></code></a> class is a subclass of <code class=3D"xref =
+py py-class docutils literal notranslate"><span class=3D"pre">Codec</span><=
+/code> and defines the
+following methods which every stream reader must define in order to be
+compatible with the Python codec registry.</p>
+<dl class=3D"class">
+<dt id=3D"codecs.StreamReader">
+<em class=3D"property">class </em><code class=3D"sig-prename descclassname"=
+>codecs.</code><code class=3D"sig-name descname">StreamReader</code><span c=
+lass=3D"sig-paren">(</span><em class=3D"sig-param">stream</em>, <em class=
+=3D"sig-param">errors=3D'strict'</em><span class=3D"sig-paren">)</span><a c=
+lass=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#c=
+odecs.StreamReader" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Constructor for a <a class=3D"reference internal" href=3D"https://do=
+cs.python.org/3/library/codecs.html#codecs.StreamReader" title=3D"codecs.St=
+reamReader"><code class=3D"xref py py-class docutils literal notranslate"><=
+span class=3D"pre">StreamReader</span></code></a> instance.</p>
+<p>All stream readers must provide this constructor interface. They are fre=
+e to add
+additional keyword arguments, but only the ones defined here are used by th=
+e
+Python codec registry.</p>
+<p>The <em>stream</em> argument must be a file-like object open for reading
+text or binary data, as appropriate for the specific codec.</p>
+<p>The <a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/codecs.html#codecs.StreamReader" title=3D"codecs.StreamReader"><code =
+class=3D"xref py py-class docutils literal notranslate"><span class=3D"pre"=
+>StreamReader</span></code></a> may implement different error handling sche=
+mes by
+providing the <em>errors</em> keyword argument. See <a class=3D"reference i=
+nternal" href=3D"https://docs.python.org/3/library/codecs.html#error-handle=
+rs"><span class=3D"std std-ref">Error Handlers</span></a> for
+the standard error handlers the underlying stream codec may support.</p>
+<p>The <em>errors</em> argument will be assigned to an attribute of the sam=
+e name.
+Assigning to this attribute makes it possible to switch between different e=
+rror
+handling strategies during the lifetime of the <a class=3D"reference intern=
+al" href=3D"https://docs.python.org/3/library/codecs.html#codecs.StreamRead=
+er" title=3D"codecs.StreamReader"><code class=3D"xref py py-class docutils =
+literal notranslate"><span class=3D"pre">StreamReader</span></code></a> obj=
+ect.</p>
+<p>The set of allowed values for the <em>errors</em> argument can be extend=
+ed with
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.register_error" title=3D"codecs.register_error"><code cla=
+ss=3D"xref py py-func docutils literal notranslate"><span class=3D"pre">reg=
+ister_error()</span></code></a>.</p>
+<dl class=3D"method">
+<dt id=3D"codecs.StreamReader.read">
+<code class=3D"sig-name descname">read</code><span class=3D"sig-paren">(</s=
+pan><span class=3D"optional">[</span><em class=3D"sig-param">size</em><span=
+ class=3D"optional">[</span>, <em class=3D"sig-param">chars</em><span class=
+=3D"optional">[</span>, <em class=3D"sig-param">firstline</em><span class=
+=3D"optional">]</span><span class=3D"optional">]</span><span class=3D"optio=
+nal">]</span><span class=3D"sig-paren">)</span><a class=3D"headerlink" href=
+=3D"https://docs.python.org/3/library/codecs.html#codecs.StreamReader.read"=
+ title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Decodes data from the stream and returns the resulting object.</p>
+<p>The <em>chars</em> argument indicates the number of decoded
+code points or bytes to return. The <a class=3D"reference internal" href=3D=
+"https://docs.python.org/3/library/codecs.html#codecs.StreamReader.read" ti=
+tle=3D"codecs.StreamReader.read"><code class=3D"xref py py-func docutils li=
+teral notranslate"><span class=3D"pre">read()</span></code></a> method will
+never return more data than requested, but it might return less,
+if there is not enough available.</p>
+<p>The <em>size</em> argument indicates the approximate maximum
+number of encoded bytes or code points to read
+for decoding. The decoder can modify this setting as
+appropriate. The default value -1 indicates to read and decode as much as
+possible. This parameter is intended to
+prevent having to decode huge files in one step.</p>
+<p>The <em>firstline</em> flag indicates that
+it would be sufficient to only return the first
+line, if there are decoding errors on later lines.</p>
+<p>The method should use a greedy read strategy meaning that it should read
+as much data as is allowed within the definition of the encoding and the
+given size, e.g.  if optional encoding endings or state markers are
+available on the stream, these should be read too.</p>
+</dd></dl>
+
+<dl class=3D"method">
+<dt id=3D"codecs.StreamReader.readline">
+<code class=3D"sig-name descname">readline</code><span class=3D"sig-paren">=
+(</span><span class=3D"optional">[</span><em class=3D"sig-param">size</em><=
+span class=3D"optional">[</span>, <em class=3D"sig-param">keepends</em><spa=
+n class=3D"optional">]</span><span class=3D"optional">]</span><span class=
+=3D"sig-paren">)</span><a class=3D"headerlink" href=3D"https://docs.python.=
+org/3/library/codecs.html#codecs.StreamReader.readline" title=3D"Permalink =
+to this definition">=C2=B6</a></dt>
+<dd><p>Read one line from the input stream and return the decoded data.</p>
+<p><em>size</em>, if given, is passed as size argument to the stream=E2=80=
+=99s
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.StreamReader.read" title=3D"codecs.StreamReader.read"><co=
+de class=3D"xref py py-meth docutils literal notranslate"><span class=3D"pr=
+e">read()</span></code></a> method.</p>
+<p>If <em>keepends</em> is false line-endings will be stripped from the lin=
+es
+returned.</p>
+</dd></dl>
+
+<dl class=3D"method">
+<dt id=3D"codecs.StreamReader.readlines">
+<code class=3D"sig-name descname">readlines</code><span class=3D"sig-paren"=
+>(</span><span class=3D"optional">[</span><em class=3D"sig-param">sizehint<=
+/em><span class=3D"optional">[</span>, <em class=3D"sig-param">keepends</em=
+><span class=3D"optional">]</span><span class=3D"optional">]</span><span cl=
+ass=3D"sig-paren">)</span><a class=3D"headerlink" href=3D"https://docs.pyth=
+on.org/3/library/codecs.html#codecs.StreamReader.readlines" title=3D"Permal=
+ink to this definition">=C2=B6</a></dt>
+<dd><p>Read all lines available on the input stream and return them as a li=
+st of
+lines.</p>
+<p>Line-endings are implemented using the codec=E2=80=99s <a class=3D"refer=
+ence internal" href=3D"https://docs.python.org/3/library/codecs.html#codecs=
+.decode" title=3D"codecs.decode"><code class=3D"xref py py-meth docutils li=
+teral notranslate"><span class=3D"pre">decode()</span></code></a> method an=
+d
+are included in the list entries if <em>keepends</em> is true.</p>
+<p><em>sizehint</em>, if given, is passed as the <em>size</em> argument to =
+the stream=E2=80=99s
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.StreamReader.read" title=3D"codecs.StreamReader.read"><co=
+de class=3D"xref py py-meth docutils literal notranslate"><span class=3D"pr=
+e">read()</span></code></a> method.</p>
+</dd></dl>
+
+<dl class=3D"method">
+<dt id=3D"codecs.StreamReader.reset">
+<code class=3D"sig-name descname">reset</code><span class=3D"sig-paren">(</=
+span><span class=3D"sig-paren">)</span><a class=3D"headerlink" href=3D"http=
+s://docs.python.org/3/library/codecs.html#codecs.StreamReader.reset" title=
+=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Resets the codec buffers used for keeping state.</p>
+<p>Note that no stream repositioning should take place. This method is
+primarily intended to be able to recover from decoding errors.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>In addition to the above methods, the <a class=3D"reference internal" hr=
+ef=3D"https://docs.python.org/3/library/codecs.html#codecs.StreamReader" ti=
+tle=3D"codecs.StreamReader"><code class=3D"xref py py-class docutils litera=
+l notranslate"><span class=3D"pre">StreamReader</span></code></a> must also=
+ inherit
+all other methods and attributes from the underlying stream.</p>
+</div>
+<div class=3D"section" id=3D"streamreaderwriter-objects">
+<span id=3D"stream-reader-writer"></span><h4>StreamReaderWriter Objects<a c=
+lass=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#s=
+treamreaderwriter-objects" title=3D"Permalink to this headline">=C2=B6</a><=
+/h4>
+<p>The <a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/codecs.html#codecs.StreamReaderWriter" title=3D"codecs.StreamReaderWr=
+iter"><code class=3D"xref py py-class docutils literal notranslate"><span c=
+lass=3D"pre">StreamReaderWriter</span></code></a> is a convenience class th=
+at allows wrapping
+streams which work in both read and write modes.</p>
+<p>The design is such that one can use the factory functions returned by th=
+e
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.lookup" title=3D"codecs.lookup"><code class=3D"xref py py=
+-func docutils literal notranslate"><span class=3D"pre">lookup()</span></co=
+de></a> function to construct the instance.</p>
+<dl class=3D"class">
+<dt id=3D"codecs.StreamReaderWriter">
+<em class=3D"property">class </em><code class=3D"sig-prename descclassname"=
+>codecs.</code><code class=3D"sig-name descname">StreamReaderWriter</code><=
+span class=3D"sig-paren">(</span><em class=3D"sig-param">stream</em>, <em c=
+lass=3D"sig-param">Reader</em>, <em class=3D"sig-param">Writer</em>, <em cl=
+ass=3D"sig-param">errors=3D'strict'</em><span class=3D"sig-paren">)</span><=
+a class=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.htm=
+l#codecs.StreamReaderWriter" title=3D"Permalink to this definition">=C2=B6<=
+/a></dt>
+<dd><p>Creates a <a class=3D"reference internal" href=3D"https://docs.pytho=
+n.org/3/library/codecs.html#codecs.StreamReaderWriter" title=3D"codecs.Stre=
+amReaderWriter"><code class=3D"xref py py-class docutils literal notranslat=
+e"><span class=3D"pre">StreamReaderWriter</span></code></a> instance. <em>s=
+tream</em> must be a file-like
+object. <em>Reader</em> and <em>Writer</em> must be factory functions or cl=
+asses providing the
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.StreamReader" title=3D"codecs.StreamReader"><code class=
+=3D"xref py py-class docutils literal notranslate"><span class=3D"pre">Stre=
+amReader</span></code></a> and <a class=3D"reference internal" href=3D"http=
+s://docs.python.org/3/library/codecs.html#codecs.StreamWriter" title=3D"cod=
+ecs.StreamWriter"><code class=3D"xref py py-class docutils literal notransl=
+ate"><span class=3D"pre">StreamWriter</span></code></a> interface resp. Err=
+or handling
+is done in the same way as defined for the stream readers and writers.</p>
+</dd></dl>
+
+<p><a class=3D"reference internal" href=3D"https://docs.python.org/3/librar=
+y/codecs.html#codecs.StreamReaderWriter" title=3D"codecs.StreamReaderWriter=
+"><code class=3D"xref py py-class docutils literal notranslate"><span class=
+=3D"pre">StreamReaderWriter</span></code></a> instances define the combined=
+ interfaces of
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.StreamReader" title=3D"codecs.StreamReader"><code class=
+=3D"xref py py-class docutils literal notranslate"><span class=3D"pre">Stre=
+amReader</span></code></a> and <a class=3D"reference internal" href=3D"http=
+s://docs.python.org/3/library/codecs.html#codecs.StreamWriter" title=3D"cod=
+ecs.StreamWriter"><code class=3D"xref py py-class docutils literal notransl=
+ate"><span class=3D"pre">StreamWriter</span></code></a> classes. They inher=
+it all other
+methods and attributes from the underlying stream.</p>
+</div>
+<div class=3D"section" id=3D"streamrecoder-objects">
+<span id=3D"stream-recoder-objects"></span><h4>StreamRecoder Objects<a clas=
+s=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#stre=
+amrecoder-objects" title=3D"Permalink to this headline">=C2=B6</a></h4>
+<p>The <a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/codecs.html#codecs.StreamRecoder" title=3D"codecs.StreamRecoder"><cod=
+e class=3D"xref py py-class docutils literal notranslate"><span class=3D"pr=
+e">StreamRecoder</span></code></a> translates data from one encoding to ano=
+ther,
+which is sometimes useful when dealing with different encoding environments=
+.</p>
+<p>The design is such that one can use the factory functions returned by th=
+e
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.lookup" title=3D"codecs.lookup"><code class=3D"xref py py=
+-func docutils literal notranslate"><span class=3D"pre">lookup()</span></co=
+de></a> function to construct the instance.</p>
+<dl class=3D"class">
+<dt id=3D"codecs.StreamRecoder">
+<em class=3D"property">class </em><code class=3D"sig-prename descclassname"=
+>codecs.</code><code class=3D"sig-name descname">StreamRecoder</code><span =
+class=3D"sig-paren">(</span><em class=3D"sig-param">stream</em>, <em class=
+=3D"sig-param">encode</em>, <em class=3D"sig-param">decode</em>, <em class=
+=3D"sig-param">Reader</em>, <em class=3D"sig-param">Writer</em>, <em class=
+=3D"sig-param">errors=3D'strict'</em><span class=3D"sig-paren">)</span><a c=
+lass=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#c=
+odecs.StreamRecoder" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Creates a <a class=3D"reference internal" href=3D"https://docs.pytho=
+n.org/3/library/codecs.html#codecs.StreamRecoder" title=3D"codecs.StreamRec=
+oder"><code class=3D"xref py py-class docutils literal notranslate"><span c=
+lass=3D"pre">StreamRecoder</span></code></a> instance which implements a tw=
+o-way conversion:
+<em>encode</em> and <em>decode</em> work on the frontend&nbsp;=E2=80=94 the=
+ data visible to
+code calling <code class=3D"xref py py-meth docutils literal notranslate"><=
+span class=3D"pre">read()</span></code> and <code class=3D"xref py py-meth =
+docutils literal notranslate"><span class=3D"pre">write()</span></code>, wh=
+ile <em>Reader</em> and <em>Writer</em>
+work on the backend&nbsp;=E2=80=94 the data in <em>stream</em>.</p>
+<p>You can use these objects to do transparent transcodings, e.g., from Lat=
+in-1
+to UTF-8 and back.</p>
+<p>The <em>stream</em> argument must be a file-like object.</p>
+<p>The <em>encode</em> and <em>decode</em> arguments must
+adhere to the <code class=3D"xref py py-class docutils literal notranslate"=
+><span class=3D"pre">Codec</span></code> interface. <em>Reader</em> and
+<em>Writer</em> must be factory functions or classes providing objects of t=
+he
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.StreamReader" title=3D"codecs.StreamReader"><code class=
+=3D"xref py py-class docutils literal notranslate"><span class=3D"pre">Stre=
+amReader</span></code></a> and <a class=3D"reference internal" href=3D"http=
+s://docs.python.org/3/library/codecs.html#codecs.StreamWriter" title=3D"cod=
+ecs.StreamWriter"><code class=3D"xref py py-class docutils literal notransl=
+ate"><span class=3D"pre">StreamWriter</span></code></a> interface respectiv=
+ely.</p>
+<p>Error handling is done in the same way as defined for the stream readers=
+ and
+writers.</p>
+</dd></dl>
+
+<p><a class=3D"reference internal" href=3D"https://docs.python.org/3/librar=
+y/codecs.html#codecs.StreamRecoder" title=3D"codecs.StreamRecoder"><code cl=
+ass=3D"xref py py-class docutils literal notranslate"><span class=3D"pre">S=
+treamRecoder</span></code></a> instances define the combined interfaces of
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#codecs.StreamReader" title=3D"codecs.StreamReader"><code class=
+=3D"xref py py-class docutils literal notranslate"><span class=3D"pre">Stre=
+amReader</span></code></a> and <a class=3D"reference internal" href=3D"http=
+s://docs.python.org/3/library/codecs.html#codecs.StreamWriter" title=3D"cod=
+ecs.StreamWriter"><code class=3D"xref py py-class docutils literal notransl=
+ate"><span class=3D"pre">StreamWriter</span></code></a> classes. They inher=
+it all other
+methods and attributes from the underlying stream.</p>
+</div>
+</div>
+</div>
+<div class=3D"section" id=3D"encodings-and-unicode">
+<span id=3D"encodings-overview"></span><h2>Encodings and Unicode<a class=3D=
+"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#encoding=
+s-and-unicode" title=3D"Permalink to this headline">=C2=B6</a></h2>
+<p>Strings are stored internally as sequences of code points in
+range <code class=3D"docutils literal notranslate"><span class=3D"pre">0x0<=
+/span></code>=E2=80=93<code class=3D"docutils literal notranslate"><span cl=
+ass=3D"pre">0x10FFFF</span></code>. (See <span class=3D"target" id=3D"index=
+-3"></span><a class=3D"pep reference external" href=3D"https://www.python.o=
+rg/dev/peps/pep-0393"><strong>PEP 393</strong></a> for
+more details about the implementation.)
+Once a string object is used outside of CPU and memory, endianness
+and how these arrays are stored as bytes become an issue. As with other
+codecs, serialising a string into a sequence of bytes is known as <em>encod=
+ing</em>,
+and recreating the string from the sequence of bytes is known as <em>decodi=
+ng</em>.
+There are a variety of different text serialisation codecs, which are
+collectivity referred to as <a class=3D"reference internal" href=3D"https:/=
+/docs.python.org/3/glossary.html#term-text-encoding"><span class=3D"xref st=
+d std-term">text encodings</span></a>.</p>
+<p>The simplest text encoding (called <code class=3D"docutils literal notra=
+nslate"><span class=3D"pre">'latin-1'</span></code> or <code class=3D"docut=
+ils literal notranslate"><span class=3D"pre">'iso-8859-1'</span></code>) ma=
+ps
+the code points 0=E2=80=93255 to the bytes <code class=3D"docutils literal =
+notranslate"><span class=3D"pre">0x0</span></code>=E2=80=93<code class=3D"d=
+ocutils literal notranslate"><span class=3D"pre">0xff</span></code>, which =
+means that a string
+object that contains code points above <code class=3D"docutils literal notr=
+anslate"><span class=3D"pre">U+00FF</span></code> can=E2=80=99t be encoded =
+with this
+codec. Doing so will raise a <a class=3D"reference internal" href=3D"https:=
+//docs.python.org/3/library/exceptions.html#UnicodeEncodeError" title=3D"Un=
+icodeEncodeError"><code class=3D"xref py py-exc docutils literal notranslat=
+e"><span class=3D"pre">UnicodeEncodeError</span></code></a> that looks
+like the following (although the details of the error message may differ):
+<code class=3D"docutils literal notranslate"><span class=3D"pre">UnicodeEnc=
+odeError:</span> <span class=3D"pre">'latin-1'</span> <span class=3D"pre">c=
+odec</span> <span class=3D"pre">can't</span> <span class=3D"pre">encode</sp=
+an> <span class=3D"pre">character</span> <span class=3D"pre">'\u1234'</span=
+> <span class=3D"pre">in</span>
+<span class=3D"pre">position</span> <span class=3D"pre">3:</span> <span cla=
+ss=3D"pre">ordinal</span> <span class=3D"pre">not</span> <span class=3D"pre=
+">in</span> <span class=3D"pre">range(256)</span></code>.</p>
+<p>There=E2=80=99s another group of encodings (the so called charmap encodi=
+ngs) that choose
+a different subset of all Unicode code points and how these code points are
+mapped to the bytes <code class=3D"docutils literal notranslate"><span clas=
+s=3D"pre">0x0</span></code>=E2=80=93<code class=3D"docutils literal notrans=
+late"><span class=3D"pre">0xff</span></code>. To see how this is done simpl=
+y open
+e.g. <code class=3D"file docutils literal notranslate"><span class=3D"pre">=
+encodings/cp1252.py</span></code> (which is an encoding that is used primar=
+ily on
+Windows). There=E2=80=99s a string constant with 256 characters that shows =
+you which
+character is mapped to which byte value.</p>
+<p>All of these encodings can only encode 256 of the 1114112 code points
+defined in Unicode. A simple and straightforward way that can store each Un=
+icode
+code point, is to store each code point as four consecutive bytes. There ar=
+e two
+possibilities: store the bytes in big endian or in little endian order. The=
+se
+two encodings are called <code class=3D"docutils literal notranslate"><span=
+ class=3D"pre">UTF-32-BE</span></code> and <code class=3D"docutils literal =
+notranslate"><span class=3D"pre">UTF-32-LE</span></code> respectively. Thei=
+r
+disadvantage is that if e.g. you use <code class=3D"docutils literal notran=
+slate"><span class=3D"pre">UTF-32-BE</span></code> on a little endian machi=
+ne you
+will always have to swap bytes on encoding and decoding. <code class=3D"doc=
+utils literal notranslate"><span class=3D"pre">UTF-32</span></code> avoids =
+this
+problem: bytes will always be in natural endianness. When these bytes are r=
+ead
+by a CPU with a different endianness, then bytes have to be swapped though.=
+ To
+be able to detect the endianness of a <code class=3D"docutils literal notra=
+nslate"><span class=3D"pre">UTF-16</span></code> or <code class=3D"docutils=
+ literal notranslate"><span class=3D"pre">UTF-32</span></code> byte sequenc=
+e,
+there=E2=80=99s the so called BOM (=E2=80=9CByte Order Mark=E2=80=9D). This=
+ is the Unicode character
+<code class=3D"docutils literal notranslate"><span class=3D"pre">U+FEFF</sp=
+an></code>. This character can be prepended to every <code class=3D"docutil=
+s literal notranslate"><span class=3D"pre">UTF-16</span></code> or <code cl=
+ass=3D"docutils literal notranslate"><span class=3D"pre">UTF-32</span></cod=
+e>
+byte sequence. The byte swapped version of this character (<code class=3D"d=
+ocutils literal notranslate"><span class=3D"pre">0xFFFE</span></code>) is a=
+n
+illegal character that may not appear in a Unicode text. So when the
+first character in an <code class=3D"docutils literal notranslate"><span cl=
+ass=3D"pre">UTF-16</span></code> or <code class=3D"docutils literal notrans=
+late"><span class=3D"pre">UTF-32</span></code> byte sequence
+appears to be a <code class=3D"docutils literal notranslate"><span class=3D=
+"pre">U+FFFE</span></code> the bytes have to be swapped on decoding.
+Unfortunately the character <code class=3D"docutils literal notranslate"><s=
+pan class=3D"pre">U+FEFF</span></code> had a second purpose as
+a <code class=3D"docutils literal notranslate"><span class=3D"pre">ZERO</sp=
+an> <span class=3D"pre">WIDTH</span> <span class=3D"pre">NO-BREAK</span> <s=
+pan class=3D"pre">SPACE</span></code>: a character that has no width and do=
+esn=E2=80=99t allow
+a word to be split. It can e.g. be used to give hints to a ligature algorit=
+hm.
+With Unicode 4.0 using <code class=3D"docutils literal notranslate"><span c=
+lass=3D"pre">U+FEFF</span></code> as a <code class=3D"docutils literal notr=
+anslate"><span class=3D"pre">ZERO</span> <span class=3D"pre">WIDTH</span> <=
+span class=3D"pre">NO-BREAK</span> <span class=3D"pre">SPACE</span></code> =
+has been
+deprecated (with <code class=3D"docutils literal notranslate"><span class=
+=3D"pre">U+2060</span></code> (<code class=3D"docutils literal notranslate"=
+><span class=3D"pre">WORD</span> <span class=3D"pre">JOINER</span></code>) =
+assuming this role). Nevertheless
+Unicode software still must be able to handle <code class=3D"docutils liter=
+al notranslate"><span class=3D"pre">U+FEFF</span></code> in both roles: as =
+a BOM
+it=E2=80=99s a device to determine the storage layout of the encoded bytes,=
+ and vanishes
+once the byte sequence has been decoded into a string; as a <code class=3D"=
+docutils literal notranslate"><span class=3D"pre">ZERO</span> <span class=
+=3D"pre">WIDTH</span>
+<span class=3D"pre">NO-BREAK</span> <span class=3D"pre">SPACE</span></code>=
+ it=E2=80=99s a normal character that will be decoded like any other.</p>
+<p>There=E2=80=99s another encoding that is able to encoding the full range=
+ of Unicode
+characters: UTF-8. UTF-8 is an 8-bit encoding, which means there are no iss=
+ues
+with byte order in UTF-8. Each byte in a UTF-8 byte sequence consists of tw=
+o
+parts: marker bits (the most significant bits) and payload bits. The marker=
+ bits
+are a sequence of zero to four <code class=3D"docutils literal notranslate"=
+><span class=3D"pre">1</span></code> bits followed by a <code class=3D"docu=
+tils literal notranslate"><span class=3D"pre">0</span></code> bit. Unicode =
+characters are
+encoded like this (with x being payload bits, which when concatenated give =
+the
+Unicode character):</p>
+<table class=3D"docutils align-default">
+<colgroup>
+<col style=3D"width: 43%">
+<col style=3D"width: 57%">
+</colgroup>
+<thead>
+<tr class=3D"row-odd"><th class=3D"head"><p>Range</p></th>
+<th class=3D"head"><p>Encoding</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class=3D"row-even"><td><p><code class=3D"docutils literal notranslate">=
+<span class=3D"pre">U-00000000</span></code> =E2=80=A6 <code class=3D"docut=
+ils literal notranslate"><span class=3D"pre">U-0000007F</span></code></p></=
+td>
+<td><p>0xxxxxxx</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p><code class=3D"docutils literal notranslate"><=
+span class=3D"pre">U-00000080</span></code> =E2=80=A6 <code class=3D"docuti=
+ls literal notranslate"><span class=3D"pre">U-000007FF</span></code></p></t=
+d>
+<td><p>110xxxxx 10xxxxxx</p></td>
+</tr>
+<tr class=3D"row-even"><td><p><code class=3D"docutils literal notranslate">=
+<span class=3D"pre">U-00000800</span></code> =E2=80=A6 <code class=3D"docut=
+ils literal notranslate"><span class=3D"pre">U-0000FFFF</span></code></p></=
+td>
+<td><p>1110xxxx 10xxxxxx 10xxxxxx</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p><code class=3D"docutils literal notranslate"><=
+span class=3D"pre">U-00010000</span></code> =E2=80=A6 <code class=3D"docuti=
+ls literal notranslate"><span class=3D"pre">U-0010FFFF</span></code></p></t=
+d>
+<td><p>11110xxx 10xxxxxx 10xxxxxx 10xxxxxx</p></td>
+</tr>
+</tbody>
+</table>
+<p>The least significant bit of the Unicode character is the rightmost x bi=
+t.</p>
+<p>As UTF-8 is an 8-bit encoding no BOM is required and any <code class=3D"=
+docutils literal notranslate"><span class=3D"pre">U+FEFF</span></code> char=
+acter in
+the decoded string (even if it=E2=80=99s the first character) is treated as=
+ a <code class=3D"docutils literal notranslate"><span class=3D"pre">ZERO</s=
+pan>
+<span class=3D"pre">WIDTH</span> <span class=3D"pre">NO-BREAK</span> <span =
+class=3D"pre">SPACE</span></code>.</p>
+<p>Without external information it=E2=80=99s impossible to reliably determi=
+ne which
+encoding was used for encoding a string. Each charmap encoding can
+decode any random byte sequence. However that=E2=80=99s not possible with U=
+TF-8, as
+UTF-8 byte sequences have a structure that doesn=E2=80=99t allow arbitrary =
+byte
+sequences. To increase the reliability with which a UTF-8 encoding can be
+detected, Microsoft invented a variant of UTF-8 (that Python 2.5 calls
+<code class=3D"docutils literal notranslate"><span class=3D"pre">"utf-8-sig=
+"</span></code>) for its Notepad program: Before any of the Unicode charact=
+ers
+is written to the file, a UTF-8 encoded BOM (which looks like this as a byt=
+e
+sequence: <code class=3D"docutils literal notranslate"><span class=3D"pre">=
+0xef</span></code>, <code class=3D"docutils literal notranslate"><span clas=
+s=3D"pre">0xbb</span></code>, <code class=3D"docutils literal notranslate">=
+<span class=3D"pre">0xbf</span></code>) is written. As it=E2=80=99s rather =
+improbable
+that any charmap encoded file starts with these byte values (which would e.=
+g.
+map to</p>
+<blockquote>
+<div><div class=3D"line-block">
+<div class=3D"line">LATIN SMALL LETTER I WITH DIAERESIS</div>
+<div class=3D"line">RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK</div>
+<div class=3D"line">INVERTED QUESTION MARK</div>
+</div>
+</div></blockquote>
+<p>in iso-8859-1), this increases the probability that a <code class=3D"doc=
+utils literal notranslate"><span class=3D"pre">utf-8-sig</span></code> enco=
+ding can be
+correctly guessed from the byte sequence. So here the BOM is not used to be=
+ able
+to determine the byte order used for generating the byte sequence, but as a
+signature that helps in guessing the encoding. On encoding the utf-8-sig co=
+dec
+will write <code class=3D"docutils literal notranslate"><span class=3D"pre"=
+>0xef</span></code>, <code class=3D"docutils literal notranslate"><span cla=
+ss=3D"pre">0xbb</span></code>, <code class=3D"docutils literal notranslate"=
+><span class=3D"pre">0xbf</span></code> as the first three bytes to the fil=
+e. On
+decoding <code class=3D"docutils literal notranslate"><span class=3D"pre">u=
+tf-8-sig</span></code> will skip those three bytes if they appear as the fi=
+rst
+three bytes in the file. In UTF-8, the use of the BOM is discouraged and
+should generally be avoided.</p>
+</div>
+<div class=3D"section" id=3D"standard-encodings">
+<span id=3D"id3"></span><h2>Standard Encodings<a class=3D"headerlink" href=
+=3D"https://docs.python.org/3/library/codecs.html#standard-encodings" title=
+=3D"Permalink to this headline">=C2=B6</a></h2>
+<p>Python comes with a number of codecs built-in, either implemented as C f=
+unctions
+or with dictionaries as mapping tables. The following table lists the codec=
+s by
+name, together with a few common aliases, and the languages for which the
+encoding is likely used. Neither the list of aliases nor the list of langua=
+ges
+is meant to be exhaustive. Notice that spelling alternatives that only diff=
+er in
+case or use a hyphen instead of an underscore are also valid aliases; there=
+fore,
+e.g. <code class=3D"docutils literal notranslate"><span class=3D"pre">'utf-=
+8'</span></code> is a valid alias for the <code class=3D"docutils literal n=
+otranslate"><span class=3D"pre">'utf_8'</span></code> codec.</p>
+<div class=3D"impl-detail compound">
+<p class=3D"compound-first"><strong>CPython implementation detail:</strong>=
+ Some common encodings can bypass the codecs lookup machinery to
+improve performance. These optimization opportunities are only
+recognized by CPython for a limited set of (case insensitive)
+aliases: utf-8, utf8, latin-1, latin1, iso-8859-1, iso8859-1, mbcs
+(Windows only), ascii, us-ascii, utf-16, utf16, utf-32, utf32, and
+the same using underscores instead of dashes. Using alternative
+aliases for these encodings may result in slower execution.</p>
+<div class=3D"compound-last versionchanged">
+<p><span class=3D"versionmodified changed">Changed in version 3.6: </span>O=
+ptimization opportunity recognized for us-ascii.</p>
+</div>
+</div>
+<p>Many of the character sets support the same languages. They vary in indi=
+vidual
+characters (e.g. whether the EURO SIGN is supported or not), and in the
+assignment of characters to code positions. For the European languages in
+particular, the following variants typically exist:</p>
+<ul class=3D"simple">
+<li><p>an ISO 8859 codeset</p></li>
+<li><p>a Microsoft Windows code page, which is typically derived from an 88=
+59 codeset,
+but replaces control characters with additional graphic characters</p></li>
+<li><p>an IBM EBCDIC code page</p></li>
+<li><p>an IBM PC code page, which is ASCII compatible</p></li>
+</ul>
+<table class=3D"docutils align-default">
+<colgroup>
+<col style=3D"width: 21%">
+<col style=3D"width: 40%">
+<col style=3D"width: 40%">
+</colgroup>
+<thead>
+<tr class=3D"row-odd"><th class=3D"head"><p>Codec</p></th>
+<th class=3D"head"><p>Aliases</p></th>
+<th class=3D"head"><p>Languages</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class=3D"row-even"><td><p>ascii</p></td>
+<td><p>646, us-ascii</p></td>
+<td><p>English</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>big5</p></td>
+<td><p>big5-tw, csbig5</p></td>
+<td><p>Traditional Chinese</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>big5hkscs</p></td>
+<td><p>big5-hkscs, hkscs</p></td>
+<td><p>Traditional Chinese</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp037</p></td>
+<td><p>IBM037, IBM039</p></td>
+<td><p>English</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp273</p></td>
+<td><p>273, IBM273, csIBM273</p></td>
+<td><p>German</p>
+<div class=3D"versionadded">
+<p><span class=3D"versionmodified added">New in version 3.4.</span></p>
+</div>
+</td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp424</p></td>
+<td><p>EBCDIC-CP-HE, IBM424</p></td>
+<td><p>Hebrew</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp437</p></td>
+<td><p>437, IBM437</p></td>
+<td><p>English</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp500</p></td>
+<td><p>EBCDIC-CP-BE, EBCDIC-CP-CH,
+IBM500</p></td>
+<td><p>Western Europe</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp720</p></td>
+<td></td>
+<td><p>Arabic</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp737</p></td>
+<td></td>
+<td><p>Greek</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp775</p></td>
+<td><p>IBM775</p></td>
+<td><p>Baltic languages</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp850</p></td>
+<td><p>850, IBM850</p></td>
+<td><p>Western Europe</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp852</p></td>
+<td><p>852, IBM852</p></td>
+<td><p>Central and Eastern Europe</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp855</p></td>
+<td><p>855, IBM855</p></td>
+<td><p>Bulgarian, Byelorussian,
+Macedonian, Russian, Serbian</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp856</p></td>
+<td></td>
+<td><p>Hebrew</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp857</p></td>
+<td><p>857, IBM857</p></td>
+<td><p>Turkish</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp858</p></td>
+<td><p>858, IBM858</p></td>
+<td><p>Western Europe</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp860</p></td>
+<td><p>860, IBM860</p></td>
+<td><p>Portuguese</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp861</p></td>
+<td><p>861, CP-IS, IBM861</p></td>
+<td><p>Icelandic</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp862</p></td>
+<td><p>862, IBM862</p></td>
+<td><p>Hebrew</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp863</p></td>
+<td><p>863, IBM863</p></td>
+<td><p>Canadian</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp864</p></td>
+<td><p>IBM864</p></td>
+<td><p>Arabic</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp865</p></td>
+<td><p>865, IBM865</p></td>
+<td><p>Danish, Norwegian</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp866</p></td>
+<td><p>866, IBM866</p></td>
+<td><p>Russian</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp869</p></td>
+<td><p>869, CP-GR, IBM869</p></td>
+<td><p>Greek</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp874</p></td>
+<td></td>
+<td><p>Thai</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp875</p></td>
+<td></td>
+<td><p>Greek</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp932</p></td>
+<td><p>932, ms932, mskanji, ms-kanji</p></td>
+<td><p>Japanese</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp949</p></td>
+<td><p>949, ms949, uhc</p></td>
+<td><p>Korean</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp950</p></td>
+<td><p>950, ms950</p></td>
+<td><p>Traditional Chinese</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp1006</p></td>
+<td></td>
+<td><p>Urdu</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp1026</p></td>
+<td><p>ibm1026</p></td>
+<td><p>Turkish</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp1125</p></td>
+<td><p>1125, ibm1125, cp866u, ruscii</p></td>
+<td><p>Ukrainian</p>
+<div class=3D"versionadded">
+<p><span class=3D"versionmodified added">New in version 3.4.</span></p>
+</div>
+</td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp1140</p></td>
+<td><p>ibm1140</p></td>
+<td><p>Western Europe</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp1250</p></td>
+<td><p>windows-1250</p></td>
+<td><p>Central and Eastern Europe</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp1251</p></td>
+<td><p>windows-1251</p></td>
+<td><p>Bulgarian, Byelorussian,
+Macedonian, Russian, Serbian</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp1252</p></td>
+<td><p>windows-1252</p></td>
+<td><p>Western Europe</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp1253</p></td>
+<td><p>windows-1253</p></td>
+<td><p>Greek</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp1254</p></td>
+<td><p>windows-1254</p></td>
+<td><p>Turkish</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp1255</p></td>
+<td><p>windows-1255</p></td>
+<td><p>Hebrew</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp1256</p></td>
+<td><p>windows-1256</p></td>
+<td><p>Arabic</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>cp1257</p></td>
+<td><p>windows-1257</p></td>
+<td><p>Baltic languages</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>cp1258</p></td>
+<td><p>windows-1258</p></td>
+<td><p>Vietnamese</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>euc_jp</p></td>
+<td><p>eucjp, ujis, u-jis</p></td>
+<td><p>Japanese</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>euc_jis_2004</p></td>
+<td><p>jisx0213, eucjis2004</p></td>
+<td><p>Japanese</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>euc_jisx0213</p></td>
+<td><p>eucjisx0213</p></td>
+<td><p>Japanese</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>euc_kr</p></td>
+<td><p>euckr, korean, ksc5601,
+ks_c-5601, ks_c-5601-1987,
+ksx1001, ks_x-1001</p></td>
+<td><p>Korean</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>gb2312</p></td>
+<td><p>chinese, csiso58gb231280,
+euc-cn, euccn, eucgb2312-cn,
+gb2312-1980, gb2312-80,
+iso-ir-58</p></td>
+<td><p>Simplified Chinese</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>gbk</p></td>
+<td><p>936, cp936, ms936</p></td>
+<td><p>Unified Chinese</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>gb18030</p></td>
+<td><p>gb18030-2000</p></td>
+<td><p>Unified Chinese</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>hz</p></td>
+<td><p>hzgb, hz-gb, hz-gb-2312</p></td>
+<td><p>Simplified Chinese</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>iso2022_jp</p></td>
+<td><p>csiso2022jp, iso2022jp,
+iso-2022-jp</p></td>
+<td><p>Japanese</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>iso2022_jp_1</p></td>
+<td><p>iso2022jp-1, iso-2022-jp-1</p></td>
+<td><p>Japanese</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>iso2022_jp_2</p></td>
+<td><p>iso2022jp-2, iso-2022-jp-2</p></td>
+<td><p>Japanese, Korean, Simplified
+Chinese, Western Europe, Greek</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>iso2022_jp_2004</p></td>
+<td><p>iso2022jp-2004,
+iso-2022-jp-2004</p></td>
+<td><p>Japanese</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>iso2022_jp_3</p></td>
+<td><p>iso2022jp-3, iso-2022-jp-3</p></td>
+<td><p>Japanese</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>iso2022_jp_ext</p></td>
+<td><p>iso2022jp-ext, iso-2022-jp-ext</p></td>
+<td><p>Japanese</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>iso2022_kr</p></td>
+<td><p>csiso2022kr, iso2022kr,
+iso-2022-kr</p></td>
+<td><p>Korean</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>latin_1</p></td>
+<td><p>iso-8859-1, iso8859-1, 8859,
+cp819, latin, latin1, L1</p></td>
+<td><p>Western Europe</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>iso8859_2</p></td>
+<td><p>iso-8859-2, latin2, L2</p></td>
+<td><p>Central and Eastern Europe</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>iso8859_3</p></td>
+<td><p>iso-8859-3, latin3, L3</p></td>
+<td><p>Esperanto, Maltese</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>iso8859_4</p></td>
+<td><p>iso-8859-4, latin4, L4</p></td>
+<td><p>Baltic languages</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>iso8859_5</p></td>
+<td><p>iso-8859-5, cyrillic</p></td>
+<td><p>Bulgarian, Byelorussian,
+Macedonian, Russian, Serbian</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>iso8859_6</p></td>
+<td><p>iso-8859-6, arabic</p></td>
+<td><p>Arabic</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>iso8859_7</p></td>
+<td><p>iso-8859-7, greek, greek8</p></td>
+<td><p>Greek</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>iso8859_8</p></td>
+<td><p>iso-8859-8, hebrew</p></td>
+<td><p>Hebrew</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>iso8859_9</p></td>
+<td><p>iso-8859-9, latin5, L5</p></td>
+<td><p>Turkish</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>iso8859_10</p></td>
+<td><p>iso-8859-10, latin6, L6</p></td>
+<td><p>Nordic languages</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>iso8859_11</p></td>
+<td><p>iso-8859-11, thai</p></td>
+<td><p>Thai languages</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>iso8859_13</p></td>
+<td><p>iso-8859-13, latin7, L7</p></td>
+<td><p>Baltic languages</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>iso8859_14</p></td>
+<td><p>iso-8859-14, latin8, L8</p></td>
+<td><p>Celtic languages</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>iso8859_15</p></td>
+<td><p>iso-8859-15, latin9, L9</p></td>
+<td><p>Western Europe</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>iso8859_16</p></td>
+<td><p>iso-8859-16, latin10, L10</p></td>
+<td><p>South-Eastern Europe</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>johab</p></td>
+<td><p>cp1361, ms1361</p></td>
+<td><p>Korean</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>koi8_r</p></td>
+<td></td>
+<td><p>Russian</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>koi8_t</p></td>
+<td></td>
+<td><p>Tajik</p>
+<div class=3D"versionadded">
+<p><span class=3D"versionmodified added">New in version 3.5.</span></p>
+</div>
+</td>
+</tr>
+<tr class=3D"row-even"><td><p>koi8_u</p></td>
+<td></td>
+<td><p>Ukrainian</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>kz1048</p></td>
+<td><p>kz_1048, strk1048_2002, rk1048</p></td>
+<td><p>Kazakh</p>
+<div class=3D"versionadded">
+<p><span class=3D"versionmodified added">New in version 3.5.</span></p>
+</div>
+</td>
+</tr>
+<tr class=3D"row-even"><td><p>mac_cyrillic</p></td>
+<td><p>maccyrillic</p></td>
+<td><p>Bulgarian, Byelorussian,
+Macedonian, Russian, Serbian</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>mac_greek</p></td>
+<td><p>macgreek</p></td>
+<td><p>Greek</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>mac_iceland</p></td>
+<td><p>maciceland</p></td>
+<td><p>Icelandic</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>mac_latin2</p></td>
+<td><p>maclatin2, maccentraleurope</p></td>
+<td><p>Central and Eastern Europe</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>mac_roman</p></td>
+<td><p>macroman, macintosh</p></td>
+<td><p>Western Europe</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>mac_turkish</p></td>
+<td><p>macturkish</p></td>
+<td><p>Turkish</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>ptcp154</p></td>
+<td><p>csptcp154, pt154, cp154,
+cyrillic-asian</p></td>
+<td><p>Kazakh</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>shift_jis</p></td>
+<td><p>csshiftjis, shiftjis, sjis,
+s_jis</p></td>
+<td><p>Japanese</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>shift_jis_2004</p></td>
+<td><p>shiftjis2004, sjis_2004,
+sjis2004</p></td>
+<td><p>Japanese</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>shift_jisx0213</p></td>
+<td><p>shiftjisx0213, sjisx0213,
+s_jisx0213</p></td>
+<td><p>Japanese</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>utf_32</p></td>
+<td><p>U32, utf32</p></td>
+<td><p>all languages</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>utf_32_be</p></td>
+<td><p>UTF-32BE</p></td>
+<td><p>all languages</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>utf_32_le</p></td>
+<td><p>UTF-32LE</p></td>
+<td><p>all languages</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>utf_16</p></td>
+<td><p>U16, utf16</p></td>
+<td><p>all languages</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>utf_16_be</p></td>
+<td><p>UTF-16BE</p></td>
+<td><p>all languages</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>utf_16_le</p></td>
+<td><p>UTF-16LE</p></td>
+<td><p>all languages</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>utf_7</p></td>
+<td><p>U7, unicode-1-1-utf-7</p></td>
+<td><p>all languages</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>utf_8</p></td>
+<td><p>U8, UTF, utf8, cp65001</p></td>
+<td><p>all languages</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>utf_8_sig</p></td>
+<td></td>
+<td><p>all languages</p></td>
+</tr>
+</tbody>
+</table>
+<div class=3D"versionchanged">
+<p><span class=3D"versionmodified changed">Changed in version 3.4: </span>T=
+he utf-16* and utf-32* encoders no longer allow surrogate code points
+(<code class=3D"docutils literal notranslate"><span class=3D"pre">U+D800</s=
+pan></code>=E2=80=93<code class=3D"docutils literal notranslate"><span clas=
+s=3D"pre">U+DFFF</span></code>) to be encoded.
+The utf-32* decoders no longer decode
+byte sequences that correspond to surrogate code points.</p>
+</div>
+<div class=3D"versionchanged">
+<p><span class=3D"versionmodified changed">Changed in version 3.8: </span><=
+code class=3D"docutils literal notranslate"><span class=3D"pre">cp65001</sp=
+an></code> is now an alias to <code class=3D"docutils literal notranslate">=
+<span class=3D"pre">utf_8</span></code>.</p>
+</div>
+</div>
+<div class=3D"section" id=3D"python-specific-encodings">
+<h2>Python Specific Encodings<a class=3D"headerlink" href=3D"https://docs.p=
+ython.org/3/library/codecs.html#python-specific-encodings" title=3D"Permali=
+nk to this headline">=C2=B6</a></h2>
+<p>A number of predefined codecs are specific to Python, so their codec nam=
+es have
+no meaning outside Python. These are listed in the tables below based on th=
+e
+expected input and output types (note that while text encodings are the mos=
+t
+common use case for codecs, the underlying codec infrastructure supports
+arbitrary data transforms rather than just text encodings). For asymmetric
+codecs, the stated meaning describes the encoding direction.</p>
+<div class=3D"section" id=3D"text-encodings">
+<h3>Text Encodings<a class=3D"headerlink" href=3D"https://docs.python.org/3=
+/library/codecs.html#text-encodings" title=3D"Permalink to this headline">=
+=C2=B6</a></h3>
+<p>The following codecs provide <a class=3D"reference internal" href=3D"htt=
+ps://docs.python.org/3/library/stdtypes.html#str" title=3D"str"><code class=
+=3D"xref py py-class docutils literal notranslate"><span class=3D"pre">str<=
+/span></code></a> to <a class=3D"reference internal" href=3D"https://docs.p=
+ython.org/3/library/stdtypes.html#bytes" title=3D"bytes"><code class=3D"xre=
+f py py-class docutils literal notranslate"><span class=3D"pre">bytes</span=
+></code></a> encoding and
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/glossary.=
+html#term-bytes-like-object"><span class=3D"xref std std-term">bytes-like o=
+bject</span></a> to <a class=3D"reference internal" href=3D"https://docs.py=
+thon.org/3/library/stdtypes.html#str" title=3D"str"><code class=3D"xref py =
+py-class docutils literal notranslate"><span class=3D"pre">str</span></code=
+></a> decoding, similar to the Unicode text
+encodings.</p>
+<table class=3D"docutils align-default">
+<colgroup>
+<col style=3D"width: 36%">
+<col style=3D"width: 16%">
+<col style=3D"width: 48%">
+</colgroup>
+<thead>
+<tr class=3D"row-odd"><th class=3D"head"><p>Codec</p></th>
+<th class=3D"head"><p>Aliases</p></th>
+<th class=3D"head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class=3D"row-even"><td><p>idna</p></td>
+<td></td>
+<td><p>Implement <span class=3D"target" id=3D"index-4"></span><a class=3D"r=
+fc reference external" href=3D"https://tools.ietf.org/html/rfc3490.html"><s=
+trong>RFC 3490</strong></a>,
+see also
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#module-encodings.idna" title=3D"encodings.idna: Internationalize=
+d Domain Names implementation"><code class=3D"xref py py-mod docutils liter=
+al notranslate"><span class=3D"pre">encodings.idna</span></code></a>.
+Only <code class=3D"docutils literal notranslate"><span class=3D"pre">error=
+s=3D'strict'</span></code>
+is supported.</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>mbcs</p></td>
+<td><p>ansi,
+dbcs</p></td>
+<td><p>Windows only: Encode the
+operand according to the
+ANSI codepage (CP_ACP).</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>oem</p></td>
+<td></td>
+<td><p>Windows only: Encode the
+operand according to the
+OEM codepage (CP_OEMCP).</p>
+<div class=3D"versionadded">
+<p><span class=3D"versionmodified added">New in version 3.6.</span></p>
+</div>
+</td>
+</tr>
+<tr class=3D"row-odd"><td><p>palmos</p></td>
+<td></td>
+<td><p>Encoding of PalmOS 3.5.</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>punycode</p></td>
+<td></td>
+<td><p>Implement <span class=3D"target" id=3D"index-5"></span><a class=3D"r=
+fc reference external" href=3D"https://tools.ietf.org/html/rfc3492.html"><s=
+trong>RFC 3492</strong></a>.
+Stateful codecs are not
+supported.</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>raw_unicode_escape</p></td>
+<td></td>
+<td><p>Latin-1 encoding with
+<code class=3D"docutils literal notranslate"><span class=3D"pre">\uXXXX</sp=
+an></code> and
+<code class=3D"docutils literal notranslate"><span class=3D"pre">\UXXXXXXXX=
+</span></code> for other
+code points. Existing
+backslashes are not
+escaped in any way.
+It is used in the Python
+pickle protocol.</p></td>
+</tr>
+<tr class=3D"row-even"><td><p>undefined</p></td>
+<td></td>
+<td><p>Raise an exception for
+all conversions, even
+empty strings. The error
+handler is ignored.</p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>unicode_escape</p></td>
+<td></td>
+<td><p>Encoding suitable as the
+contents of a Unicode
+literal in ASCII-encoded
+Python source code,
+except that quotes are
+not escaped. Decode
+from Latin-1 source code.
+Beware that Python source
+code actually uses UTF-8
+by default.</p></td>
+</tr>
+</tbody>
+</table>
+<div class=3D"versionchanged">
+<p><span class=3D"versionmodified changed">Changed in version 3.8: </span>=
+=E2=80=9Cunicode_internal=E2=80=9D codec is removed.</p>
+</div>
+</div>
+<div class=3D"section" id=3D"binary-transforms">
+<span id=3D"id4"></span><h3>Binary Transforms<a class=3D"headerlink" href=
+=3D"https://docs.python.org/3/library/codecs.html#binary-transforms" title=
+=3D"Permalink to this headline">=C2=B6</a></h3>
+<p>The following codecs provide binary transforms: <a class=3D"reference in=
+ternal" href=3D"https://docs.python.org/3/glossary.html#term-bytes-like-obj=
+ect"><span class=3D"xref std std-term">bytes-like object</span></a>
+to <a class=3D"reference internal" href=3D"https://docs.python.org/3/librar=
+y/stdtypes.html#bytes" title=3D"bytes"><code class=3D"xref py py-class docu=
+tils literal notranslate"><span class=3D"pre">bytes</span></code></a> mappi=
+ngs. They are not supported by <a class=3D"reference internal" href=3D"http=
+s://docs.python.org/3/library/stdtypes.html#bytes.decode" title=3D"bytes.de=
+code"><code class=3D"xref py py-meth docutils literal notranslate"><span cl=
+ass=3D"pre">bytes.decode()</span></code></a>
+(which only produces <a class=3D"reference internal" href=3D"https://docs.p=
+ython.org/3/library/stdtypes.html#str" title=3D"str"><code class=3D"xref py=
+ py-class docutils literal notranslate"><span class=3D"pre">str</span></cod=
+e></a> output).</p>
+<table class=3D"docutils align-default">
+<colgroup>
+<col style=3D"width: 22%">
+<col style=3D"width: 18%">
+<col style=3D"width: 30%">
+<col style=3D"width: 30%">
+</colgroup>
+<thead>
+<tr class=3D"row-odd"><th class=3D"head"><p>Codec</p></th>
+<th class=3D"head"><p>Aliases</p></th>
+<th class=3D"head"><p>Meaning</p></th>
+<th class=3D"head"><p>Encoder / decoder</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class=3D"row-even"><td><p>base64_codec <a class=3D"footnote-reference b=
+rackets" href=3D"https://docs.python.org/3/library/codecs.html#b64" id=3D"i=
+d5">1</a></p></td>
+<td><p>base64, base_64</p></td>
+<td><p>Convert the operand to
+multiline MIME base64 (the
+result always includes a
+trailing <code class=3D"docutils literal notranslate"><span class=3D"pre">'=
+\n'</span></code>).</p>
+<div class=3D"versionchanged">
+<p><span class=3D"versionmodified changed">Changed in version 3.4: </span>a=
+ccepts any
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/glossary.=
+html#term-bytes-like-object"><span class=3D"xref std std-term">bytes-like o=
+bject</span></a>
+as input for encoding and
+decoding</p>
+</div>
+</td>
+<td><p><a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/base64.html#base64.encodebytes" title=3D"base64.encodebytes"><code cl=
+ass=3D"xref py py-meth docutils literal notranslate"><span class=3D"pre">ba=
+se64.encodebytes()</span></code></a> /
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/b=
+ase64.html#base64.decodebytes" title=3D"base64.decodebytes"><code class=3D"=
+xref py py-meth docutils literal notranslate"><span class=3D"pre">base64.de=
+codebytes()</span></code></a></p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>bz2_codec</p></td>
+<td><p>bz2</p></td>
+<td><p>Compress the operand using
+bz2.</p></td>
+<td><p><a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/bz2.html#bz2.compress" title=3D"bz2.compress"><code class=3D"xref py =
+py-meth docutils literal notranslate"><span class=3D"pre">bz2.compress()</s=
+pan></code></a> /
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/b=
+z2.html#bz2.decompress" title=3D"bz2.decompress"><code class=3D"xref py py-=
+meth docutils literal notranslate"><span class=3D"pre">bz2.decompress()</sp=
+an></code></a></p></td>
+</tr>
+<tr class=3D"row-even"><td><p>hex_codec</p></td>
+<td><p>hex</p></td>
+<td><p>Convert the operand to
+hexadecimal
+representation, with two
+digits per byte.</p></td>
+<td><p><a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/binascii.html#binascii.b2a_hex" title=3D"binascii.b2a_hex"><code clas=
+s=3D"xref py py-meth docutils literal notranslate"><span class=3D"pre">bina=
+scii.b2a_hex()</span></code></a> /
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/b=
+inascii.html#binascii.a2b_hex" title=3D"binascii.a2b_hex"><code class=3D"xr=
+ef py py-meth docutils literal notranslate"><span class=3D"pre">binascii.a2=
+b_hex()</span></code></a></p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>quopri_codec</p></td>
+<td><p>quopri,
+quotedprintable,
+quoted_printable</p></td>
+<td><p>Convert the operand to MIME
+quoted printable.</p></td>
+<td><p><a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/quopri.html#quopri.encode" title=3D"quopri.encode"><code class=3D"xre=
+f py py-meth docutils literal notranslate"><span class=3D"pre">quopri.encod=
+e()</span></code></a> with
+<code class=3D"docutils literal notranslate"><span class=3D"pre">quotetabs=
+=3DTrue</span></code> /
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/q=
+uopri.html#quopri.decode" title=3D"quopri.decode"><code class=3D"xref py py=
+-meth docutils literal notranslate"><span class=3D"pre">quopri.decode()</sp=
+an></code></a></p></td>
+</tr>
+<tr class=3D"row-even"><td><p>uu_codec</p></td>
+<td><p>uu</p></td>
+<td><p>Convert the operand using
+uuencode.</p></td>
+<td><p><a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/uu.html#uu.encode" title=3D"uu.encode"><code class=3D"xref py py-meth=
+ docutils literal notranslate"><span class=3D"pre">uu.encode()</span></code=
+></a> /
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/u=
+u.html#uu.decode" title=3D"uu.decode"><code class=3D"xref py py-meth docuti=
+ls literal notranslate"><span class=3D"pre">uu.decode()</span></code></a></=
+p></td>
+</tr>
+<tr class=3D"row-odd"><td><p>zlib_codec</p></td>
+<td><p>zip, zlib</p></td>
+<td><p>Compress the operand using
+gzip.</p></td>
+<td><p><a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/zlib.html#zlib.compress" title=3D"zlib.compress"><code class=3D"xref =
+py py-meth docutils literal notranslate"><span class=3D"pre">zlib.compress(=
+)</span></code></a> /
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/z=
+lib.html#zlib.decompress" title=3D"zlib.decompress"><code class=3D"xref py =
+py-meth docutils literal notranslate"><span class=3D"pre">zlib.decompress()=
+</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<dl class=3D"footnote brackets">
+<dt class=3D"label" id=3D"b64"><span class=3D"brackets"><a class=3D"fn-back=
+ref" href=3D"https://docs.python.org/3/library/codecs.html#id5">1</a></span=
+></dt>
+<dd><p>In addition to <a class=3D"reference internal" href=3D"https://docs.=
+python.org/3/glossary.html#term-bytes-like-object"><span class=3D"xref std =
+std-term">bytes-like objects</span></a>,
+<code class=3D"docutils literal notranslate"><span class=3D"pre">'base64_co=
+dec'</span></code> also accepts ASCII-only instances of <a class=3D"referen=
+ce internal" href=3D"https://docs.python.org/3/library/stdtypes.html#str" t=
+itle=3D"str"><code class=3D"xref py py-class docutils literal notranslate">=
+<span class=3D"pre">str</span></code></a> for
+decoding</p>
+</dd>
+</dl>
+<div class=3D"versionadded">
+<p><span class=3D"versionmodified added">New in version 3.2: </span>Restora=
+tion of the binary transforms.</p>
+</div>
+<div class=3D"versionchanged">
+<p><span class=3D"versionmodified changed">Changed in version 3.4: </span>R=
+estoration of the aliases for the binary transforms.</p>
+</div>
+</div>
+<div class=3D"section" id=3D"text-transforms">
+<span id=3D"id6"></span><h3>Text Transforms<a class=3D"headerlink" href=3D"=
+https://docs.python.org/3/library/codecs.html#text-transforms" title=3D"Per=
+malink to this headline">=C2=B6</a></h3>
+<p>The following codec provides a text transform: a <a class=3D"reference i=
+nternal" href=3D"https://docs.python.org/3/library/stdtypes.html#str" title=
+=3D"str"><code class=3D"xref py py-class docutils literal notranslate"><spa=
+n class=3D"pre">str</span></code></a> to <a class=3D"reference internal" hr=
+ef=3D"https://docs.python.org/3/library/stdtypes.html#str" title=3D"str"><c=
+ode class=3D"xref py py-class docutils literal notranslate"><span class=3D"=
+pre">str</span></code></a>
+mapping. It is not supported by <a class=3D"reference internal" href=3D"htt=
+ps://docs.python.org/3/library/stdtypes.html#str.encode" title=3D"str.encod=
+e"><code class=3D"xref py py-meth docutils literal notranslate"><span class=
+=3D"pre">str.encode()</span></code></a> (which only produces
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/s=
+tdtypes.html#bytes" title=3D"bytes"><code class=3D"xref py py-class docutil=
+s literal notranslate"><span class=3D"pre">bytes</span></code></a> output).=
+</p>
+<table class=3D"docutils align-default">
+<colgroup>
+<col style=3D"width: 36%">
+<col style=3D"width: 16%">
+<col style=3D"width: 48%">
+</colgroup>
+<thead>
+<tr class=3D"row-odd"><th class=3D"head"><p>Codec</p></th>
+<th class=3D"head"><p>Aliases</p></th>
+<th class=3D"head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class=3D"row-even"><td><p>rot_13</p></td>
+<td><p>rot13</p></td>
+<td><p>Return the Caesar-cypher
+encryption of the
+operand.</p></td>
+</tr>
+</tbody>
+</table>
+<div class=3D"versionadded">
+<p><span class=3D"versionmodified added">New in version 3.2: </span>Restora=
+tion of the <code class=3D"docutils literal notranslate"><span class=3D"pre=
+">rot_13</span></code> text transform.</p>
+</div>
+<div class=3D"versionchanged">
+<p><span class=3D"versionmodified changed">Changed in version 3.4: </span>R=
+estoration of the <code class=3D"docutils literal notranslate"><span class=
+=3D"pre">rot13</span></code> alias.</p>
+</div>
+</div>
+</div>
+<div class=3D"section" id=3D"module-encodings.idna">
+<span id=3D"encodings-idna-internationalized-domain-names-in-applications">=
+</span><h2><a class=3D"reference internal" href=3D"https://docs.python.org/=
+3/library/codecs.html#module-encodings.idna" title=3D"encodings.idna: Inter=
+nationalized Domain Names implementation"><code class=3D"xref py py-mod doc=
+utils literal notranslate"><span class=3D"pre">encodings.idna</span></code>=
+</a> =E2=80=94 Internationalized Domain Names in Applications<a class=3D"he=
+aderlink" href=3D"https://docs.python.org/3/library/codecs.html#module-enco=
+dings.idna" title=3D"Permalink to this headline">=C2=B6</a></h2>
+<p>This module implements <span class=3D"target" id=3D"index-6"></span><a c=
+lass=3D"rfc reference external" href=3D"https://tools.ietf.org/html/rfc3490=
+.html"><strong>RFC 3490</strong></a> (Internationalized Domain Names in
+Applications) and <span class=3D"target" id=3D"index-7"></span><a class=3D"=
+rfc reference external" href=3D"https://tools.ietf.org/html/rfc3492.html"><=
+strong>RFC 3492</strong></a> (Nameprep: A Stringprep Profile for
+Internationalized Domain Names (IDN)). It builds upon the <code class=3D"do=
+cutils literal notranslate"><span class=3D"pre">punycode</span></code> enco=
+ding
+and <a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/stringprep.html#module-stringprep" title=3D"stringprep: String preparati=
+on, as per RFC 3453"><code class=3D"xref py py-mod docutils literal notrans=
+late"><span class=3D"pre">stringprep</span></code></a>.</p>
+<p>These RFCs together define a protocol to support non-ASCII characters in=
+ domain
+names. A domain name containing non-ASCII characters (such as
+<code class=3D"docutils literal notranslate"><span class=3D"pre">www.Allian=
+cefran=C3=A7aise.nu</span></code>) is converted into an ASCII-compatible en=
+coding
+(ACE, such as <code class=3D"docutils literal notranslate"><span class=3D"p=
+re">www.xn--alliancefranaise-npb.nu</span></code>). The ACE form of the dom=
+ain
+name is then used in all places where arbitrary characters are not allowed =
+by
+the protocol, such as DNS queries, HTTP <em class=3D"mailheader">Host</em> =
+fields, and so
+on. This conversion is carried out in the application; if possible invisibl=
+e to
+the user: The application should transparently convert Unicode domain label=
+s to
+IDNA on the wire, and convert back ACE labels to Unicode before presenting =
+them
+to the user.</p>
+<p>Python supports this conversion in several ways:  the <code class=3D"doc=
+utils literal notranslate"><span class=3D"pre">idna</span></code> codec per=
+forms
+conversion between Unicode and ACE, separating an input string into labels
+based on the separator characters defined in <span class=3D"target" id=3D"i=
+ndex-8"></span><a class=3D"rfc reference external" href=3D"https://tools.ie=
+tf.org/html/rfc3490.html#section-3.1"><strong>section 3.1 of RFC 3490</stro=
+ng></a>
+and converting each label to ACE as required, and conversely separating an =
+input
+byte string into labels based on the <code class=3D"docutils literal notran=
+slate"><span class=3D"pre">.</span></code> separator and converting any ACE
+labels found into unicode. Furthermore, the <a class=3D"reference internal"=
+ href=3D"https://docs.python.org/3/library/socket.html#module-socket" title=
+=3D"socket: Low-level networking interface."><code class=3D"xref py py-mod =
+docutils literal notranslate"><span class=3D"pre">socket</span></code></a> =
+module
+transparently converts Unicode host names to ACE, so that applications need=
+ not
+be concerned about converting host names themselves when they pass them to =
+the
+socket module. On top of that, modules that have host names as function
+parameters, such as <a class=3D"reference internal" href=3D"https://docs.py=
+thon.org/3/library/http.client.html#module-http.client" title=3D"http.clien=
+t: HTTP and HTTPS protocol client (requires sockets)."><code class=3D"xref =
+py py-mod docutils literal notranslate"><span class=3D"pre">http.client</sp=
+an></code></a> and <a class=3D"reference internal" href=3D"https://docs.pyt=
+hon.org/3/library/ftplib.html#module-ftplib" title=3D"ftplib: FTP protocol =
+client (requires sockets)."><code class=3D"xref py py-mod docutils literal =
+notranslate"><span class=3D"pre">ftplib</span></code></a>, accept Unicode h=
+ost
+names (<a class=3D"reference internal" href=3D"https://docs.python.org/3/li=
+brary/http.client.html#module-http.client" title=3D"http.client: HTTP and H=
+TTPS protocol client (requires sockets)."><code class=3D"xref py py-mod doc=
+utils literal notranslate"><span class=3D"pre">http.client</span></code></a=
+> then also transparently sends an IDNA hostname in the
+<em class=3D"mailheader">Host</em> field if it sends that field at all).</p=
+>
+<p>When receiving host names from the wire (such as in reverse name lookup)=
+, no
+automatic conversion to Unicode is performed: applications wishing to prese=
+nt
+such host names to the user should decode them to Unicode.</p>
+<p>The module <a class=3D"reference internal" href=3D"https://docs.python.o=
+rg/3/library/codecs.html#module-encodings.idna" title=3D"encodings.idna: In=
+ternationalized Domain Names implementation"><code class=3D"xref py py-mod =
+docutils literal notranslate"><span class=3D"pre">encodings.idna</span></co=
+de></a> also implements the nameprep procedure, which
+performs certain normalizations on host names, to achieve case-insensitivit=
+y of
+international domain names, and to unify similar characters. The nameprep
+functions can be used directly if desired.</p>
+<dl class=3D"function">
+<dt id=3D"encodings.idna.nameprep">
+<code class=3D"sig-prename descclassname">encodings.idna.</code><code class=
+=3D"sig-name descname">nameprep</code><span class=3D"sig-paren">(</span><em=
+ class=3D"sig-param">label</em><span class=3D"sig-paren">)</span><a class=
+=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#encod=
+ings.idna.nameprep" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Return the nameprepped version of <em>label</em>. The implementation=
+ currently assumes
+query strings, so <code class=3D"docutils literal notranslate"><span class=
+=3D"pre">AllowUnassigned</span></code> is true.</p>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"encodings.idna.ToASCII">
+<code class=3D"sig-prename descclassname">encodings.idna.</code><code class=
+=3D"sig-name descname">ToASCII</code><span class=3D"sig-paren">(</span><em =
+class=3D"sig-param">label</em><span class=3D"sig-paren">)</span><a class=3D=
+"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#encoding=
+s.idna.ToASCII" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Convert a label to ASCII, as specified in <span class=3D"target" id=
+=3D"index-9"></span><a class=3D"rfc reference external" href=3D"https://too=
+ls.ietf.org/html/rfc3490.html"><strong>RFC 3490</strong></a>. <code class=
+=3D"docutils literal notranslate"><span class=3D"pre">UseSTD3ASCIIRules</sp=
+an></code> is
+assumed to be false.</p>
+</dd></dl>
+
+<dl class=3D"function">
+<dt id=3D"encodings.idna.ToUnicode">
+<code class=3D"sig-prename descclassname">encodings.idna.</code><code class=
+=3D"sig-name descname">ToUnicode</code><span class=3D"sig-paren">(</span><e=
+m class=3D"sig-param">label</em><span class=3D"sig-paren">)</span><a class=
+=3D"headerlink" href=3D"https://docs.python.org/3/library/codecs.html#encod=
+ings.idna.ToUnicode" title=3D"Permalink to this definition">=C2=B6</a></dt>
+<dd><p>Convert a label to Unicode, as specified in <span class=3D"target" i=
+d=3D"index-10"></span><a class=3D"rfc reference external" href=3D"https://t=
+ools.ietf.org/html/rfc3490.html"><strong>RFC 3490</strong></a>.</p>
+</dd></dl>
+
+</div>
+<div class=3D"section" id=3D"module-encodings.mbcs">
+<span id=3D"encodings-mbcs-windows-ansi-codepage"></span><h2><a class=3D"re=
+ference internal" href=3D"https://docs.python.org/3/library/codecs.html#mod=
+ule-encodings.mbcs" title=3D"encodings.mbcs: Windows ANSI codepage"><code c=
+lass=3D"xref py py-mod docutils literal notranslate"><span class=3D"pre">en=
+codings.mbcs</span></code></a> =E2=80=94 Windows ANSI codepage<a class=3D"h=
+eaderlink" href=3D"https://docs.python.org/3/library/codecs.html#module-enc=
+odings.mbcs" title=3D"Permalink to this headline">=C2=B6</a></h2>
+<p>This module implements the ANSI codepage (CP_ACP).</p>
+<p class=3D"availability"><a class=3D"reference internal" href=3D"https://d=
+ocs.python.org/3/library/intro.html#availability"><span class=3D"std std-re=
+f">Availability</span></a>: Windows only.</p>
+<div class=3D"versionchanged">
+<p><span class=3D"versionmodified changed">Changed in version 3.3: </span>S=
+upport any error handler.</p>
+</div>
+<div class=3D"versionchanged">
+<p><span class=3D"versionmodified changed">Changed in version 3.2: </span>B=
+efore 3.2, the <em>errors</em> argument was ignored; <code class=3D"docutil=
+s literal notranslate"><span class=3D"pre">'replace'</span></code> was alwa=
+ys used
+to encode, and <code class=3D"docutils literal notranslate"><span class=3D"=
+pre">'ignore'</span></code> to decode.</p>
+</div>
+</div>
+<div class=3D"section" id=3D"module-encodings.utf_8_sig">
+<span id=3D"encodings-utf-8-sig-utf-8-codec-with-bom-signature"></span><h2>=
+<a class=3D"reference internal" href=3D"https://docs.python.org/3/library/c=
+odecs.html#module-encodings.utf_8_sig" title=3D"encodings.utf_8_sig: UTF-8 =
+codec with BOM signature"><code class=3D"xref py py-mod docutils literal no=
+translate"><span class=3D"pre">encodings.utf_8_sig</span></code></a> =E2=80=
+=94 UTF-8 codec with BOM signature<a class=3D"headerlink" href=3D"https://d=
+ocs.python.org/3/library/codecs.html#module-encodings.utf_8_sig" title=3D"P=
+ermalink to this headline">=C2=B6</a></h2>
+<p>This module implements a variant of the UTF-8 codec. On encoding, a UTF-=
+8 encoded
+BOM will be prepended to the UTF-8 encoded bytes. For the stateful encoder =
+this
+is only done once (on the first write to the byte stream). On decoding, an
+optional UTF-8 encoded BOM at the start of the data will be skipped.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class=3D"sphinxsidebar" role=3D"navigation" aria-label=3D"main n=
+avigation">
+        <div class=3D"sphinxsidebarwrapper" style=3D"float: left; margin-ri=
+ght: 0px; width: 202px; top: 0px;">
+  <h3><a href=3D"https://docs.python.org/3/contents.html">Table of Contents=
+</a></h3>
+  <ul>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#"><code class=3D"xref py py-mod docutils literal notranslate=
+"><span class=3D"pre">codecs</span></code> =E2=80=94 Codec registry and bas=
+e classes</a><ul>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#codec-base-classes">Codec Base Classes</a><ul>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#error-handlers">Error Handlers</a></li>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#stateless-encoding-and-decoding">Stateless Encoding and Deco=
+ding</a></li>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#incremental-encoding-and-decoding">Incremental Encoding and =
+Decoding</a><ul>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#incrementalencoder-objects">IncrementalEncoder Objects</a></=
+li>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#incrementaldecoder-objects">IncrementalDecoder Objects</a></=
+li>
+</ul>
+</li>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#stream-encoding-and-decoding">Stream Encoding and Decoding</=
+a><ul>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#streamwriter-objects">StreamWriter Objects</a></li>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#streamreader-objects">StreamReader Objects</a></li>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#streamreaderwriter-objects">StreamReaderWriter Objects</a></=
+li>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#streamrecoder-objects">StreamRecoder Objects</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#encodings-and-unicode">Encodings and Unicode</a></li>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#standard-encodings">Standard Encodings</a></li>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#python-specific-encodings">Python Specific Encodings</a><ul>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#text-encodings">Text Encodings</a></li>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#binary-transforms">Binary Transforms</a></li>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#text-transforms">Text Transforms</a></li>
+</ul>
+</li>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#module-encodings.idna"><code class=3D"xref py py-mod docutil=
+s literal notranslate"><span class=3D"pre">encodings.idna</span></code> =E2=
+=80=94 Internationalized Domain Names in Applications</a></li>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#module-encodings.mbcs"><code class=3D"xref py py-mod docutil=
+s literal notranslate"><span class=3D"pre">encodings.mbcs</span></code> =E2=
+=80=94 Windows ANSI codepage</a></li>
+<li><a class=3D"reference internal" href=3D"https://docs.python.org/3/libra=
+ry/codecs.html#module-encodings.utf_8_sig"><code class=3D"xref py py-mod do=
+cutils literal notranslate"><span class=3D"pre">encodings.utf_8_sig</span><=
+/code> =E2=80=94 UTF-8 codec with BOM signature</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class=3D"topless"><a href=3D"https://docs.python.org/3/library/struct.=
+html" title=3D"previous chapter"><code class=3D"xref py py-mod docutils lit=
+eral notranslate"><span class=3D"pre">struct</span></code> =E2=80=94 Interp=
+ret bytes as packed binary data</a></p>
+  <h4>Next topic</h4>
+  <p class=3D"topless"><a href=3D"https://docs.python.org/3/library/datatyp=
+es.html" title=3D"next chapter">Data Types</a></p>
+  <div role=3D"note" aria-label=3D"source link">
+    <h3>This Page</h3>
+    <ul class=3D"this-page-menu">
+      <li><a href=3D"https://docs.python.org/3/bugs.html">Report a Bug</a><=
+/li>
+      <li>
+        <a href=3D"https://github.com/python/cpython/blob/3.8/Doc/library/c=
+odecs.rst" rel=3D"nofollow">Show Source
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      <div id=3D"sidebarbutton" title=3D"Collapse sidebar" style=3D"border-=
+radius: 0px 5px 5px 0px; color: rgb(68, 68, 68); background-color: rgb(204,=
+ 204, 204); font-size: 1.2em; cursor: pointer; height: 21227px; padding-top=
+: 1px; padding-left: 1px; margin-left: 218px;"><span style=3D"display: bloc=
+k; position: fixed; top: 355px;">=C2=AB</span></div></div>
+      <div class=3D"clearer"></div>
+    </div> =20
+    <div class=3D"related" role=3D"navigation" aria-label=3D"related naviga=
+tion">
+      <h3>Navigation</h3>
+      <ul>
+        <li class=3D"right" style=3D"margin-right: 10px">
+          <a href=3D"https://docs.python.org/3/genindex.html" title=3D"Gene=
+ral Index">index</a></li>
+        <li class=3D"right">
+          <a href=3D"https://docs.python.org/3/py-modindex.html" title=3D"P=
+ython Module Index">modules</a> |</li>
+        <li class=3D"right">
+          <a href=3D"https://docs.python.org/3/library/datatypes.html" titl=
+e=3D"Data Types">next</a> |</li>
+        <li class=3D"right">
+          <a href=3D"https://docs.python.org/3/library/struct.html" title=
+=3D"struct =E2=80=94 Interpret bytes as packed binary data">previous</a> |<=
+/li>
+
+    <li><img src=3D"https://docs.python.org/3/_static/py.png" alt=3D"" styl=
+e=3D"vertical-align: middle; margin-top: -1px"></li>
+    <li><a href=3D"https://www.python.org/">Python</a> =C2=BB</li>
+   =20
+
+    <li>
+      <span class=3D"language_switcher_placeholder"><select><option value=
+=3D"en" selected=3D"selected">English</option><option value=3D"fr">French</=
+option><option value=3D"ja">Japanese</option><option value=3D"ko">Korean</o=
+ption><option value=3D"pt-br">Brazilian Portuguese</option><option value=3D=
+"zh-cn">Simplified Chinese</option></select></span>
+      <span class=3D"version_switcher_placeholder"><select><option value=3D=
+"3.9">dev (3.9)</option><option value=3D"3.8" selected=3D"selected">3.8.2</=
+option><option value=3D"3.7">3.7</option><option value=3D"3.6">3.6</option>=
+<option value=3D"3.5">3.5</option><option value=3D"2.7">2.7</option></selec=
+t></span>
+      <a href=3D"https://docs.python.org/3/index.html">Documentation </a> =
+=C2=BB
+    </li>
+
+          <li class=3D"nav-item nav-item-1"><a href=3D"https://docs.python.=
+org/3/library/index.html">The Python Standard Library</a> =C2=BB</li>
+          <li class=3D"nav-item nav-item-2"><a href=3D"https://docs.python.=
+org/3/library/binary.html">Binary Data Services</a> =C2=BB</li>
+    <li class=3D"right">
+       =20
+
+    <div class=3D"inline-search" role=3D"search">
+        <form class=3D"inline-search" action=3D"https://docs.python.org/3/s=
+earch.html" method=3D"get">
+          <input placeholder=3D"Quick search" type=3D"text" name=3D"q">
+          <input type=3D"submit" value=3D"Go">
+          <input type=3D"hidden" name=3D"check_keywords" value=3D"yes">
+          <input type=3D"hidden" name=3D"area" value=3D"default">
+        </form>
+    </div>
+   =20
+         |
+    </li>
+
+      </ul>
+    </div> =20
+    <div class=3D"footer">
+    =C2=A9 <a href=3D"https://docs.python.org/3/copyright.html">Copyright</=
+a> 2001-2020, Python Software Foundation.
+    <br>
+
+    The Python Software Foundation is a non-profit corporation.
+<a href=3D"https://www.python.org/psf/donations/">Please donate.</a>
+<br>
+    <br>
+
+    Last updated on Mar 14, 2020.
+    <a href=3D"https://docs.python.org/3/bugs.html">Found a bug</a>?
+    <br>
+
+    Created using <a href=3D"https://www.sphinx-doc.org/">Sphinx</a> 2.3.1.
+    </div>
+
+ =20
+</body></html>
+------MultipartBoundary--eNh9j64JWQhnoyMT9QIoulEeDd81IbTdQlKysH3W6M----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://docs.python.org/3/_static/pydoctheme.css
+
+@charset "utf-8";
+
+@import url("default.css");
+
+body { background-color: white; margin-left: 1em; margin-right: 1em; }
+
+div.related { margin-bottom: 1.2em; padding: 0.5em 0px; border-top: 1px sol=
+id rgb(204, 204, 204); margin-top: 0.5em; }
+
+div.related a:hover { color: rgb(0, 149, 196); }
+
+div.related:first-child { border-top: 0px; border-bottom: 1px solid rgb(204=
+, 204, 204); }
+
+.inline-search { display: inline; }
+
+form.inline-search input { display: inline; }
+
+form.inline-search input[type=3D"submit"] { width: 40px; }
+
+div.sphinxsidebar { background-color: rgb(238, 238, 238); border-radius: 5p=
+x; line-height: 130%; font-size: smaller; }
+
+div.sphinxsidebar h3, div.sphinxsidebar h4 { margin-top: 1.5em; }
+
+div.sphinxsidebarwrapper > h3:first-child { margin-top: 0.2em; }
+
+div.sphinxsidebarwrapper > ul > li > ul > li { margin-bottom: 0.4em; }
+
+div.sphinxsidebar a:hover { color: rgb(0, 149, 196); }
+
+form.inline-search input, div.sphinxsidebar input { font-family: "Lucida Gr=
+ande", Arial, sans-serif; border: 1px solid rgb(153, 153, 153); font-size: =
+smaller; border-radius: 3px; }
+
+div.sphinxsidebar input[type=3D"text"] { max-width: 150px; }
+
+div.body { padding: 0px 0px 0px 1.2em; }
+
+div.body p { line-height: 140%; }
+
+div.body h1, div.body h2, div.body h3, div.body h4, div.body h5, div.body h=
+6 { margin: 0px; border: 0px; padding: 0.3em 0px; }
+
+div.body hr { border: 0px; background-color: rgb(204, 204, 204); height: 1p=
+x; }
+
+div.body pre { border-radius: 3px; border: 1px solid rgb(170, 204, 153); }
+
+div.body div.admonition, div.body div.impl-detail { border-radius: 3px; }
+
+div.body div.impl-detail > p { margin: 0px; }
+
+div.body div.seealso { border: 1px solid rgb(221, 221, 102); }
+
+div.body a { color: rgb(0, 114, 170); }
+
+div.body a:visited { color: rgb(99, 99, 187); }
+
+div.body a:hover { color: rgb(0, 176, 228); }
+
+tt, code, pre { font-family: monospace, sans-serif; font-size: 96.5%; }
+
+div.body tt, div.body code { border-radius: 3px; }
+
+div.body tt.descname, div.body code.descname { font-size: 120%; }
+
+div.body tt.xref, div.body a tt, div.body code.xref, div.body a code { font=
+-weight: normal; }
+
+table.docutils { border: 1px solid rgb(221, 221, 221); min-width: 20%; bord=
+er-radius: 3px; margin-top: 10px; margin-bottom: 10px; }
+
+table.docutils td, table.docutils th { border-radius: 3px; border: 1px soli=
+d rgb(221, 221, 221) !important; }
+
+table p, table li { text-align: left !important; }
+
+table.docutils th { background-color: rgb(238, 238, 238); padding: 0.3em 0.=
+5em; }
+
+table.docutils td { background-color: white; padding: 0.3em 0.5em; }
+
+table.footnote, table.footnote td { border: 0px !important; }
+
+div.footer { line-height: 150%; margin-top: -2em; text-align: right; width:=
+ auto; margin-right: 10px; }
+
+div.footer a:hover { color: rgb(0, 149, 196); }
+
+.refcount { color: rgb(0, 102, 0); }
+
+.stableabi { color: rgb(34, 34, 153); }
+
+.highlight { background: none !important; }
+
+dl > dt span ~ em { font-family: monospace, sans-serif; }
+------MultipartBoundary--eNh9j64JWQhnoyMT9QIoulEeDd81IbTdQlKysH3W6M----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://docs.python.org/3/_static/default.css
+
+@charset "utf-8";
+
+@import url("classic.css");
+------MultipartBoundary--eNh9j64JWQhnoyMT9QIoulEeDd81IbTdQlKysH3W6M----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://docs.python.org/3/_static/classic.css
+
+@charset "utf-8";
+
+@import url("basic.css");
+
+html { background-color: rgb(255, 255, 255); }
+
+body { font-family: "Lucida Grande", Arial, sans-serif; font-size: 100%; ba=
+ckground-color: white; color: rgb(0, 0, 0); margin: 0px; padding: 0px; }
+
+div.document { background-color: white; }
+
+div.documentwrapper { float: left; width: 100%; }
+
+div.bodywrapper { margin: 0px 0px 0px 230px; }
+
+div.body { background-color: white; color: rgb(34, 34, 34); padding: 0px 20=
+px 30px; }
+
+div.footer { color: rgb(85, 85, 85); width: 100%; padding: 9px 0px; text-al=
+ign: center; font-size: 75%; }
+
+div.footer a { color: rgb(85, 85, 85); text-decoration: underline; }
+
+div.related { background-color: white; line-height: 30px; color: rgb(102, 1=
+02, 102); }
+
+div.related a { color: rgb(68, 68, 68); }
+
+div.sphinxsidebar { }
+
+div.sphinxsidebar h3 { font-family: "Lucida Grande", Arial, sans-serif; col=
+or: rgb(68, 68, 68); font-size: 1.4em; font-weight: normal; margin: 0px; pa=
+dding: 0px; }
+
+div.sphinxsidebar h3 a { color: rgb(68, 68, 68); }
+
+div.sphinxsidebar h4 { font-family: "Lucida Grande", Arial, sans-serif; col=
+or: rgb(68, 68, 68); font-size: 1.3em; font-weight: normal; margin: 5px 0px=
+ 0px; padding: 0px; }
+
+div.sphinxsidebar p { color: rgb(68, 68, 68); }
+
+div.sphinxsidebar p.topless { margin: 5px 10px 10px; }
+
+div.sphinxsidebar ul { margin: 10px; padding: 0px; color: rgb(68, 68, 68); =
+}
+
+div.sphinxsidebar a { color: rgb(68, 68, 68); }
+
+div.sphinxsidebar input { border: 1px solid rgb(68, 68, 68); font-family: s=
+ans-serif; font-size: 1em; }
+
+div#sidebarbutton { background-color: rgb(60, 110, 131); }
+
+a { color: rgb(0, 144, 192); text-decoration: none; }
+
+a:visited { color: rgb(0, 96, 143); text-decoration: none; }
+
+a:hover { text-decoration: underline; }
+
+div.body h1, div.body h2, div.body h3, div.body h4, div.body h5, div.body h=
+6 { font-family: "Lucida Grande", Arial, sans-serif; background-color: whit=
+e; font-weight: normal; color: rgb(26, 26, 26); border-bottom: 1px solid rg=
+b(204, 204, 204); margin: 20px -20px 10px; padding: 3px 0px 3px 10px; }
+
+div.body h1 { margin-top: 0px; font-size: 200%; }
+
+div.body h2 { font-size: 160%; }
+
+div.body h3 { font-size: 140%; }
+
+div.body h4 { font-size: 120%; }
+
+div.body h5 { font-size: 110%; }
+
+div.body h6 { font-size: 100%; }
+
+a.headerlink { color: rgb(170, 170, 170); font-size: 0.8em; padding: 0px 4p=
+x; text-decoration: none; }
+
+a.headerlink:hover { background-color: rgb(170, 170, 170); color: white; }
+
+div.body p, div.body dd, div.body li, div.body blockquote { text-align: jus=
+tify; line-height: 130%; }
+
+div.admonition p.admonition-title + p { display: inline; }
+
+div.admonition p { margin-bottom: 5px; }
+
+div.admonition pre { margin-bottom: 5px; }
+
+div.admonition ul, div.admonition ol { margin-bottom: 5px; }
+
+div.note { background-color: rgb(238, 238, 238); border: 1px solid rgb(204,=
+ 204, 204); }
+
+div.seealso { background-color: rgb(255, 255, 204); border: 1px solid rgb(2=
+55, 255, 102); }
+
+div.topic { background-color: rgb(238, 238, 238); }
+
+div.warning { background-color: rgb(255, 228, 228); border: 1px solid rgb(2=
+55, 102, 102); }
+
+p.admonition-title { display: inline; }
+
+p.admonition-title::after { content: ":"; }
+
+pre { padding: 5px; background-color: rgb(238, 255, 204); color: rgb(51, 51=
+, 51); line-height: 120%; border-top: 1px solid rgb(170, 204, 153); border-=
+bottom: 1px solid rgb(170, 204, 153); border-image: initial; border-left: n=
+one; border-right: none; }
+
+code { background-color: rgb(236, 240, 243); padding: 0px 1px; font-size: 0=
+.95em; }
+
+th, dl.field-list > dt { background-color: rgb(238, 221, 238); }
+
+.warning code { background: rgb(239, 194, 194); }
+
+.note code { background: rgb(214, 214, 214); }
+
+.viewcode-back { font-family: "Lucida Grande", Arial, sans-serif; }
+
+div.viewcode-block:target { background-color: rgb(244, 222, 191); border-to=
+p: 1px solid rgb(170, 204, 153); border-bottom: 1px solid rgb(170, 204, 153=
+); }
+
+div.code-block-caption { color: rgb(239, 239, 239); background-color: rgb(2=
+8, 78, 99); }
+------MultipartBoundary--eNh9j64JWQhnoyMT9QIoulEeDd81IbTdQlKysH3W6M----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://docs.python.org/3/_static/basic.css
+
+@charset "utf-8";
+
+div.clearer { clear: both; }
+
+div.related { width: 100%; font-size: 90%; }
+
+div.related h3 { display: none; }
+
+div.related ul { margin: 0px; padding: 0px 0px 0px 10px; list-style: none; =
+}
+
+div.related li { display: inline; }
+
+div.related li.right { float: right; margin-right: 5px; }
+
+div.sphinxsidebarwrapper { padding: 10px 5px 0px 10px; }
+
+div.sphinxsidebar { float: left; width: 230px; margin-left: -100%; font-siz=
+e: 90%; word-wrap: break-word; overflow-wrap: break-word; }
+
+div.sphinxsidebar ul { list-style: none; }
+
+div.sphinxsidebar ul ul, div.sphinxsidebar ul.want-points { margin-left: 20=
+px; list-style: square; }
+
+div.sphinxsidebar ul ul { margin-top: 0px; margin-bottom: 0px; }
+
+div.sphinxsidebar form { margin-top: 10px; }
+
+div.sphinxsidebar input { border: 1px solid rgb(152, 219, 204); font-family=
+: sans-serif; font-size: 1em; }
+
+div.sphinxsidebar #searchbox form.search { overflow: hidden; }
+
+div.sphinxsidebar #searchbox input[type=3D"text"] { float: left; width: 80%=
+; padding: 0.25em; box-sizing: border-box; }
+
+div.sphinxsidebar #searchbox input[type=3D"submit"] { float: left; width: 2=
+0%; border-left: none; padding: 0.25em; box-sizing: border-box; }
+
+img { border: 0px; max-width: 100%; }
+
+ul.search { margin: 10px 0px 0px 20px; padding: 0px; }
+
+ul.search li { padding: 5px 0px 5px 20px; background-image: url("file.png")=
+; background-repeat: no-repeat; background-position: 0px 7px; }
+
+ul.search li a { font-weight: bold; }
+
+ul.search li div.context { color: rgb(136, 136, 136); margin: 2px 0px 0px 3=
+0px; text-align: left; }
+
+ul.keywordmatches li.goodmatch a { font-weight: bold; }
+
+table.contentstable { width: 90%; margin-left: auto; margin-right: auto; }
+
+table.contentstable p.biglink { line-height: 150%; }
+
+a.biglink { font-size: 1.3em; }
+
+span.linkdescr { font-style: italic; padding-top: 5px; font-size: 90%; }
+
+table.indextable { width: 100%; }
+
+table.indextable td { text-align: left; vertical-align: top; }
+
+table.indextable ul { margin-top: 0px; margin-bottom: 0px; list-style-type:=
+ none; }
+
+table.indextable > tbody > tr > td > ul { padding-left: 0em; }
+
+table.indextable tr.pcap { height: 10px; }
+
+table.indextable tr.cap { margin-top: 10px; background-color: rgb(242, 242,=
+ 242); }
+
+img.toggler { margin-right: 3px; margin-top: 3px; cursor: pointer; }
+
+div.modindex-jumpbox { border-top: 1px solid rgb(221, 221, 221); border-bot=
+tom: 1px solid rgb(221, 221, 221); margin: 1em 0px; padding: 0.4em; }
+
+div.genindex-jumpbox { border-top: 1px solid rgb(221, 221, 221); border-bot=
+tom: 1px solid rgb(221, 221, 221); margin: 1em 0px; padding: 0.4em; }
+
+table.modindextable td { padding: 2px; border-collapse: collapse; }
+
+div.body { min-width: 450px; max-width: 800px; }
+
+div.body p, div.body dd, div.body li, div.body blockquote { }
+
+a.headerlink { visibility: hidden; }
+
+a.brackets::before, span.brackets > a::before { content: "["; }
+
+a.brackets::after, span.brackets > a::after { content: "]"; }
+
+h1:hover > a.headerlink, h2:hover > a.headerlink, h3:hover > a.headerlink, =
+h4:hover > a.headerlink, h5:hover > a.headerlink, h6:hover > a.headerlink, =
+dt:hover > a.headerlink, caption:hover > a.headerlink, p.caption:hover > a.=
+headerlink, div.code-block-caption:hover > a.headerlink { visibility: visib=
+le; }
+
+div.body p.caption { text-align: inherit; }
+
+div.body td { text-align: left; }
+
+.first { margin-top: 0px !important; }
+
+p.rubric { margin-top: 30px; font-weight: bold; }
+
+img.align-left, .figure.align-left, object.align-left { clear: left; float:=
+ left; margin-right: 1em; }
+
+img.align-right, .figure.align-right, object.align-right { clear: right; fl=
+oat: right; margin-left: 1em; }
+
+img.align-center, .figure.align-center, object.align-center { display: bloc=
+k; margin-left: auto; margin-right: auto; }
+
+img.align-default, .figure.align-default { display: block; margin-left: aut=
+o; margin-right: auto; }
+
+.align-left { text-align: left; }
+
+.align-center { text-align: center; }
+
+.align-default { text-align: center; }
+
+.align-right { text-align: right; }
+
+div.sidebar { margin: 0px 0px 0.5em 1em; border: 1px solid rgb(221, 221, 18=
+7); padding: 7px 7px 0px; background-color: rgb(255, 255, 238); width: 40%;=
+ float: right; }
+
+p.sidebar-title { font-weight: bold; }
+
+div.topic { border: 1px solid rgb(204, 204, 204); padding: 7px 7px 0px; mar=
+gin: 10px 0px; }
+
+p.topic-title { font-size: 1.1em; font-weight: bold; margin-top: 10px; }
+
+div.admonition { margin-top: 10px; margin-bottom: 10px; padding: 7px; }
+
+div.admonition dt { font-weight: bold; }
+
+div.admonition dl { margin-bottom: 0px; }
+
+p.admonition-title { margin: 0px 10px 5px 0px; font-weight: bold; }
+
+div.body p.centered { text-align: center; margin-top: 25px; }
+
+table.docutils { border: 0px; border-collapse: collapse; }
+
+table.align-center { margin-left: auto; margin-right: auto; }
+
+table.align-default { margin-left: auto; margin-right: auto; }
+
+table caption span.caption-number { font-style: italic; }
+
+table caption span.caption-text { }
+
+table.docutils td, table.docutils th { padding: 1px 8px 1px 5px; border-wid=
+th: 0px 0px 1px; border-top-style: initial; border-top-color: initial; bord=
+er-left-style: initial; border-left-color: initial; border-right-style: ini=
+tial; border-right-color: initial; border-bottom-style: solid; border-botto=
+m-color: rgb(170, 170, 170); }
+
+table.footnote td, table.footnote th { border: 0px !important; }
+
+th { text-align: left; padding-right: 5px; }
+
+table.citation { border-left: 1px solid gray; margin-left: 1px; }
+
+table.citation td { border-bottom: none; }
+
+th > p:first-child, td > p:first-child { margin-top: 0px; }
+
+th > p:last-child, td > p:last-child { margin-bottom: 0px; }
+
+div.figure { margin: 0.5em; padding: 0.5em; }
+
+div.figure p.caption { padding: 0.3em; }
+
+div.figure p.caption span.caption-number { font-style: italic; }
+
+div.figure p.caption span.caption-text { }
+
+table.field-list td, table.field-list th { border: 0px !important; }
+
+.field-list ul { margin: 0px; padding-left: 1em; }
+
+.field-list p { margin: 0px; }
+
+.field-name { hyphens: manual; }
+
+table.hlist td { vertical-align: top; }
+
+ol.arabic { list-style: decimal; }
+
+ol.loweralpha { list-style: lower-alpha; }
+
+ol.upperalpha { list-style: upper-alpha; }
+
+ol.lowerroman { list-style: lower-roman; }
+
+ol.upperroman { list-style: upper-roman; }
+
+li > p:first-child { margin-top: 0px; }
+
+li > p:last-child { margin-bottom: 0px; }
+
+dl.footnote > dt, dl.citation > dt { float: left; }
+
+dl.footnote > dd, dl.citation > dd { margin-bottom: 0em; }
+
+dl.footnote > dd::after, dl.citation > dd::after { content: ""; clear: both=
+; }
+
+dl.field-list { }
+
+dl.field-list > dt { font-weight: bold; word-break: break-word; padding-lef=
+t: 0.5em; padding-right: 5px; }
+
+dl.field-list > dt::after { content: ":"; }
+
+dl.field-list > dd { padding-left: 0.5em; margin-top: 0em; margin-left: 0em=
+; margin-bottom: 0em; }
+
+dl { margin-bottom: 15px; }
+
+dd > p:first-child { margin-top: 0px; }
+
+dd ul, dd table { margin-bottom: 10px; }
+
+dd { margin-top: 3px; margin-bottom: 10px; margin-left: 30px; }
+
+dt:target, span.highlighted { background-color: rgb(251, 229, 78); }
+
+rect.highlighted { fill: rgb(251, 229, 78); }
+
+dl.glossary dt { font-weight: bold; font-size: 1.1em; }
+
+.optional { font-size: 1.3em; }
+
+.sig-paren { font-size: larger; }
+
+.versionmodified { font-style: italic; }
+
+.system-message { background-color: rgb(255, 221, 170); padding: 5px; borde=
+r: 3px solid red; }
+
+.footnote:target { background-color: rgb(255, 255, 170); }
+
+.line-block { display: block; margin-top: 1em; margin-bottom: 1em; }
+
+.line-block .line-block { margin-top: 0px; margin-bottom: 0px; margin-left:=
+ 1.5em; }
+
+.guilabel, .menuselection { font-family: sans-serif; }
+
+.accelerator { text-decoration: underline; }
+
+.classifier { font-style: oblique; }
+
+.classifier::before { font-style: normal; margin: 0.5em; content: ":"; }
+
+abbr, acronym { border-bottom: 1px dotted; cursor: help; }
+
+pre { overflow-x: auto; overflow-y: hidden; }
+
+span.pre { hyphens: none; }
+
+td.linenos pre { padding: 5px 0px; border: 0px; background-color: transpare=
+nt; color: rgb(170, 170, 170); }
+
+table.highlighttable { margin-left: 0.5em; }
+
+table.highlighttable td { padding: 0px 0.5em; }
+
+div.code-block-caption { padding: 2px 5px; font-size: small; }
+
+div.code-block-caption code { background-color: transparent; }
+
+div.code-block-caption + div > div.highlight > pre { margin-top: 0px; }
+
+div.doctest > div.highlight span.gp { user-select: none; }
+
+div.code-block-caption span.caption-number { padding: 0.1em 0.3em; font-sty=
+le: italic; }
+
+div.code-block-caption span.caption-text { }
+
+div.literal-block-wrapper { padding: 1em 1em 0px; }
+
+div.literal-block-wrapper div.highlight { margin: 0px; }
+
+code.descname { background-color: transparent; font-weight: bold; font-size=
+: 1.2em; }
+
+code.descclassname { background-color: transparent; }
+
+code.xref, a code { background-color: transparent; font-weight: bold; }
+
+h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { background-color: tr=
+ansparent; }
+
+.viewcode-link { float: right; }
+
+.viewcode-back { float: right; font-family: sans-serif; }
+
+div.viewcode-block:target { margin: -1px -10px; padding: 0px 10px; }
+
+img.math { vertical-align: middle; }
+
+div.body div.math p { text-align: center; }
+
+span.eqno { float: right; }
+
+span.eqno a.headerlink { position: relative; left: 0px; z-index: 1; }
+
+div.math:hover a.headerlink { visibility: visible; }
+
+@media print {=20
+  div.document, div.documentwrapper, div.bodywrapper { width: 100%; margin:=
+ 0px !important; }
+  div.sphinxsidebar, div.related, div.footer, #top-link { display: none; }
+}
+------MultipartBoundary--eNh9j64JWQhnoyMT9QIoulEeDd81IbTdQlKysH3W6M----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://docs.python.org/3/_static/pygments.css
+
+@charset "utf-8";
+
+.highlight .hll { background-color: rgb(255, 255, 204); }
+
+.highlight { background: rgb(238, 255, 204); }
+
+.highlight .c { color: rgb(64, 128, 144); font-style: italic; }
+
+.highlight .err { border: 1px solid rgb(255, 0, 0); }
+
+.highlight .k { color: rgb(0, 112, 32); font-weight: bold; }
+
+.highlight .o { color: rgb(102, 102, 102); }
+
+.highlight .ch { color: rgb(64, 128, 144); font-style: italic; }
+
+.highlight .cm { color: rgb(64, 128, 144); font-style: italic; }
+
+.highlight .cp { color: rgb(0, 112, 32); }
+
+.highlight .cpf { color: rgb(64, 128, 144); font-style: italic; }
+
+.highlight .c1 { color: rgb(64, 128, 144); font-style: italic; }
+
+.highlight .cs { color: rgb(64, 128, 144); background-color: rgb(255, 240, =
+240); }
+
+.highlight .gd { color: rgb(160, 0, 0); }
+
+.highlight .ge { font-style: italic; }
+
+.highlight .gr { color: rgb(255, 0, 0); }
+
+.highlight .gh { color: rgb(0, 0, 128); font-weight: bold; }
+
+.highlight .gi { color: rgb(0, 160, 0); }
+
+.highlight .go { color: rgb(51, 51, 51); }
+
+.highlight .gp { color: rgb(198, 93, 9); font-weight: bold; }
+
+.highlight .gs { font-weight: bold; }
+
+.highlight .gu { color: rgb(128, 0, 128); font-weight: bold; }
+
+.highlight .gt { color: rgb(0, 68, 221); }
+
+.highlight .kc { color: rgb(0, 112, 32); font-weight: bold; }
+
+.highlight .kd { color: rgb(0, 112, 32); font-weight: bold; }
+
+.highlight .kn { color: rgb(0, 112, 32); font-weight: bold; }
+
+.highlight .kp { color: rgb(0, 112, 32); }
+
+.highlight .kr { color: rgb(0, 112, 32); font-weight: bold; }
+
+.highlight .kt { color: rgb(144, 32, 0); }
+
+.highlight .m { color: rgb(32, 128, 80); }
+
+.highlight .s { color: rgb(64, 112, 160); }
+
+.highlight .na { color: rgb(64, 112, 160); }
+
+.highlight .nb { color: rgb(0, 112, 32); }
+
+.highlight .nc { color: rgb(14, 132, 181); font-weight: bold; }
+
+.highlight .no { color: rgb(96, 173, 213); }
+
+.highlight .nd { color: rgb(85, 85, 85); font-weight: bold; }
+
+.highlight .ni { color: rgb(213, 85, 55); font-weight: bold; }
+
+.highlight .ne { color: rgb(0, 112, 32); }
+
+.highlight .nf { color: rgb(6, 40, 126); }
+
+.highlight .nl { color: rgb(0, 32, 112); font-weight: bold; }
+
+.highlight .nn { color: rgb(14, 132, 181); font-weight: bold; }
+
+.highlight .nt { color: rgb(6, 40, 115); font-weight: bold; }
+
+.highlight .nv { color: rgb(187, 96, 213); }
+
+.highlight .ow { color: rgb(0, 112, 32); font-weight: bold; }
+
+.highlight .w { color: rgb(187, 187, 187); }
+
+.highlight .mb { color: rgb(32, 128, 80); }
+
+.highlight .mf { color: rgb(32, 128, 80); }
+
+.highlight .mh { color: rgb(32, 128, 80); }
+
+.highlight .mi { color: rgb(32, 128, 80); }
+
+.highlight .mo { color: rgb(32, 128, 80); }
+
+.highlight .sa { color: rgb(64, 112, 160); }
+
+.highlight .sb { color: rgb(64, 112, 160); }
+
+.highlight .sc { color: rgb(64, 112, 160); }
+
+.highlight .dl { color: rgb(64, 112, 160); }
+
+.highlight .sd { color: rgb(64, 112, 160); font-style: italic; }
+
+.highlight .s2 { color: rgb(64, 112, 160); }
+
+.highlight .se { color: rgb(64, 112, 160); font-weight: bold; }
+
+.highlight .sh { color: rgb(64, 112, 160); }
+
+.highlight .si { color: rgb(112, 160, 208); font-style: italic; }
+
+.highlight .sx { color: rgb(198, 93, 9); }
+
+.highlight .sr { color: rgb(35, 83, 136); }
+
+.highlight .s1 { color: rgb(64, 112, 160); }
+
+.highlight .ss { color: rgb(81, 121, 24); }
+
+.highlight .bp { color: rgb(0, 112, 32); }
+
+.highlight .fm { color: rgb(6, 40, 126); }
+
+.highlight .vc { color: rgb(187, 96, 213); }
+
+.highlight .vg { color: rgb(187, 96, 213); }
+
+.highlight .vi { color: rgb(187, 96, 213); }
+
+.highlight .vm { color: rgb(187, 96, 213); }
+
+.highlight .il { color: rgb(32, 128, 80); }
+------MultipartBoundary--eNh9j64JWQhnoyMT9QIoulEeDd81IbTdQlKysH3W6M----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://docs.python.org/3/_static/py.png
+
+iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A
+/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9gEGxE4IQYzJ14AAAI3SURBVDjL
+ZZNPSFVBFIe/e9+zd3silBCl0SZoU4s2rVq0EB5tQip4UNvATVGu3QRBiyAi2iltWkgbF5EgRhFF
+RpiWtrWIzDIV1Pzz7p15M2fmtvDevOqBw8DM9zvnN8ycgF3R/eDtM2mac96ZdrFNxBikqbRV+vHH
+/ut9gAZczoe7C3gnF0f6au1OLM5avFi8d1Ea+JvAMSAq8nsKOGs5f2cYJ3Y7rc2PO4BqkS8DdD98
+f9tbe1ysCoxOBo1qlEXHJWcM4b5KPU19zleA0o4Clx99eO3EdqVewHsCoFRugUoVghJO7A6H6Vx9
+wdtYi27cr5x6dy/03nVtWTU7bWeZh6jNUcAiCaFTURl9A+gs56AviHzh3mnqtdPxm6knfQPLU7Ua
+okASQq/agY7yDrG16Mba6Pz48NP56VdrgAApYObGaicPtkovToFLQBKA/WUxTe3FRk4san15aGKg
+d3Dj560rrdGJS6FT0X9YYvLuiMKL1kAQOpHZ3PqfyZfP41+9PW1VfzX0RXFSECfgNEmSTgImdDru
+F2O0E8vvqZG1auQubAsKooIYYHpGvwA2g+xndQBHgWa6cG0ih5cW/w6VvEq3nChwCoBvs+bL2Z7V
+ceBHGTDAIrABpMVuhw+4OiLgLIglOLPYBTQAlfErIeCzjRVg1dtEb1kt5Omv+DTV2YssAN+zNdkz
+C42N9brV8WdvYp07seOdM2Of1F3AAknW0AJpwN6IgEPAEaANaMlcbmZdl7KRBuAfAb+v//yMAJoA
+AAAASUVORK5CYII=
+------MultipartBoundary--eNh9j64JWQhnoyMT9QIoulEeDd81IbTdQlKysH3W6M------
