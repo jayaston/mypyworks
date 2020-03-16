@@ -23,19 +23,24 @@ import tjfxdata as tjfx
 import datetime as dt
 
 
-list1 = [['00','00718','d']
+list1 = [['00','00718','d'],
+         ['00','12190','d'],
+         ['00','12225','d']
          ]
-shuju_df = tjfx.TjfxData().getdata('20150101','20200308',list1)
+shuju_df = tjfx.TjfxData().getdata('20150101','20200312',list1)
 
 shuju_df.info()
 
-shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
+shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce')
 
 
-test = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','QUOTA_NAME'],values='QUOTA_VALUE')
+test = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','QUOTA_NAME'],
+                      values='QUOTA_VALUE')
 #print(test)
 test.info()
-test.plot()
+test.columns=['最低温度','最高温度','水厂供水总量']
+
+#test.plot()
 #plt.axhline(y=583357,ls="--")#添加水平直线
 
 ##按月份删选
