@@ -1,0 +1,206 @@
+检查防火墙是否关闭
+
+自动同步时间
+vim /etc/rc.d/rc.local
+
+/usr/sbin/ntpdate -u ntp.api.bz &>/dev/null; /sbin/hwclock -w
+
+crontab -e
+
+00 10 * * * /usr/sbin/ntpdate -u ntp.api.bz &>/dev/null; /sbin/hwclock -w
+
+安装vmtool
+
+
+安装图形界面
+
+1>安装Desctop组
+yum groupinstall "Desktop"
+
+2>安装X Window
+yum groupinstall "X Window System"
+
+3>安装中文支持
+yum groupinstall "Chinese Support"
+
+4>启动
+startx
+
+
+1.安装包  
+rpm -q binutils compat-libstdc++-33 elfutils-libelf  elfutils-libelf-devel glibc glibc-common glibc-devel gcc- gcc-c++ libaio-devel libaio libgcc libstdc++ libstdc++-devel make sysstat unixODBC unixODBC-devel pdksh
+
+
+yum install -y compat-libstdc++-33.i686 glibc.i686 glibc-devel.i686 libaio.i686 libgcc.i686 libstdc++.i686
+
+yum install -y gcc gcc-c++ glibc glibc-common glibc-devel libaio libaio-devel libgcc libstdc++ libstdc++-devel make sysstat 
+
+
+
+
+---------------------------------------------------------------
+
+if [ $USER = "oracle" ]; then
+  if [ $SHELL = "/bin/ksh" ]; then
+   ulimit -p 16384
+   ulimit -n 65536
+  else
+    ulimit -u 16384 -n 65536 
+  fi
+fi
+ 
+
+export TMP=/tmp 
+export TMPDIR=$TMP  
+export ORACLE_BASE=/usr/u01/app  
+export ORACLE_HOME=$ORACLE_BASE/product/11.2.0/dbhome_1 
+export ORACLE_SID=orcl; 
+export ORACLE_TERM=xterm  
+export PATH=$ORACLE_HOME/bin:/usr/sbin:$PATH 
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib  
+export CLASSPATH=$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib 
+umask 022
+
+-------------------------------------------------------------------------
+
+
+#!/bin/bash  
+# chkconfig: 345 99 10  
+# description: Startup Script for Oracle Databases 
+# /etc/init.d/oracledb   
+ORACLE_BASE=/usr/u01/app  
+ORACLE_HOME=$ORACLE_BASE/product/11.2.0/dbhome_1  
+export ORACLE_OWNR=oracle  
+export PATH=$PATH:$ORACLE_HOME/bin 
+export ORACLE_SID=orcl  
+if [ ! -f $ORACLE_HOME/bin/dbstart -o ! -d $ORACLE_HOME ]
+then
+  echo "Oracle startup: cannot start"
+  exit 1
+ fi
+  case "$1" in   
+start)          
+ # Oracle listener and instance startup         
+ echo -n "Starting Oracle: "          
+ su - $ORACLE_OWNR -c "$ORACLE_HOME/bin/lsnrctl start"          
+ su - $ORACLE_OWNR -c "$ORACLE_HOME/bin/dbstart $ORACLE_HOME"         
+ touch /var/lock/oracle    
+ su - $ORACLE_OWNR -c "$ORACLE_HOME/bin/emctl start dbconsole"
+#   su - $ORACLE_OWNR -c "$ORACLE_HOME/bin/isqlplusctl start"      
+  echo "OK"         
+ ;;   stop)          
+ # Oracle listener and instance shutdown           
+echo -n "Shutdown Oracle: "      
+su - $ORACLE_OWNR -c "$ORACLE_HOME/bin/emctl stop dbconsole"    
+ #su - $ORACLE_OWNR -c "$ORACLE_HOME/bin/isqlplusctl stop"    
+ su - $ORACLE_OWNR -c "$ORACLE_HOME/bin/lsnrctl stop"            
+su - $ORACLE_OWNR -c "$ORACLE_HOME/bin/dbshut $ORACLE_HOME"
+rm -f /var/lock/oracle          
+ echo "OK"           
+ ;;      
+ reload|restart)           
+ $0 stop           
+ $0 start            
+;;     
+ *)           
+  echo "Usage: `basename $0` start|stop|restart|reload"           
+ exit 1 
+esac 
+exit 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1.创建用户和组
+groupadd oinstall
+groupadd dba
+useradd -g oinstall -G dba oracle
+passwd oracle
+2.设置oracle 环境变量
+vim /home/oracle/.bash_profile
+export ORACLE_SID = orcl
+export ORACLE_BASE = /u01
+export ORACLE_HOME = /u01/oracle
+export PATH=$ORACLE_HOME/bin:$PATH
+#暂时不设置
+alias sqlplus="rlwrap sql us"pl
+
+创建安装目录
+mkdir /u01
+mkdir /u01/oracle
+chown -R oracle.oinstall /u01
+
+3.修改内核参数文件vi  /etc/sysctl.conf
+#可以使用的共享内存的总页数 
+kernel.shmall = 2097152  
+#单个共享内存段的最大值 32G 
+kernel.shmmax = 2147483648  
+#该参数是共享内存段的最大数量,建议用缺省值4096 
+kernel.shmmni = 4096    
+kernel.sem = 250 32000 100 128
+#该参数决定了系统中所允许的文件句柄最大数目，文件句柄设置代表linux系统中可以 打开的文件的数量  
+fs.file-max = 6815744 
+#IP4的端口可使用范围  
+net.ipv4.ip_local_port_range = 9000 65500 
+#套接字接收缓冲区大小的缺省值 
+net.core.rmem_default = 4194304
+#套接字接收缓冲区大小的最大值 
+net.core.rmem_max = 4194304 
+#套接字发送缓冲区大小的缺省值
+net.core.wmem_default = 262144 
+#套接字发送缓冲区大小的最大值 
+net.core.wmem_max = 1048576  
+
+4.修改/etc/hosts文件
+ifconfigtab键hostname
+
+5.修改操作系统版本号/etc/redhat-release
+版本号改成4以下
+
+6.检测软件包参考百度
+rpm -q binutils compat-libstdc++-33 elfutils-libelf  elfutils-libelf-devel glibc glibc-common glibc-devel gcc- gcc-c++ libaio-devel libaiolibgcc libstdc++ libstdc++-devel make sysstat unixODBC unixODBC-devel pdksh
