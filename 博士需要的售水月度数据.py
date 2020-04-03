@@ -26,7 +26,7 @@ list1 = [['00','00718','m'], #供水总量
          ['00','23594','m'],#两月发单
          ['00','23765','m']#每月发单         
          ]
-shuju_df = tjfx.TjfxData().getdata('20200101','20200201',list1)
+shuju_df = tjfx.TjfxData().getdata('20200101','20200301',list1)
 
 shuju_df.info()
 
