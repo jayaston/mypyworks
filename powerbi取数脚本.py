@@ -4,20 +4,23 @@ Created on Thu Oct 17 08:19:57 2019
 
 @author: Jay
 """
-localPath = ""
+localPath = r"c:/Users/XieJie/mypyworks/StatLedger"
 import sys
-sys.path.append(localPath+r'module')
+sys.path.append(localPath+r'/module')
 import pandas as pd
 import numpy as np
 import tjfxdata as tjfx
 #import re    
 import datetime as dt
 enddate = (dt.datetime.now()-dt.timedelta(days=1)).strftime('%Y%m%d')
-startdate = (dt.datetime.now()-dt.timedelta(days=1096)).strftime('%Y%m%d')
+startdate = (dt.datetime.now()-dt.timedelta(days=731)).strftime('%Y%m%d')
 
 shuju_df = tjfx.TjfxData().getdata(startdate,enddate)
 shuju_df = shuju_df.query("RECORD_TYPE!='h'")
 shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
+
+
+
 selectquota = pd.read_excel(localPath+r"数据表\水厂看板指标.xlsx",
                             dtype={'QUOTA_CODE':object,'QUOTA_NAME':object},
                             usecols=['QUOTA_CODE'])
