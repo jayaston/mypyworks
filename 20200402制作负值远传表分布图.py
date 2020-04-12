@@ -10,16 +10,25 @@ mpl.rcParams['axes.unicode_minus'] = False # 用来正常显示负号
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import datetime as dt
 data = pd.read_excel(
-        r'e:\专题工作（重要）\公司级大数据系统资料\战略与大数据分析系统项目\远传表数据治理\相邻日期行度相减小于-1的情况.xlsx',
+        r'c:\Users\Jay\mypyworks\自来水数据\相邻日期行度相减小于-1的情况.xlsx',
         index_col=0
         )
 
-data
+data['数据时间']=data['数据时间'].dt.strftime("%y/%m/%d")
+data['OBJID'] = data['OBJID'].astype('str')
+
+test = pd.pivot_table(data,index=['OBJID'],columns=['数据时间'],values=['水量'],fill_value=0)
+
+test[test<0] = np.nan
+
+test.to_excel('./mypyworks/数据导出/相邻日期行度相减小于-1矩阵.xlsx')
 
 
 
-test = pd.pivot_table(data,index=['数据时间'],columns=['OBJID'],values=['行度值'],aggfunc=[len],fill_value=0)
+
+
 
 
 

@@ -1,0 +1,139 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jan 13 14:17:39 2020
+
+@author: 金石教育
+"""
+import json
+import re
+import time
+from datetime import datetime
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+from PIL import Image
+from qiniu import Auth, put_file, etag
+import qiniu.config
+import requests
+import json
+import os
+
+
+
+names = globals()
+
+def checkin_get_brower():   
+    brower = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe')
+    brower.maximize_window()
+    brower.get(url)
+    time.sleep(2)
+    brower.find_element_by_id('i0116').send_keys('xxxxxxxx')
+    brower.find_element_by_id('idSIButton9').click()
+    time.sleep(2)
+    brower.find_element_by_id('i0118').send_keys('xxxxxxxx')
+    brower.find_element_by_id('idSIButton9').click()
+    time.sleep(15)
+    return brower
+
+
+
+
+
+def jietu():
+    while True:
+        try:
+            displayArea=brower.find_element_by_xpath(".//*[@class='displayArea disableAnimations fitToPage']")
+        except:
+            print('等待刷新10秒')
+            time.sleep(10)
+        else:
+            break        
+    time.sleep(10)
+    left = displayArea.location['x']
+    top = displayArea.location['y']
+    right = displayArea.location['x'] + displayArea.size['width']
+    bottom = displayArea.location['y'] + displayArea.size['height']
+    brower.get_screenshot_as_file('screenshot.png')     
+    im = Image.open('screenshot.png')
+    im = im.crop((left, top, right, bottom))  # 对浏览器截图进行裁剪
+    im.save(local_file)
+
+# driver.quit()
+
+
+
+filenames=['率-片区','率-市区']
+urls=['https://app.powerbi.cn/groupsxxxxxxxx',
+     'https://app.powerbi.cn/groups/xxxxxx'
+     ]
+
+
+
+
+def get_img_url():
+    access_key = xxxxxx
+    secret_key = xxxxxxxx
+    q = Auth(access_key, secret_key)
+    bucket_name = xxxxxx
+    token = q.upload_token(bucket_name, key)
+    ret, info = put_file(token, key, local_file)
+    base_url = xxxxxx
+    url = base_url + '/' + key
+    private_url = q.private_download_url(url)
+    return private_url
+
+
+for i in range(len(filenames)):
+    print(i)
+    filename=filenames[i]
+    print(filename)
+    url=urls[i]
+    brower= checkin_get_brower()
+    local_file='D:\下载\钉钉群机器人发送\displayArea'+filename+'.png'
+    if os.path.exists(local_file):
+        os.remove(local_file)
+    else:
+        print('no such file')
+    jietu()
+    img_name='displayArea'+filename+'.png'
+    key = 'data/%s'%(img_name)
+    names['img_url'+str(i)] = get_img_url()
+    time.sleep(5)
+    brower.quit()
+    
+
+
+#print(img_url0,img_url1,img_url2,img_url3,img_url4,img_url5,img_url6)
+
+
+
+
+
+def dingmessage(img_url0):
+    webhook = "https://oapi.dingtalk.com/robot/send?xxxxxxxx
+    header = {
+        "Content-Type": "application/json",
+        "Charset": "UTF-8"
+        }
+    message ={
+        "msgtype": "markdown",
+        "markdown": {"title": "抓紧上车了各位",
+                     "text":"# 抓紧上车了各位\n\n"+
+                     "#### 能不能快点，幼儿园都快放学了\n\n" +
+                     "> ![screenshot]("+img_url0+")\n" +
+                     "> ###### 由老司机发布\n"
+                     },
+        "at": {"isAtAll": 0}
+        }
+    message_json = json.dumps(message)
+    info = requests.post(url=webhook,data=message_json,headers=header)
+    print(info.text)
+
+
+
+
+dingmessage((img_url0):)
+
+        
+        
+

@@ -1,0 +1,27 @@
+# 'dataset' 保留此脚本的输入数据
+import pymysql
+import pandas as pd
+​
+dataset = dataset.astype(object).where(pd.notnull(dataset), None)
+db = pymysql.connect("localhost","用户名","密码","nc" )
+cursor = db.cursor()
+query = 'insert into `全球疫情_country`(id,displayName,areas,totalConfirmed,totalDeaths,totalRecovered,lastUpdated,lat,long,parentId)values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+​
+for r in range(len(dataset)):
+    id0=dataset.iat[r,0]
+    displayName=dataset.iat[r,1]
+    areas=dataset.iat[r,2]
+    totalConfirmed=dataset.iat[r,3]
+    totalDeaths=dataset.iat[r,4]
+    totalRecovered=dataset.iat[r,5]
+    lastUpdated=dataset.iat[r,6]
+    lat=float(dataset.iat[r,7])
+    long=float(dataset.iat[r,8])
+    parentId=dataset.iat[r,9]
+​
+    values = (id0,displayName,areas,totalConfirmed,totalDeaths,totalRecovered,lastUpdated,lat,long,parentId)
+    cursor.execute(query, values)
+​
+cursor.close()
+db.commit()
+db.close()
