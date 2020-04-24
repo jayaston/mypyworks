@@ -51,7 +51,7 @@ list3 = [
          ['1016','00718','m']                 
          ]
 
-shuju_df = tjfx.TjfxData().getdata('20190101','20191231',list3)
+shuju_df = tjfx.TjfxData().getdata('20200101','20200331',list2)
 
 shuju_df.info()
 
@@ -71,7 +71,7 @@ test = test[['江村水厂','西村水厂','石门水厂','北部水厂', '南�
 #test = test.resample("Y").sum()
 
 try:
-    path = os.path.abspath(os.path.join(os.path.dirname(__file__),r"输出\2019取供水监控数据.xlsx"))
+    path = os.path.abspath(os.path.join(os.path.dirname(__file__),r"输出\2020取供水监控数据.xlsx"))
     test.to_excel(path)    
 except:
-    test.to_excel(r'./输出/2019取供水监控数据.xlsx')
+    test.to_excel(r'./输出/2020取供水监控数据.xlsx')
