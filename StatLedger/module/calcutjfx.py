@@ -105,8 +105,8 @@ def calcu_tjfx(startd,endd,typer="d"):
 #小时累计计算到日，与台账已有日数据比较。日累计计算月，与台账已有月数据比对
 
 if __name__ == "__main__" :    
-    startd,endd = '20191001','20191028'
-    gongshiku = order_gongshiku("h")
+    startd,endd = '20201001','20200430'
+    gongshiku = order_gongshiku("d")
     quotalist = list(set(gongshiku['zhibiao']))
     resultdict = all_calcu(startd,endd,quotalist)
     resultlist= []

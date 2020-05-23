@@ -65,6 +65,4 @@ test.info()
 #test = test[['西村水厂','石门水厂','江村水厂','新塘水厂','西洲水厂','南洲水厂']]
 test = test.resample("Y").sum()
 
-
-
-test.to_excel(r'C:\Users\XieJie\mypyworks\输出\2015-2019生活售水.xlsx')
+test.to_excel(r'C:\Users\XieJie\mypyworks\输出\2017-2019南区用水比例.xlsx')

@@ -4,8 +4,9 @@ Created on Thu Sep 19 08:39:30 2019
 
 @author: XieJie
 """
-#sys.path.append(r'E:\pyworks\StatLedger\module')
-#import sys
+# import sys
+# sys.path.append(r'.\mypyworks\StatLedger\module')
+
 import pandas as pd
 #import numpy as np
 from tjfxdata import TjfxData
@@ -90,8 +91,7 @@ def all_calcu(startd,endd,quotalist):
 
 
 
-if __name__ == "__main__" :  
-    
-    startd,endd,quotalist = '20190930','20190930',['d_00_18230','d_1004_18230','d_1005_18230','d_1007_18230']
+if __name__ == "__main__" :      
+    startd,endd,quotalist = '20200401','20200430',['d_00_18230','d_00_18615','d_00_18965']
     test = all_calcu(startd,endd,quotalist)
 

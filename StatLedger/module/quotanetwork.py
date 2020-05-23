@@ -95,8 +95,9 @@ def subgraphviz(quota,path):
     dot.render(path, view=True)
 
 if __name__ == "__main__" :  
-    subgraphviz('d_1001_31195',r'E:\pyworks\输出\network-output\round-table.gv')
-    subnetwork('d_1001_31195',r'E:\pyworks\输出\network-output\test.png')
+    subgraphviz('d_1001_31195')
+    # subgraphviz('d_1001_31195',r'E:\pyworks\输出\network-output\round-table.gv')
+    # subnetwork('d_1001_31195',r'E:\pyworks\输出\network-output\test.png')
 
 ##文字格式network
 #def zhibiao_codetoname(x):#对数字编码还原成名称
