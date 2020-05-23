@@ -37,13 +37,13 @@ shuju_df1 = pd.pivot_table(shuju_df,index=['QUOTA_DATE'],columns=[ 'QUOTA_NAME']
 shuju_df1.reset_index(inplace=True)
 shuju_df1.columns=['日期','刘屋洲取水量']
 
-import datatime as dt
+import datetime as dt
 shuju_df1['年月']=shuju_df1['日期'].dt.strftime('%Y%m')
 shuju_df1['日']=shuju_df1['日期'].dt.strftime('%d')+'日'
 
 shuju_df2 = pd.pivot_table(shuju_df1,index=['年月'],columns=[ '日'],values= '刘屋洲取水量')
 
-shuju_df2.to_excel('')
+shuju_df2.to_excel(r'./mypyworks/输出/刘屋洲取水日台账.xls')
 
 
 
