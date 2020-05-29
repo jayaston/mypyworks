@@ -43,11 +43,11 @@ class TjfxData:
         print(df_result.head())        
         return df_result
     def get_all_quota(self):
-        sql = "SELECT * \
-            FROM zls_tjfx.cs_Quota_Define"
-        df_zhibiao = pd.read_sql(sql,self.conn)        
-        df_zhibiao.query("EFFECTYPE == 'Y'",inplace = True)        
-        result = df_zhibiao[['QUOTA_CODE','QUOTA_NAME','REMARK','QUOTA_FULL_NAME']].drop_duplicates(['QUOTA_CODE','QUOTA_NAME'])
+        sql = "SELECT QUOTA_CODE,QUOTA_NAME \
+            FROM zls_tjfx.cs_Quota_Define \
+                WHERE EFFECTYPE = 'Y'"
+        df_zhibiao = pd.read_sql(sql,self.conn) 
+        result = df_zhibiao.drop_duplicates(['QUOTA_CODE'])
         return result
     
     def get_all_dept(self):
@@ -137,7 +137,8 @@ class TjfxData:
                        
         c.close()  # 关闭连接
         self.conn.close()
-
+    def close(self):
+        self.conn.close()
 
         
 

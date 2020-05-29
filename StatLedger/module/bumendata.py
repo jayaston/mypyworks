@@ -105,8 +105,13 @@ class BumenData:
       
         c.close()  # 关闭连接
         self.conn.close()
+    def imp_tbl(tblname):
         
-        
+    
+    def close(self):
+        self.conn.close()
+        c = self.conn.cursor()
+        c.close()
 if __name__ == "__main__":
     b = BumenData()
     df2 = b.getdata('20181231', '20190101')
