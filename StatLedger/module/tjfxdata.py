@@ -7,14 +7,18 @@ Created on Wed Feb 20 09:50:53 2019
 import pandas as pd
 import cx_Oracle
 import readConfig
+#from sqlalchemy import create_engine
+#from sqlalchemy.types import CHAR,VARCHAR,DateTime,Numeric,Integer
 
 class TjfxData:    
     def __init__(self,
                  user=readConfig.tjfx_user,
                  password=readConfig.tjfx_pwd,
                  dsn=readConfig.tjfx_dsn):
-        self.conn = cx_Oracle.connect(user=user,password=password,dsn=dsn)        
+        self.conn = cx_Oracle.connect(user=user,password=password,dsn=dsn) 
+        #conn_string='oracle+cx_oracle://'+self.user+':'+self.password+'@'+self.dsn       
     def getdata(self,startd,endd,quotas=None):
+        
         sql1 = "select QUOTA_DATE,QUOTA_DEPT_CODE ,QUOTA_CODE,QUOTA_VALUE,RECORD_TYPE \
             from zls_tjfx.tj_quota_data \
             where quota_date >= to_date('"+startd+"','yyyymmdd') \
@@ -47,6 +51,7 @@ class TjfxData:
             FROM zls_tjfx.cs_Quota_Define \
                 WHERE EFFECTYPE = 'Y'"
         df_zhibiao = pd.read_sql(sql,self.conn) 
+        self.conn.close() 
         result = df_zhibiao.drop_duplicates(['QUOTA_CODE'])
         return result
     
@@ -54,6 +59,7 @@ class TjfxData:
         sql = "SELECT DISTINCT GROUP_CODE , GROUP_NAME \
             FROM zls_tjfx.hr_organization"  
         df_bumen = pd.read_sql(sql,self.conn) 
+        self.conn.close()
         result = df_bumen.drop_duplicates(['GROUP_CODE','GROUP_NAME'])
         return result
         
@@ -61,10 +67,9 @@ class TjfxData:
         c = self.conn.cursor()  # 使用 cursor() 方法创建一个游标对象 cursor
         try:
             sql = "drop table TJ_DATA_"+"tmp3"
-            c.execute(sql)#删除已经存在的临时表
-            self.conn.commit()#提交到数据库执行
-        except:            
-            self.conn.rollback()#发生错误时，回滚！
+            c.execute(sql)#删除已经存在的临时表            
+        except :
+            pass
         sql="CREATE TABLE TJ_DATA_"+"tmp3"+" ( \
             QUOTA_CODE VARCHAR2 ( 12 ), \
             MON VARCHAR2 ( 6 ), \
@@ -77,18 +82,14 @@ class TjfxData:
             RECORD_TYPE CHAR ( 1 ), \
             CONSTRAINT pk_"+"tmp3"+" PRIMARY KEY ( QUOTA_CODE, QUOTA_DATE, QUOTA_DEPT_CODE, RECORD_TYPE ))"
         try:            
-            c.execute(sql)       #删除已经存在的临时表
-            self.conn.commit()#提交到数据库执行
-        except Exception as e:            
-            self.conn.rollback()#发生错误时，回滚！ 
+            c.execute(sql)       #创建新的临时表        
+        except Exception as e: 
             print("无法创建临时表！导入失败")
             print(e)
         else:
             #try:
             #c.execute('truncate table TJ_DATA_SJY')#清除临时表数据
-            #self.conn.commit()#提交到数据库执行
-            #except:            
-            #self.conn.rollback()#发生错误时，回滚！
+            #except:    
             sql = "INSERT INTO TJ_DATA_"+"tmp3"+" \
                 VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9)"
     
@@ -123,33 +124,50 @@ class TjfxData:
             
                 try:
                     c.execute(sql)#执行sql语句
-                    self.conn.commit()
-                   
+                    self.conn.commit()               
                 except Exception as e:
                     print ('写入台账主数据错误！导入失败')
                     print(e)
                     self.conn.rollback()#发生错误时，回滚！ 
                 else:
                      print("数据导入成功！")#提交到数据库执行
-                
-               
                 #    c.executemany(sql, dir_data(r'E:\pyworks\行业表'))  # 执行sql语句  
                        
-        c.close()  # 关闭连接
-        self.conn.close()
+        c.close()  # 关闭游标      
+        self.conn.close()#关闭连接
+    def imp_df(self,df):  #数据框写入统计台账
+        #df可能需要字符型
+        df = df.reindex(columns=['QUOTA_CODE','MON','QUOTA_DATE','QUOTA_VALUE',
+                             'REPORT_FLAG','QUOTA_DEPT_CODE','IMPORT_FLOW_NO',
+                             'WARNING_CODE','RECORD_TYPE'])
+        df['MON'] = df['QUOTA_DATE'].dt.strftime('%Y%m')
+        df['QUOTA_DATE'] = df['QUOTA_DATE'].dt.strftime('%Y-%m-%d %H:%M:%S')
+        df['QUOTA_VALUE'] = df['QUOTA_VALUE'].astype('str')
+        mylist = list(df.to_records(index=False))        
+        self.importdata(mylist)
+    def exp_formula(self):
+        pass 
+    
+    def get_any_data(self,sql:str):
+        df = pd.read_sql(sql,self.conn) 
+        return df
     def close(self):
         self.conn.close()
-
-        
-
-
-
-       
+    
+ 
 if __name__=="__main__":
-    a = TjfxData()
+    tz = TjfxData()
 #    quotas = [['00','00752','m']
 #             ]
 #    df1 = a.getdata('20181231','20190101')
-    df2 = a.get_all_dept()
-    df2.to_excel(r'C:\\Users\\XieJie\\mypyworks\\部门表.xlsx')
-    
+    df2 = tz.get_all_dept()
+    df3 = tz.get_any_data("select * \
+                          form zls_tjfx.tj_quota_data \
+                          where quota_date = to_date('20200101','%Y%m%d')\
+                          and record_type = 'm'")
+#    df2.to_excel(r'C:\\Users\\XieJie\\mypyworks\\部门表.xlsx')
+    from sklearn import datasets
+    import pandas as pd
+    datasets_iris = datasets.load_iris()
+    iris = pd.DataFrame(datasets_iris.data,columns=datasets_iris.feature_names)
+    test = list(iris.to_records(index=False))
