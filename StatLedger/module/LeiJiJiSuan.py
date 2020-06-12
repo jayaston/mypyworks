@@ -66,7 +66,7 @@ def leijijisuan(startd,endd):
     shuju_df = tjfx.TjfxData().getdata(startd,endd)
     shuju_df = shuju_df.query("RECORD_TYPE=='d'")
     
-    shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coercs').fillna(0)
+    shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
     
     
     shuju_df_ave_dict = {}
@@ -97,7 +97,7 @@ def leijijisuan(startd,endd):
     shuju_leijijisuan = pd.concat([shuju_leijijisuan,shuju_df_ave])
     zhibiaoall_df = pd.DataFrame({'zhibiao':list(set(re.findall(r'\b[a-z]_\d+_\d+\b',' '.join(list(gongshiku['setformula'])))))})
     shuju_leijijisuan = pd.merge(zhibiaoall_df,shuju_leijijisuan,on='zhibiao',how='outer')
-    shuju_leijijisuan['QUOTA_VALUE'] = pd.to_numeric(shuju_leijijisuan['QUOTA_VALUE'],errors='coercs').fillna(0)
+    shuju_leijijisuan['QUOTA_VALUE'] = pd.to_numeric(shuju_leijijisuan['QUOTA_VALUE'],errors='coerce').fillna(0)
     shuju_leijijisuan_t = shuju_leijijisuan.set_index('zhibiao').T
     
     
@@ -131,7 +131,7 @@ def leijijisuan(startd,endd):
     return shuju_leiji
 
 if __name__=="__main__":
-    test = leijijisuan("20190201","20190228")
+    test = leijijisuan("20200501","20200531")
 
 
 
