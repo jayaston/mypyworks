@@ -10,26 +10,38 @@ import pandas as pd
 import numpy as np
 import tjfxdata as tjfx
 #import re  
-list1 = [['1001','00718','m'],
-         ['1002','00718','m'],
-         ['1003','00718','m'],
-         ['100301','00718','m'],
-         ['100302','00718','m'],
-         ['1004','00718','m'],
-         ['1005','00718','m'],
-         ['1006','00718','m'],
-         ['1007','00718','m']
+list1 = [['1001','00718','d'],
+         ['1002','00718','d'],
+         ['1003','00718','d'],
+         ['100301','00718','d'],
+         ['100302','00718','d'],
+         ['1004','00718','d'],
+         ['1005','00718','d'],
+         
+         ['1007','00718','d']
+         #['1016','00718','d']
          ]
-shuju_df = tjfx.TjfxData().getdata('20090101','20181231',list1)
+shuju_df = tjfx.TjfxData().getdata('20160101','20181231',list1)
 
 shuju_df.info()
 
-shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coercs').fillna(0)
-shuju_df = pd.pivot_table(shuju_df,index='QUOTA_DATE',columns=['GROUP_NAME'],values=['QUOTA_VALUE'])
+shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
+shuju_df1 = pd.pivot_table(shuju_df,index='QUOTA_DATE',columns=['GROUP_NAME'],values= 'QUOTA_VALUE')
+shuju_df1 = shuju_df1.reset_index()
 
-result = shuju_df.resample('Y').sum()
+type(shuju_df1.iloc[:,1] )
 
+    
+#按年最大值
+get_max = lambda x: x[x.iloc[:,1]==x.iloc[:,1].max()]
+                        
+# python就是灵活啊。
+get_max.__name__ = "maxday"
 
+test = dict()
+for i in list(shuju_df1.columns)[1:]:
+    item = shuju_df1[['QUOTA_DATE',i]].groupby([pd.Grouper(key='QUOTA_DATE',freq='Y')]).apply(get_max)
+    test[i] = item
 
 
 result.to_excel("E:\\pyworks\\近十年各厂供水总量.xls")
