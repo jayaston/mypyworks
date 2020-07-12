@@ -23,11 +23,9 @@ import tjfxdata as tjfx
 import datetime as dt
 
 
-list1 = [['00','00718','d'],
-         ['00','12190','d'],
-         ['00','12225','d']
+list1 = [['00','00718','d']
          ]
-shuju_df = tjfx.TjfxData().getdata('20150101','20200413',list1)
+shuju_df = tjfx.TjfxData().getdata('20190101','20200627',list1)
 
 shuju_df.info()
 
@@ -51,5 +49,5 @@ test.columns=['最低温度','最高温度','水厂供水总量']
 #test = test[['西村水厂','石门水厂','江村水厂','新塘水厂','西洲水厂','南洲水厂']]
 #test = test.resample("Y").sum()
 
-test.sort_index().to_excel(r'C:\Users\XieJie\mypyworks\输出\2015-2020日供水总量.xlsx')
+test.sort_index().to_excel(r'C:\Users\XieJie\mypyworks\输出\2019-2020日供水总量.xlsx')
 
