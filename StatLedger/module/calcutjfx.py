@@ -34,7 +34,7 @@ def order_gongshiku(sheet_name="d"):
     gongshiku.drop(['var_code','var_dept'],axis=1,inplace=True)      
     
     return gongshiku
-
+gongshiku = order_gongshiku("d")
 
 def get_castdata(startd,endd,quotalist): 
     thequotalist=[i.split('_') for i in quotalist]    
@@ -54,7 +54,7 @@ def get_castdata(startd,endd,quotalist):
 
 
 
-def inter_calcu(startd,endd,quotalist):
+def inter_calcu(startd,endd,quotalist): #公式计算函数
     zhibiaoji=[]
     for i in quotalist:
         zhibiaoji += gongshiku[gongshiku.zhibiao == i].iat[0,3]
@@ -69,7 +69,7 @@ def inter_calcu(startd,endd,quotalist):
     return interquotadict
 
 
-def out_calcu(startd,endd,quotalist):
+def out_calcu(startd,endd,quotalist): #非公式计算函数
     diffquotadf = get_castdata(startd,endd,quotalist).reindex(columns=quotalist,fill_value=0)
     diffquotadict = diffquotadf.to_dict('series') 
 #    resultdict = {i:diffquotadict.get(i,0) for i in quotalist}
@@ -77,36 +77,36 @@ def out_calcu(startd,endd,quotalist):
     return diffquotadict
 
 def all_calcu(startd,endd,quotalist):
-    diffquotalist = list(set(quotalist) - set(gongshiku.zhibiao))
-    interquotalist = list(set(quotalist) & set(gongshiku.zhibiao))
-    if len(interquotalist) == 0: 
-        resultdict = out_calcu(startd,endd,diffquotalist)
+    diffquotalist = list(set(quotalist) - set(gongshiku.zhibiao))#不需要公式计算指标
+    interquotalist = list(set(quotalist) & set(gongshiku.zhibiao))#需要公式计算指标
+    if len(interquotalist) == 0: #如果指标全部在公式库外
+        resultdict = out_calcu(startd,endd,diffquotalist)#则对外部指标启用外部计算函数返回最终结果字典
     else:
-        if len(diffquotalist)==0:
-            resultdict = inter_calcu(startd,endd,interquotalist)
-        else:
-            dic1 = out_calcu(startd,endd,diffquotalist)
-            dic2 = inter_calcu(startd,endd,interquotalist)
-            resultdict = dict(dic1,**dic2) 
+        if len(diffquotalist)==0:#如果指标全部在公式库内
+            resultdict = inter_calcu(startd,endd,interquotalist)#则对内部指标启用内部运算函数返回最终结果字典
+        else:#如果指标部分在公式库内部分在公式库外
+            dic1 = out_calcu(startd,endd,diffquotalist)#对公式库外指标用外部计算返回字典1
+            dic2 = inter_calcu(startd,endd,interquotalist)#对公式库内指标用内部计算返回字典2
+            resultdict = dict(dic1,**dic2) #合并两个字典形成最终字典。
     return resultdict
             
-def calcu_tjfx(startd,endd,typer="d"):
+def calcu_tjfx(startd,endd,typer="d"):#计算台账函数
     gongshiku = order_gongshiku(typer)
     quotalist = list(set(gongshiku['zhibiao']))
     resultdict = all_calcu(startd,endd,quotalist)
-    resultlist= []
-    for i in resultdict.keys():
-        for j,k in list(zip(resultdict[i].index,resultdict[i])):            
-            value = (i.split('_')[2],j.strftime('%Y%m'),j.strftime('%Y-%m-%d %H:%M:%S'),'%.2f'%float(k),'',i.split('_')[1],'','',i.split('_')[0])
-            resultlist.append(value)
-    TjfxData().importdata(resultlist)
+    return resultdict
+    # resultlist= []
+    # for i in resultdict.keys():
+    #     for j,k in list(zip(resultdict[i].index,resultdict[i])):            
+    #         value = (i.split('_')[2],j.strftime('%Y%m'),j.strftime('%Y-%m-%d %H:%M:%S'),'%.2f'%float(k),'',i.split('_')[1],'','',i.split('_')[0])
+    #         resultlist.append(value)
+    # TjfxData().importdata(resultlist)
     
    
 #小时累计计算到日，与台账已有日数据比较。日累计计算月，与台账已有月数据比对
 
 if __name__ == "__main__" :    
-    startd,endd = '20201001','20200430'
-    gongshiku = order_gongshiku("d")
+    startd,endd = '20200101','20200130'  
     quotalist = list(set(gongshiku['zhibiao']))
     resultdict = all_calcu(startd,endd,quotalist)
     resultlist= []

@@ -23,7 +23,7 @@ class BumenData:
         self.conn = pymysql.connect(host=host,port=port,database=database,
                                user=user,password=password,charset=charset)
         
-        self.engine = create_engine("mysql+pymysql://"+user+":"+password+"@"+host+":"+port+"/"+database+"?charset=utf8",
+        self.engine = create_engine("mysql+pymysql://"+str(user)+":"+str(password)+"@"+str(host)+":"+str(port)+"/"+str(database)+"?charset=utf8",
                                     echo=False)
     def getdata(self,startd,endd,quotas=None):        
         try:
@@ -39,7 +39,8 @@ class BumenData:
         except Exception as e:
             print("%s;没有指定具体指标，返回全部数据"%e)
             df_result = df        
-        print(df_result.head())        
+        print(df_result.head()) 
+        self.conn.close()#关闭连接
         return(df_result)
         
         
@@ -66,7 +67,7 @@ class BumenData:
         try:
             c.execute(sql)       #删除已经存在的临时表
         except:            
-            print("导入失败，建立零时表错误！")
+            print("导入失败，建立临时表错误！")
             traceback.print_exc()
 
         else:
@@ -99,6 +100,7 @@ class BumenData:
                     traceback.print_exc()
                     self.conn.rollback()#发生错误时，回滚！
         c.close()  # 关闭游标
+        self.conn.close()#关闭连接
     def imp_tbl(self,df,tblname):
         def mapping_df_types(df):
             dtypedict = {}
@@ -115,8 +117,8 @@ class BumenData:
                     dtypedict.update({i: BOOLEAN()})
             return dtypedict        
         dtypedict = mapping_df_types(df)
-        df.to_sql(tblname, con=self.engine,if_exists = 'replace',schema='tjdata',index=False, dtype=dtypedict)
-
+        df.to_sql(tblname, con=self.engine,if_exists = 'replace',index=False, dtype=dtypedict)
+        self.conn.close()#关闭连接
     
     def update_tbl(self,df,
                    sql:str="INSERT INTO `stock_discover` VALUES (%s, %s, %s, %s, %s, %s)\
@@ -128,11 +130,11 @@ class BumenData:
         c.executemany(sql,mylist)        
         self.conn.commit()
         c.close()
-    def close(self):
-        self.conn.close()
+        self.conn.close()#关闭连接
+
         
 if __name__ == "__main__":
-    b = BumenData()
-    df2 = b.getdata('20181231', '20190101')
-    b.close()
+    
+    df2 = BumenData().getdata('20181231', '20190101')
+
     

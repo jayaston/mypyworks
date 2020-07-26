@@ -43,9 +43,9 @@ class TjfxData:
         df_bumen = pd.read_sql(sql3,self.conn)
         df_result = pd.merge(df_result,df_zhibiao,on='QUOTA_CODE')
         df_result = pd.merge(df_result,df_bumen,left_on='QUOTA_DEPT_CODE',right_on='GROUP_CODE').drop('GROUP_CODE',axis=1)
-        self.conn.close()            
-        print(df_result.head())        
+        self.conn.close()
         return df_result
+    
     def get_all_quota(self):
         sql = "SELECT QUOTA_CODE,QUOTA_NAME \
             FROM zls_tjfx.cs_Quota_Define \
@@ -61,6 +61,27 @@ class TjfxData:
         df_bumen = pd.read_sql(sql,self.conn) 
         self.conn.close()
         result = df_bumen.drop_duplicates(['GROUP_CODE','GROUP_NAME'])
+        return result
+    def get_formula(self):
+        sql = "SELECT i.TZ_TYPE ,r.QUOTA_CODE, q.QUOTA_NAME,r.ZB_DEPT_CODE,o.GROUP_NAME,r.FORMULA_CODE,f.FORMULA,f.START_TIME,f.END_TIME,v.VIEW_NAME 方案,i.TZ_NAME as 目录 \
+            FROM CS_TZZB_RELATION r,CS_TZ_VIEW v, CS_TZ_ITEM i ,cs_formula_set f,CS_QUOTA_DEFINE q, HR_ORGANIZATION o \
+                WHERE r.TZ_CODE = i.TZ_CODE(+)\
+                    AND r.VIEW_CODE = v.VIEW_CODE(+)\
+                        AND r.FORMULA_CODE = f.FORMULA_CODE(+)\
+                            AND r.QUOTA_CODE = q.QUOTA_CODE(+)\
+                                AND r.ZB_DEPT_CODE = o.GROUP_CODE(+)\
+                                    AND r.FORMULA_CODE is not null \
+                                        AND v.VIEW_NAME IN ('新系统')"  
+        df_formula = pd.read_sql(sql,self.conn) 
+        self.conn.close()
+        result = df_formula.drop_duplicates(['TZ_TYPE','QUOTA_CODE','ZB_DEPT_CODE','FORMULA_CODE'])
+        return result
+    def get_formula_detail(self):
+        sql = "select g.flow_no,g.operation,g.left_bracket,g.parameter,g.QUOTA_DEPT_CODE,g.quota_code,g.right_bracket,g.FORMULA_CODE\
+            from zls_tjfx.Cs_Formula_Detail g"  
+        df_formula = pd.read_sql(sql,self.conn) 
+        self.conn.close()
+        result = df_formula
         return result
         
     def importdata(self,mylist:list):
@@ -150,7 +171,9 @@ class TjfxData:
     
     def get_any_data(self,sql:str):
         df = pd.read_sql(sql,self.conn) 
+        self.conn.close()#关闭连接
         return df
+    
     def close(self):
         self.conn.close()
     
