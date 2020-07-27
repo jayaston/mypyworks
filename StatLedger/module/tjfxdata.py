@@ -65,19 +65,19 @@ class TjfxData:
     def get_formula(self):
         sql = "SELECT i.TZ_TYPE ,r.QUOTA_CODE, q.QUOTA_NAME,r.ZB_DEPT_CODE,o.GROUP_NAME,r.FORMULA_CODE,f.FORMULA,f.START_TIME,f.END_TIME,v.VIEW_NAME 方案,i.TZ_NAME as 目录 \
             FROM CS_TZZB_RELATION r,CS_TZ_VIEW v, CS_TZ_ITEM i ,cs_formula_set f,CS_QUOTA_DEFINE q, HR_ORGANIZATION o \
-                WHERE r.TZ_CODE = i.TZ_CODE(+)\
-                    AND r.VIEW_CODE = v.VIEW_CODE(+)\
-                        AND r.FORMULA_CODE = f.FORMULA_CODE(+)\
-                            AND r.QUOTA_CODE = q.QUOTA_CODE(+)\
-                                AND r.ZB_DEPT_CODE = o.GROUP_CODE(+)\
-                                    AND r.FORMULA_CODE is not null \
-                                        AND v.VIEW_NAME IN ('新系统')"  
+            WHERE r.TZ_CODE = i.TZ_CODE(+)\
+            AND r.VIEW_CODE = v.VIEW_CODE(+)\
+            AND r.FORMULA_CODE = f.FORMULA_CODE(+)\
+            AND r.QUOTA_CODE = q.QUOTA_CODE(+)\
+            AND r.ZB_DEPT_CODE = o.GROUP_CODE(+)\
+            AND r.FORMULA_CODE is not null \
+            AND v.VIEW_NAME IN ('新系统','计划组','各区所去年发单水量','东区','中区','南区','北区','财务部','水表厂','水质部')"  
         df_formula = pd.read_sql(sql,self.conn) 
         self.conn.close()
         result = df_formula.drop_duplicates(['TZ_TYPE','QUOTA_CODE','ZB_DEPT_CODE','FORMULA_CODE'])
         return result
     def get_formula_detail(self):
-        sql = "select g.flow_no,g.operation,g.left_bracket,g.parameter,g.QUOTA_DEPT_CODE,g.quota_code,g.right_bracket,g.FORMULA_CODE\
+        sql = "select g.FORMULA_ORDER_SN,g.flow_no,g.operation,g.left_bracket,g.parameter,g.QUOTA_DEPT_CODE,g.quota_code,g.right_bracket,g.FORMULA_CODE\
             from zls_tjfx.Cs_Formula_Detail g"  
         df_formula = pd.read_sql(sql,self.conn) 
         self.conn.close()

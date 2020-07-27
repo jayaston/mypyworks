@@ -42,6 +42,27 @@ class BumenData:
         print(df_result.head()) 
         self.conn.close()#关闭连接
         return(df_result)
+    def get_all_quota(self):
+        sql = "SELECT QUOTA_CODE,QUOTA_NAME\
+            FROM TJFX.CS_QUOTA_DEFINE"
+        df_zhibiao = pd.read_sql(sql,self.conn) 
+        self.conn.close() 
+        result = df_zhibiao.drop_duplicates(['QUOTA_CODE'])
+        return result
+    
+    def get_all_dept(self):
+        sql = "SELECT DISTINCT GROUP_CODE , GROUP_NAME\
+            FROM TJFX.HR_ORGANIZATION"  
+        df_bumen = pd.read_sql(sql,self.conn) 
+        self.conn.close()
+        result = df_bumen.drop_duplicates(['GROUP_CODE'])
+        return result
+    def get_formula(self):
+        sql = "SELECT * FROM TJFX.FORMULA"  
+        df_formula = pd.read_sql(sql,self.conn) 
+        self.conn.close()
+        result = df_formula
+        return result
         
         
     def importdata(self,mylist:list):
@@ -106,7 +127,7 @@ class BumenData:
             dtypedict = {}
             for i, j in zip(df.columns, df.dtypes):
                 if "object" in str(j):
-                    dtypedict.update({i: VARCHAR(255)})
+                    dtypedict.update({i: VARCHAR(800)})
                 if "float" in str(j):
                     dtypedict.update({i: FLOAT()})
                 if "int" in str(j):
