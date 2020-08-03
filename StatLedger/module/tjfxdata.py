@@ -45,6 +45,12 @@ class TjfxData:
         df_result = pd.merge(df_result,df_bumen,left_on='QUOTA_DEPT_CODE',right_on='GROUP_CODE').drop('GROUP_CODE',axis=1)
         self.conn.close()
         return df_result
+    def get_any_data(self,sql:str):
+        
+        result = pd.read_sql(sql,self.conn) 
+        self.conn.close() 
+        
+        return result
     
     def get_all_quota(self):
         sql = "SELECT QUOTA_CODE,QUOTA_NAME \
@@ -168,12 +174,6 @@ class TjfxData:
         self.importdata(mylist)
     def exp_formula(self):
         pass 
-    
-    def get_any_data(self,sql:str):
-        df = pd.read_sql(sql,self.conn) 
-        self.conn.close()#关闭连接
-        return df
-    
     def close(self):
         self.conn.close()
     

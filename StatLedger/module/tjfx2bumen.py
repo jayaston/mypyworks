@@ -19,26 +19,47 @@ import numpy as np
 import os
 import datetime as dt
 import re
-#os.getcwd()
-#同步数据表
+os.getcwd()
 
+#同步非关键表
+for tbl in ['cs_formula_set','Cs_Formula_Detail','CS_TZZB_RELATION','CS_TZ_ITEM','CS_ITEM_VIEW','CS_TZ_VIEW','CS_VIEW_ACCOUNTS']:
+    df = TjfxData().get_any_data(sql = 'select * from '+ tbl)
+    BumenData().imp_tbl(df,tbl)
 
-#同步指标信息表
-#提取指标表
-# def fresh_Quota_Define():  
+#同步指标表
 df_quota = TjfxData().get_all_quota()
-#写入指标表
 BumenData().imp_tbl(df_quota,'CS_QUOTA_DEFINE')
 
-#同步部门信息表
-#提取部门表
+#同步部门表
 df_dept = TjfxData().get_all_dept()
-#写入部门表
 BumenData().imp_tbl(df_dept,'HR_ORGANIZATION') 
 
 
-#同步公式信息表
-#提取系统公式表
+#同步数据表
+sql="select t.*\
+    from zls_tjfx.tj_quota_data t \
+        where t.quota_date >= to_date('20200101','yyyymmdd')\
+           and t.quota_date < to_date('20200728','yyyymmdd')\
+             and to_char(quota_date,'ss')='00'\
+             and t.quota_value != '0'\
+             and t.quota_value is not null\
+             and length(t.QUOTA_DEPT_CODE) = lengthb(t.QUOTA_DEPT_CODE)"
+df = TjfxData().get_any_data(sql = sql)
+
+#df转换为list
+# df = df.reindex(columns=['QUOTA_CODE','MON','QUOTA_DATE','QUOTA_VALUE',
+#                              'REPORT_FLAG','QUOTA_DEPT_CODE','IMPORT_FLOW_NO',
+#                              'WARNING_CODE','RECORD_TYPE'])
+# df['MON'] = df['QUOTA_DATE'].dt.strftime('%Y%m')
+df['MON'] = df['MON'].astype('str')
+df['QUOTA_DATE'] = df['QUOTA_DATE'].dt.strftime('%Y-%m-%d %H:%M:%S')
+df['QUOTA_VALUE'] = df['QUOTA_VALUE'].astype('str')
+mylist = df.values.tolist()
+BumenData().importdata(mylist)
+
+
+
+#提取系统公式
 formulaset = TjfxData().get_formula().query("TZ_TYPE != 'd' ")#提取公式概要表
 formulaset = formulaset.rename(columns = {'QUOTA_NAME':'zbming','QUOTA_CODE':'var_code','ZB_DEPT_CODE':'var_dept','TZ_TYPE':'RECORD_TYPE'})
 formulaset = formulaset.reindex(columns=['zbming','var_code','var_dept','RECORD_TYPE','START_TIME','END_TIME','FORMULA_CODE','FORMULA','方案','目录'])
@@ -63,8 +84,7 @@ col_name.insert(col_name.index('QUOTA_DEPT_CODE'),'space1')
 col_name.insert(col_name.index('RIGHT_BRACKET'),'space2')
 formuladetail=formuladetail.reindex(columns=col_name,fill_value=' ')
 
-
-#移除汉和特殊字符
+#移除汉和特殊字符函数
 def removeChnAndCharacter(str1):
     #将中文标点符号转换为英文标点符号
     def C_trans_to_E(string):
@@ -106,6 +126,7 @@ def removeChnAndCharacter(str1):
             strTmp += st
     return strTmp
 
+
 formuladetail['QUOTA_DEPT_CODE']= formuladetail['QUOTA_DEPT_CODE'].apply(removeChnAndCharacter)
 #构造公式表达式函数按
 def get_formula(df):
@@ -134,12 +155,16 @@ formula_excel = pd.read_excel(r'./mypyworks/StatLedger/数据表/新格式公式
                           sheet_name='formula',dtype={'var_code':str,'var_dept':str})
 #系统公式表与本地公式表合并
 formula = pd.concat([formula_excel,formula_tjfx],ignore_index=True)
-formula.info()
 #写入mysql数据库
 BumenData().imp_tbl(formula,'FORMULA') 
 
+
+
+
+
+
 #读取公式表
-formula = BumenData().get_formula()
+formula = BumenData().get_formula_table()
 #提取公式的开始和结束时间
 formula_time = sorted(set(pd.concat((formula['START_TIME'],formula['END_TIME']),axis=0)))
 formula_time.remove(pd.NaT)#删除非时间类型
@@ -175,10 +200,10 @@ for i in formula_dict.keys():
 startd=dt.datetime.strptime('20200401','%Y%m%d')
 endd=dt.datetime.strptime('20200725','%Y%m%d')
 #加入formulatime排序，用推导式求范围内的个数
+node_list = [x for x in formula_time if x>=startd and x<endd]
 formula_time.extend([startd,endd])
 formula_time.sort()
-node_list = [x for x in formula_time if x>=startd and x<endd]
-#接下来分三种情况讨论，第一种》=start、《end 之间没有日期元素，计算日期为satrt end，计算库为start-1，end+1，
+
 def order_gongshiku(gongshiku): 
         gongshiku['zhibiao'] = gongshiku['RECORD_TYPE']+'_'+gongshiku['var_dept']+'_'+gongshiku['var_code']
         gongshiku['setformula'] = gongshiku['setformula'].astype('str')
@@ -192,25 +217,17 @@ def order_gongshiku(gongshiku):
         gongshiku['zhibiaoji'] = gongshiku.apply(lambda x: re.findall(r'\b[a-z]_\d+_\d+\b',x['setformula']),axis=1)
         gongshiku.drop(['var_code','var_dept'],axis=1,inplace=True)
         return gongshiku
+#应分别判断start和end在元组列表中的位置，并判断他们是否在端点上。，for 循环计算各段的结果，并且合并。
+
 if len(node_list) == 0:
     gongshiku = formula_dict[formula_time[formula_time.index(startd)-1],formula_time[formula_time.index(endd)+1]]
-    gongshiku = gongshiku.drop(['zbming','START_TIME','END_TIME'],axis=1)
+    gongshiku = gongshiku.drop(['FORMULA_CODE','FORMULA','方案','目录','zbming','START_TIME','END_TIME'],axis=1)
     gongshiku = order_gongshiku(gongshiku)
-    
-'FORMULA_CODE','FORMULA','方案','目录',
-#第二种情况有一个，start到这一个，用前一个到这个公式库，这一个到end的数据，用这一个到后一个公式库。
-#第三种情况，有两个及以上，两个中间完整区间的数据和公式库，两端start到后一个最近的时间，应用start前一个到后一个的公式库，end也是如此。
+    #以start、end、h、公式库时公式运算
 
 
 
 
-
-
-#验证是否还有同一个指标
-test2[test2.duplicated(['TZ_TYPE','QUOTA_CODE','ZB_DEPT_CODE'],keep= False)]
-test2.info()
-test2 = test2.rename(columns = {'QUOTA_NAME':'zbming','QUOTA_CODE':'var_code','ZB_DEPT_CODE':'var_dept','TZ_TYPE':'RECORD_TYPE'})
-test2 = test2.reindex(columns=['zbming','var_code','var_dept','RECORD_TYPE','START_TIME','START_TIME','FORMULA_CODE'])
 
 
 
