@@ -50,7 +50,7 @@ list1 = [['00','00718','m'], #供水总量
 list2 = [['00','00718','d'] #日供水总量 
          ]
 
-shuju_df = tjfx.TjfxData().getdata('19900101','20200518',list1)
+shuju_df = tjfx.TjfxData().getdata('19900101','20200731',list1)
 
 shuju_df.info()
 

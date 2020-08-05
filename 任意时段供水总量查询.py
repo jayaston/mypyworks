@@ -25,7 +25,7 @@ import datetime as dt
 
 list1 = [['00','00718','d']
          ]
-shuju_df = tjfx.TjfxData().getdata('20190101','20200627',list1)
+shuju_df = tjfx.TjfxData().getdata('20200101','20200802',list1)
 
 shuju_df.info()
 
