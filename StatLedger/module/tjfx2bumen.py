@@ -21,8 +21,9 @@ import datetime as dt
 import re
 os.getcwd()
 
-#同步非关键表
+#同步公式信息表、目录指标关系表、方案目录关系表、方案表等
 for tbl in ['cs_formula_set','Cs_Formula_Detail','CS_TZZB_RELATION','CS_TZ_ITEM','CS_ITEM_VIEW','CS_TZ_VIEW','CS_VIEW_ACCOUNTS']:
+    
     df = TjfxData().get_any_data(sql = 'select * from '+ tbl)
     BumenData().imp_tbl(df,tbl)
 
@@ -38,8 +39,8 @@ BumenData().imp_tbl(df_dept,'HR_ORGANIZATION')
 #同步数据表
 sql="select t.*\
     from zls_tjfx.tj_quota_data t \
-        where t.quota_date >= to_date('20200101','yyyymmdd')\
-           and t.quota_date < to_date('20200728','yyyymmdd')\
+        where t.quota_date >= to_date('19900101','yyyymmdd')\
+           and t.quota_date < to_date('20200816','yyyymmdd')\
              and to_char(quota_date,'ss')='00'\
              and t.quota_value != '0'\
              and t.quota_value is not null\
@@ -58,16 +59,15 @@ mylist = df.values.tolist()
 BumenData().importdata(mylist)
 
 
-
 #提取系统公式
-formulaset = TjfxData().get_formula().query("TZ_TYPE != 'd' ")#提取公式概要表
+formulaset = TjfxData().get_formula()#.query("TZ_TYPE != 'd' ")
 formulaset = formulaset.rename(columns = {'QUOTA_NAME':'zbming','QUOTA_CODE':'var_code','ZB_DEPT_CODE':'var_dept','TZ_TYPE':'RECORD_TYPE'})
 formulaset = formulaset.reindex(columns=['zbming','var_code','var_dept','RECORD_TYPE','START_TIME','END_TIME','FORMULA_CODE','FORMULA','方案','目录'])
 #len(formulaset['FORMULA_CODE'].unique())
 #提取公式详情表
 formuladetail=TjfxData().get_formula_detail() 
 formuladetail = formuladetail[formuladetail['FORMULA_CODE'].isin( set(formulaset['FORMULA_CODE']))]
-formuladetail.sort_values(['FORMULA_CODE','FORMULA_ORDER_SN','FLOW_NO'],inplace=True)#增加排序字段，第115行选择公式的范围也需要修改
+formuladetail.sort_values(['FORMULA_CODE','FORMULA_ORDER_SN','FLOW_NO'],inplace=True)#增加排序字段，第115行代码选择公式的范围也需要修改
 formuladetail = formuladetail.fillna(value='')#填充空值
 formuladetail['PARAMETER']=formuladetail['PARAMETER'].astype('str')#参数列改成字符型
 #改变计算符号
@@ -153,12 +153,29 @@ formula_tjfx = formula_tjfx.reindex(columns=['zbming', 'var_code', 'var_dept', '
 # path = os.path.abspath(os.path.join(dir,"数据表/全新公式库北部太和.xlsx"))    
 formula_excel = pd.read_excel(r'./mypyworks/StatLedger/数据表/新格式公式表.xlsx',
                           sheet_name='formula',dtype={'var_code':str,'var_dept':str})
+
+
+formula_DH = pd.merge(formula_tjfx.query(
+    "RECORD_TYPE=='d' | RECORD_TYPE=='h'").drop_duplicates(
+        ['var_code','var_dept','RECORD_TYPE'])[['zbming','var_code','var_dept','RECORD_TYPE','方案','目录']],
+                 formula_excel.drop('zbming',axis=1),how='right', #正常用right，如果查找全部指标用outer
+                 on=['var_code','var_dept','RECORD_TYPE'])
+
+formula_M = formula_tjfx.query("RECORD_TYPE=='m'")
+
 #系统公式表与本地公式表合并
-formula = pd.concat([formula_excel,formula_tjfx],ignore_index=True)
+formula = pd.concat([formula_M,formula_DH],ignore_index=True).reindex(
+    columns=['zbming','var_code','var_dept','RECORD_TYPE','START_TIME','END_TIME','setformula','FORMULA_CODE','FORMULA','方案','目录'])
+
+
+#注意此委提取所有指标并导出可能有的公式并不是主程序，在tjfxdata中修改了sql语句才使用。
+# formula.rename(
+#     columns={'zbming':'指标名','var_code':'指标编码','var_dept':'部门编码','RECORD_TYPE':'指标类型',
+#               'START_TIME':'公式有效期开始','END_TIME':'公式有效期结束','setformula':'公式表达式','FORMULA_CODE':'公式编码','FORMULA':'公式注释'}).to_excel(
+#     './mypyworks/输出/有效方案中所有指标以及公式.xls')
+
 #写入mysql数据库
 BumenData().imp_tbl(formula,'FORMULA') 
-
-
 
 
 
@@ -195,6 +212,7 @@ for i in formula_dict.keys():
     df = df.drop_duplicates(['var_code','var_dept','RECORD_TYPE'],keep='first')
     formula_dict[i] =df
 
+#生成最终公式表
 
 #运算和结束时间    
 startd=dt.datetime.strptime('20200401','%Y%m%d')

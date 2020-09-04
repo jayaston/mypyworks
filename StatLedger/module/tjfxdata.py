@@ -75,12 +75,21 @@ class TjfxData:
             AND r.VIEW_CODE = v.VIEW_CODE(+)\
             AND r.FORMULA_CODE = f.FORMULA_CODE(+)\
             AND r.QUOTA_CODE = q.QUOTA_CODE(+)\
-            AND r.ZB_DEPT_CODE = o.GROUP_CODE(+)\
-            AND r.FORMULA_CODE is not null \
-            AND v.VIEW_NAME IN ('新系统','计划组','各区所去年发单水量','东区','中区','南区','北区','财务部','水表厂','水质部')"  
+            AND r.ZB_DEPT_CODE = o.GROUP_CODE(+) \
+            AND v.VIEW_NAME IN ('新系统','计划组','各区所去年发单水量','东区','中区','南区','北区','财务部','水表厂','水质部') \
+            AND r.FORMULA_CODE is not null\
+            "
+        #
         df_formula = pd.read_sql(sql,self.conn) 
         self.conn.close()
         result = df_formula.drop_duplicates(['TZ_TYPE','QUOTA_CODE','ZB_DEPT_CODE','FORMULA_CODE'])
+        def drop_duplina(df):
+            if len(df)>1:
+                result = df[df['FORMULA_CODE'].notnull()]
+            else:
+                result = df
+            return result
+        result =result.groupby(['TZ_TYPE','QUOTA_CODE','ZB_DEPT_CODE']).apply(drop_duplina).reset_index(drop=True)
         return result
     def get_formula_detail(self):
         sql = "select g.FORMULA_ORDER_SN,g.flow_no,g.operation,g.left_bracket,g.parameter,g.QUOTA_DEPT_CODE,g.quota_code,g.right_bracket,g.FORMULA_CODE\
