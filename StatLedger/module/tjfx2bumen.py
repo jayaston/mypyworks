@@ -40,7 +40,7 @@ BumenData().imp_tbl(df_dept,'HR_ORGANIZATION')
 sql="select t.*\
     from zls_tjfx.tj_quota_data t \
         where t.quota_date >= to_date('19900101','yyyymmdd')\
-           and t.quota_date < to_date('20200816','yyyymmdd')\
+           and t.quota_date < to_date('20200903','yyyymmdd')\
              and to_char(quota_date,'ss')='00'\
              and t.quota_value != '0'\
              and t.quota_value is not null\

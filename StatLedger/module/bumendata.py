@@ -39,23 +39,26 @@ class BumenData:
         except Exception as e:
             print("%s;没有指定具体指标，返回全部数据"%e)
             df_result = df        
-        print(df_result.head()) 
+        df_zhibiao = self.get_all_quota()
+        df_bumen = self.get_all_dept()
+        df_result = pd.merge(df_result,df_zhibiao,on='QUOTA_CODE')
+        df_result = pd.merge(df_result,df_bumen,left_on='QUOTA_DEPT_CODE',right_on='GROUP_CODE').drop('GROUP_CODE',axis=1)
         self.conn.close()#关闭连接
         return(df_result)
     def get_all_quota(self):
         sql = "SELECT QUOTA_CODE,QUOTA_NAME\
             FROM TJFX.CS_QUOTA_DEFINE"
         df_zhibiao = pd.read_sql(sql,self.conn) 
-        self.conn.close() 
-        result = df_zhibiao.drop_duplicates(['QUOTA_CODE'])
+        #self.conn.close() 
+        result = df_zhibiao.drop_duplicates(['QUOTA_CODE'],keep='last')
         return result
     
     def get_all_dept(self):
-        sql = "SELECT DISTINCT GROUP_CODE , GROUP_NAME\
+        sql = "SELECT  GROUP_CODE,GROUP_NAME\
             FROM TJFX.HR_ORGANIZATION"  
         df_bumen = pd.read_sql(sql,self.conn) 
-        self.conn.close()
-        result = df_bumen.drop_duplicates(['GROUP_CODE'])
+        #self.conn.close()
+        result = df_bumen.drop_duplicates(['GROUP_CODE'],keep='last')
         return result
     def get_formula(self):
         sql = "SELECT i.TZ_TYPE ,r.QUOTA_CODE, q.QUOTA_NAME,r.ZB_DEPT_CODE,o.GROUP_NAME,r.FORMULA_CODE,f.FORMULA,f.START_TIME,f.END_TIME,v.VIEW_NAME 方案,i.TZ_NAME as 目录\
@@ -180,6 +183,8 @@ class BumenData:
         self.conn.commit()
         c.close()
         self.conn.close()#关闭连接
+    def close(self):
+        self.conn.close()
 
         
 if __name__ == "__main__":

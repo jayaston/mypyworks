@@ -58,15 +58,15 @@ class TjfxData:
                 WHERE EFFECTYPE = 'Y'"
         df_zhibiao = pd.read_sql(sql,self.conn) 
         self.conn.close() 
-        result = df_zhibiao.drop_duplicates(['QUOTA_CODE'])
+        result = df_zhibiao.drop_duplicates(['QUOTA_CODE'],keep='last')
         return result
     
     def get_all_dept(self):
-        sql = "SELECT DISTINCT GROUP_CODE , GROUP_NAME \
+        sql = "SELECT GROUP_CODE , GROUP_NAME \
             FROM zls_tjfx.hr_organization"  
         df_bumen = pd.read_sql(sql,self.conn) 
         self.conn.close()
-        result = df_bumen.drop_duplicates(['GROUP_CODE','GROUP_NAME'])
+        result = df_bumen.drop_duplicates(['GROUP_CODE'],keep='last')
         return result
     def get_formula(self):
         sql = "SELECT i.TZ_TYPE ,r.QUOTA_CODE, q.QUOTA_NAME,r.ZB_DEPT_CODE,o.GROUP_NAME,r.FORMULA_CODE,f.FORMULA,f.START_TIME,f.END_TIME,v.VIEW_NAME 方案,i.TZ_NAME as 目录 \
