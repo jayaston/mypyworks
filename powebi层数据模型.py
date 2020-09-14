@@ -16,13 +16,7 @@ riqibiao = riqibiao.assign(年度 = riqibiao['日期'].dt.strftime("%Y"),
                            年度月份 = riqibiao['日期'].dt.strftime("%Y") + riqibiao['日期'].dt.strftime("%m"))
 
 shuju_df = BumenData().getdata(startdate,enddate)
-shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce')
-shuju_df = shuju_df[np.isfinite(shuju_df.QUOTA_VALUE)]
-shuju_df.info()
 #水量主题数据集
-
-
-
 shuiliang_df = shuju_df[
     shuju_df['QUOTA_DEPT_CODE'].isin(['1001','1002','100301','100302','1004','1005','1007','1016','1009','00']) & 
     shuju_df['QUOTA_CODE'].isin(['11930','04281','29860','20640','30964','29861','00700','29862','00718','00752','04346','04347','30985','02380'])
