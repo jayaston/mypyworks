@@ -44,7 +44,7 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
 #dataset = pd.read_csv(r'.\mypyworks\StatLedger\数据表\raw.csv', 
 #                      parse_dates = [['year', 'month', 'day', 'hour']], index_col=0, date_parser=parse)
 #加载温度、湿度日数据
-dataset_d = pd.read_excel(r"./mypyworks/自来水数据\20191120刘博士温度湿度降雨量.xlsx",
+dataset_d = pd.read_excel(r"c:/Users/XieJie/mypyworks/自来水数据\20191120刘博士温度湿度降雨量.xlsx",
                          parse_dates = ['日期'])
 
  
@@ -52,7 +52,7 @@ dataset_M = dataset_d.groupby(pd.Grouper(key='日期',freq='MS')).mean()
 
 
 # 加载售水数据集    
-dataset = pd.read_excel(r"./mypyworks/自来水数据/售水相关月数据1999-2019(20191204整合).xlsx",
+dataset = pd.read_excel(r"c:/Users/XieJie/mypyworks/自来水数据/售水相关月数据1999-2019(20191204整合).xlsx",
                          parse_dates = ['日期'],index_col=0)
 
 dataset = pd.merge(dataset,dataset_M,how='outer',left_index=True,right_index=True)
@@ -108,13 +108,13 @@ values = values.astype('float32')
 # 归一化特征
 scaler = MinMaxScaler(feature_range=(0, 1))
 scaled = scaler.fit_transform(values)
-# 指定滞后时间大小
-n_steps = 1
+# 指定滞后时间大小,和指标数量
+n_steps = 5
 n_features = 10
 # 构建监督学习问题
-reframed = series_to_supervised(scaled, n_steps, 1)
+reframed = series_to_supervised(scaled, n_steps, 2)
 # 丢弃不想预测的列
-reframed.drop(reframed.columns[[14,15,16,17,18,19]], axis=1, inplace=True)
+reframed.drop(reframed.columns[[69,68,67,66,65,64,63,62,61,59,58,57,56,55,54,53,52,51]], axis=1, inplace=True)
 print(reframed.head())
 reframed.to_csv('处理后数据.csv')
 
@@ -138,7 +138,7 @@ print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
 # 设计神经网络
 model = Sequential()
 model.add(LSTM(10, input_shape=(train_X.shape[1], train_X.shape[2])))
-model.add(Dense(4))
+model.add(Dense(2))
 model.compile(loss='mae', optimizer='adam')
 # 拟合网络模型
 history = model.fit(train_X, train_y, epochs=50, batch_size=10, validation_data=(test_X, test_y), verbose=2, shuffle=False)
@@ -167,14 +167,17 @@ for i in range(train_y.shape[1]):
 yhat = model.predict(test_X)
 test_X = test_X.reshape((test_X.shape[0], n_steps*n_features))
 # 反向转换预测值比例
-inv_yhat = concatenate((yhat, test_X[:, -6:]), axis=1)
+
+
+#十一从这开始改，预测一个指标步长为2.和test——x对不齐。解决。。。。
+inv_yhat = concatenate((yhat[:, :1], test_X[:, 41:50],yhat[:, 1:2]), axis=1)
 inv_yhat = scaler.inverse_transform(inv_yhat)
-inv_yhat = inv_yhat[:,:4]
+inv_yhat = inv_yhat[:,[0,9]]
 # 反向转换实际值大小
-test_y = test_y.reshape((len(test_y), 4))
-inv_y = concatenate((test_y, test_X[:, -6:]), axis=1)
-inv_y = scaler.inverse_transform(inv_y)
-inv_y = inv_y[:,:4]
+test_y = test_y.reshape((len(test_y), 2))
+inv_y = concatenate((test_y[:, :1], test_X[:, 41:49],test_y[:, 1:2]), axis=1)
+inv_y = scaler.inverse_transform(inv_y) #因为scaler已经记录了各字段的缩放量。所以肯定能精确还原。
+inv_y = inv_y[:,[0,9]]
 
 
 
