@@ -23,36 +23,23 @@ import tjfxdata as tjfx
 import datetime as dt
 
 
-list1 = [['00','11930','m'],         
-         ['00','00718','m'],
-         ['1009','04281','m'],
-         ['1009','31199','m'],
-         ['1001','04281','m'],
-         ['1001','00718','m'],
-         ['1002','04281','m'],
-         ['1002','00718','m'],
-         ['1003','04281','m'],
-         ['1003','00718','m'],
-         ['1004','04281','m'],
-         ['1004','00718','m'],
-         ['1005','04281','m'],
-         ['1005','00718','m'],
-         ['1007','04281','m'],
-         ['1007','00718','m'],
-         ['1016','04281','m'],
-         ['1016','00718','m'],
-         ['00','00409','m']
+list1 = [
+         ['1007','04281','d'],
+         ['1007','00718','d']
+         
          ]
-shuju_df = tjfx.TjfxData().getdata('20170101','20191231',list1)
+shuju_df = tjfx.TjfxData().getdata('20200901','20200930',list1)
 
 shuju_df.info()
 
 shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
 
-
 test = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','QUOTA_NAME'],values='QUOTA_VALUE')
+list1 = [x+'_'+y for x,y in zip(test.columns.get_level_values(0).values , test.columns.get_level_values(1).values)]  
+test.columns = list1
+
 #print(test)
-test.resample('Y').sum().to_excel(r'C:\Users\XieJie\mypyworks\输出\20200316吴部需要各厂取供比.xlsx')
+test.to_excel(r'C:\Users\XieJie\mypyworks\输出\20201019吴部需要南洲取供比.xlsx')
 
 test.info()
 
