@@ -7,6 +7,9 @@ Created on Sun Oct 25 21:21:06 2020
 pipline.score(X_test, Y_test) #缺省方法评分。
 from sklearn.model_selection import cross_val_score 
 scores = cross_val_score(dtc,X,Y,cv=5,scoring='f1') #用训练集进行交叉验证。模型评估效果更客观。
+
+
+from sklearn.metrics import mean_squared_error
 回归指标：
 explained_variance_score(y_true,y_pred,sample_weight=None,multioutput=‘uniform_average’)#回归方差(反应自变量与因变量之间的相关程度)
 

@@ -12,14 +12,17 @@ import time
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdate
 import matplotlib as mpl  # 导入中文字体，避免显示乱码
-
+import os
 #%matplotlib
 
 mpl.rcParams['font.sans-serif'] = ['SimHei'] #用来显示中文，防止乱码
 mpl.rcParams['font.family'] = 'sans-serif' #用来显示中文，防止乱码
 mpl.rcParams['axes.unicode_minus'] = False # 用来正常显示负号
-file = r'.\mypyworks\BoxOffice\data.xlsx' #Excel文件的位置，更换为自己的位置就行
 
+os.getcwd() 
+
+#获取数据
+file = r'c:\Users\XieJie\mypyworks\data.xlsx' #Excel文件的位置，更换为自己的位置就行
 url_list = [r'https://www.boxofficemojo.com/date',
                 r'https://www.boxofficemojo.com/date/2020-02-24',
                 r'https://www.boxofficemojo.com/date/2020-02-25',
@@ -29,23 +32,19 @@ url_list = [r'https://www.boxofficemojo.com/date',
                 r'https://www.boxofficemojo.com/date/2020-02-29',
                 r'https://www.boxofficemojo.com/date/2020-03-01'
 ]
-
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36',
         'accept': '*/*',
         'accept-encoding': 'gzip, deflate, br',
         'accept-language': 'en-US,en;q=0.9',
-        'content-type': 'text/plain;charset=UTF-8'}
-        
+        'content-type': 'text/plain;charset=UTF-8'}        
 sheet_names = ['overview', '02-24', '02-25', '02-26', '02-27', '02-28', '02-29', '03-01']
-writer = pd.ExcelWriter(file, engine='openpyxl')	
-
+writer = pd.ExcelWriter(file, engine='openpyxl')
 for i in range(len(url_list)):        
     res = requests.get(url_list[i], headers=headers)
     text =res.text
     table = pd.read_html(text)
     table = table[0]
-    table.to_excel(writer, sheet_name=sheet_names[i])
-    
+    table.to_excel(writer, sheet_name=sheet_names[i])    
 writer.save()
 writer.close()
 

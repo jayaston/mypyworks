@@ -4,12 +4,12 @@ Created on Mon Sep 23 10:01:23 2019
 
 @author: XieJie
 """
-#import sys
-#import os
-#try:
-#    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"StatLedger\module")))
-#except:
-#    sys.path.append(r'.\mypyworks\StatLedger\module')
+import sys
+import os
+try:
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"StatLedger\module")))
+except:
+    sys.path.append(r'.\mypyworks\StatLedger\module')
 import cumcalculate as cc
 from tjfxdata import TjfxData
 import re 
