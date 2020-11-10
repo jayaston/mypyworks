@@ -4,6 +4,30 @@ Created on Sun Oct 25 19:39:28 2020
 
 @author: Jay
 """
+# read_table（sep=’,’,enconding=’utf-8’）、read_csv(sep=’,’,enconding=’utf-8’)
+#pd.read_excel（io，sheet_name = 0，header = 0，names = None或者要使用的列名列表，
+#index_col = None，usecols = int或list（支持切片元素），
+#默认为None，squeeze = 默认为False,如果解析的数据只包含一列，则返回一个Series。,
+#dtype = None或者{'a'：np.float64，'b'：np.int32}, ...）
+
+df_2 = pd.read_csv("sales_data_types.csv",dtype={"Customer_Number":"int"},converters={
+    "2016":convert_currency,
+    "2017":convert_currency,
+    "Percent Growth":convert_percent,
+    "Jan Units":lambda x:pd.to_numeric(x,errors="coerce"),
+    "Active":lambda x: np.where(x=="Y",True,False)
+})
+
+#处理日期型数据
+def parse(y,m,d,h):
+    return dt.datetime.strptime(' '.join([y,m,d,h]), '%Y %m %d %H')
+
+dataset = pd.read_csv(r'.\mypyworks\StatLedger\数据表\raw.csv', 
+                      parse_dates = [['year', 'month', 'day', 'hour']], index_col=0, date_parser=parse)
+
+
+
+
 #划分数据集
 train = sup_water['2020-1-27':'2020-2-13']#训练数据集
 validation = sup_water['2020-2-14':'2020-2-16']#验证数据集，用于搜索最佳参数。
