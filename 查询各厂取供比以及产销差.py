@@ -24,11 +24,11 @@ import datetime as dt
 
 
 list1 = [
-         ['1007','04281','d'],
-         ['1007','00718','d']
-         
+         ['1016','04281','d'],
+         ['1016','00718','d'],
+         ['1016','29861','d']
          ]
-shuju_df = tjfx.TjfxData().getdata('20200901','20200930',list1)
+shuju_df = tjfx.TjfxData().getdata('20201101','20201110',list1)
 
 shuju_df.info()
 
@@ -39,7 +39,7 @@ list1 = [x+'_'+y for x,y in zip(test.columns.get_level_values(0).values , test.c
 test.columns = list1
 
 #print(test)
-test.to_excel(r'C:\Users\XieJie\mypyworks\输出\20201019吴部需要南洲取供比.xlsx')
+test.to_excel(r'C:\Users\XieJie\mypyworks\输出\20201111吴部需要北部取供比.xlsx')
 
 test.info()
 
