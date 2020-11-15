@@ -92,6 +92,6 @@ def all_calcu(startd,endd,quotalist):
 
 
 if __name__ == "__main__" :      
-    startd,endd,quotalist = '20201101','20201110',['d_00_01464']
+    startd,endd,quotalist = '20201101','20201112',['d_00_01464']
     print(all_calcu(startd,endd,quotalist))
 
