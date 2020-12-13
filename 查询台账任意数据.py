@@ -24,10 +24,10 @@ import datetime as dt
 
 
 list1 = [         
-         ['00','00718','d']
-        
+         ['1016','04281','d'],
+         ['1016','00718','d']        
          ]
-shuju_df = tjfx.TjfxData().getdata('20190101','20191231',list1)
+shuju_df = tjfx.TjfxData().getdata('20201201','20201210',list1)
 
 shuju_df.info()
 
@@ -38,9 +38,9 @@ test = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','Q
 list1 = [x+'_'+y for x,y in zip(test.columns.get_level_values(0).values , test.columns.get_level_values(1).values)]  
 test.columns = list1
 
-test = test.resample('Y').sum()
+test = test.resample('m').mean()
 
-test.to_excel(r'C:\Users\XieJie\mypyworks\输出\2019年各厂各月取供比.xlsx')
+test.to_excel(r'C:\Users\XieJie\mypyworks\输出\2019-2020北部水厂取供水量.xlsx')
 
 #求最大日
 list2 = [['1001','00718','d'],
