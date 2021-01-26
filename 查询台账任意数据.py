@@ -22,12 +22,13 @@ import tjfxdata as tjfx
 #import re    
 import datetime as dt
 
+#耗水30976，稽查24299，每月发单23765，每月追收24293，每月剔除24294，两月发单23594，两月追收23595，两月剔除23596
 
 list1 = [         
-         ['1016','04281','d'],
-         ['1016','00718','d']        
+         ['01','30976','m'],
+         ['01','24299','m']        
          ]
-shuju_df = tjfx.TjfxData().getdata('20201201','20201210',list1)
+shuju_df = tjfx.TjfxData().getdata('20180101','20181201',list1)
 
 shuju_df.info()
 
