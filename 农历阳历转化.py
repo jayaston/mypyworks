@@ -7,7 +7,7 @@ Created on Sat Jan 30 23:25:26 2021
 import sxtwl
 import datetime as dt
 lunar = sxtwl.Lunar()
-day = lunar.getDayBySolar(2021, 1, 31)
+day = lunar.getDayBySolar(2021, 1, 1)
 
 # 日历中文索引
 ymc = [u"十一", u"十二", u"正", u"二", u"三", u"四", u"五", u"六", u"七", u"八", u"九", u"十"]
@@ -21,6 +21,6 @@ else:
     print(u"阴历:", ymc[day.Lmc], u"月", rmc[day.Ldi], u"日")
     
     
-day = lunar.getDayByLunar(2019, 12, 19  , False)
+day = lunar.getDayByLunar(2019, 11, 18  , False)
 
 print  (u"公历:", day.y, u"年", day.m, u"月", day.d, u"日")
