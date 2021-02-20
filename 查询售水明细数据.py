@@ -199,5 +199,5 @@ test5=test4.reindex(columns =[
 test5.to_excel(r'C:\Users\XieJie\mypyworks\输出\2019-2021售水量明细水量.xlsx')
 #list1 = [x+'_'+y for x,y in zip(test.columns.get_level_values(0).values , test.columns.get_level_values(1).values)]  
 #test.columns = list1
-
+test6=test5.swaplevel(axis=1)[['售水量','分区供水总量']].resample('Y').sum()
 
