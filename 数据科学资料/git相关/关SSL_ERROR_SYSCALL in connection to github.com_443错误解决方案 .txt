@@ -1,0 +1,5 @@
+$ git config --global --unset http.proxy
+$ git config --global --unset https.proxy
+设置env GIT_SSL_NO_VERIFY为true然后再次部署：
+
+$ env GIT_SSL_NO_VERIFY=true git push
