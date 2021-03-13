@@ -9,6 +9,8 @@ git config --global http.postBuffer 524288000
 方法三：利用ssh下载
 
 git clone git://github.com/XX/XXXX.git
-方法四：安全设置问题
 
+
+
+方法四：安全设置问题 这个不要随便设置会出问题
 git config http.sslVerify "false"
