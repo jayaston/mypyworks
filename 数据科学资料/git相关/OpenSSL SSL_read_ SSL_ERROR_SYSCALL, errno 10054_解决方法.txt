@@ -1,0 +1,14 @@
+如果你已经在git命令行尝试过如下方法，
+方法一：用压缩的方式进行下载
+
+git config --global --add core.compression -1
+方法二：.增大缓存大小
+524288000表示增至500兆，1048576000表示增至1G
+
+git config --global http.postBuffer 524288000
+方法三：利用ssh下载
+
+git clone git://github.com/XX/XXXX.git
+方法四：安全设置问题
+
+git config http.sslVerify "false"
