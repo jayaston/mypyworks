@@ -23,7 +23,7 @@ import tjfxdata as tjfx
 import datetime as dt
 
 #耗水30976，稽查24299，每月发单23765，每月追收24293，每月剔除24294，两月发单23594，两月追收23595，两月剔除23596
-start = '20190101'
+start = '20160101'
 end = '20211201'
 #list1每个单位的指标务必要完全一致。否则会出现冲突。不一致的指标放到list2
 list1 = [#公司         
@@ -139,7 +139,11 @@ shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').filln
 test = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','QUOTA_NAME'],values='QUOTA_VALUE')
 
 test1 = test.stack(0)
-test1.eval('净追收水量=追收水量合计-剔除水量合计',inplace=True)
+test1.info()
+test1.eval("""
+           净追收水量=追收水量合计-剔除水量合计
+           在册水量=两月发单水量合计+每月发单水量合计+净追收水量
+           """,inplace=True)
 test1.drop(['追收水量合计','剔除水量合计'],axis=1,inplace=True)
 test1.rename(columns= {'两月发单水量合计':'两月发单',
                        '净水售水量':'售水量','每月发单水量合计':'每月发单',
@@ -167,6 +171,7 @@ test4 = pd.concat([test3,test2],axis=1, ignore_index=False)
 test5=test4.reindex(columns =[
         ('广州自来水公司', '供水总量'),
         ('广州自来水公司',    '售水量'),
+        ('广州自来水公司',    '在册水量'),
         ('广州自来水公司',   '两月发单'),
         ('广州自来水公司',   '每月发单'),            
         ('广州自来水公司',  '净追收水量'),            
@@ -175,7 +180,8 @@ test5=test4.reindex(columns =[
         ('广州自来水公司',   '免费水量'),  	
         ('广州自来水公司',   '售水天数'),
         (  '中区分公司', '分区供水总量'), 
-        (  '中区分公司',    '售水量'),  
+        (  '中区分公司',    '售水量'), 
+        (  '中区分公司',    '在册水量'),
         (  '中区分公司',   '两月发单'),
         (  '中区分公司',   '每月发单'),
         (  '中区分公司',  '净追收水量'),
@@ -184,7 +190,8 @@ test5=test4.reindex(columns =[
         (  '中区分公司',   '免费水量'),
         (  '中区分公司',   '售水天数'),             
         (  '东区分公司', '分区供水总量'),
-         (  '东区分公司',    '售水量'),            
+        (  '东区分公司',    '售水量'),
+        (  '东区分公司',    '在册水量'),            
         (  '东区分公司',   '两月发单'),
         (  '东区分公司',   '每月发单'),           
         (  '东区分公司',  '净追收水量'), 
@@ -194,6 +201,7 @@ test5=test4.reindex(columns =[
         (  '东区分公司',   '售水天数'),
         (  '南区分公司', '分区供水总量'),
         (  '南区分公司',    '售水量'), 
+        (  '南区分公司',    '在册水量'),
         (  '南区分公司',   '两月发单'),  
         (  '南区分公司',   '每月发单'),   
         (  '南区分公司',  '净追收水量'),
@@ -202,7 +210,8 @@ test5=test4.reindex(columns =[
         (  '南区分公司',   '免费水量'),
         (  '南区分公司',   '售水天数'),
         (  '北区分公司', '分区供水总量'),
-        (  '北区分公司',    '售水量'),      
+        (  '北区分公司',    '售水量'),
+        (  '北区分公司',    '在册水量'),
         (  '北区分公司',   '两月发单'),
         (  '北区分公司',   '每月发单'),
         (  '北区分公司',  '净追收水量'),
@@ -211,7 +220,7 @@ test5=test4.reindex(columns =[
         (  '北区分公司',   '免费水量'),
         (  '北区分公司',   '售水天数'),
         ])
-test5.to_excel(r'C:\Users\XieJie\mypyworks\输出\2019-2021售水量明细水量.xlsx')
+test5.to_excel(r'C:\Users\XieJie\mypyworks\输出\2016-2021售水量明细水量.xlsx')
 #list1 = [x+'_'+y for x,y in zip(test.columns.get_level_values(0).values , test.columns.get_level_values(1).values)]  
 #test.columns = list1
 test6=test5.swaplevel(axis=1)[['售水量','分区供水总量']].resample('Y').sum()
