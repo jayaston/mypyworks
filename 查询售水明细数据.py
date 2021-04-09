@@ -23,8 +23,8 @@ import tjfxdata as tjfx
 import datetime as dt
 
 #耗水30976，稽查24299，每月发单23765，每月追收24293，每月剔除24294，两月发单23594，两月追收23595，两月剔除23596
-start = '20160101'
-end = '20211201'
+start = '20190101'
+end = '20210331'
 #list1每个单位的指标务必要完全一致。否则会出现冲突。不一致的指标放到list2
 list1 = [#公司         
          ['00','00409','m'],#售水量
@@ -113,6 +113,8 @@ list2 = [#公司
          ['00','00718','m'],#供水总量
          ['00','00469','m'],#免费水量 
          ['00','02150','m'],#售水天数
+         ['00','31594','m'],#抄表到户水量
+         ['00','31512','m'],#公共管网漏损率
          #一级分区供水量
          ['0901','30984','m'],#中区
          ['0900','30984','m'],#东区
@@ -162,10 +164,12 @@ shuju_df = tjfx.TjfxData().getdata(start,end,list2)
 shuju_df.info()
 shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
 test3 = pd.pivot_table(shuju_df,index = ['QUOTA_DATE'],columns = ['GROUP_NAME','QUOTA_NAME'],values='QUOTA_VALUE')
-
+test3.columns
 
 test3.rename(columns= {'免费供水量':'免费水量',
-                       '水厂供水总量':'供水总量'},level=1,inplace=True)
+                       '水厂供水总量':'供水总量',
+                       '公共管网漏损率18年修正':'公共管网漏损率',
+                       '居民用水按户抄表的水量':'抄表到户水量'},level=1,inplace=True)
 
 test4 = pd.concat([test3,test2],axis=1, ignore_index=False)
 test5=test4.reindex(columns =[
@@ -179,6 +183,8 @@ test5=test4.reindex(columns =[
         ('广州自来水公司',    '耗水量'),
         ('广州自来水公司',   '免费水量'),  	
         ('广州自来水公司',   '售水天数'),
+        ('广州自来水公司',   '抄表到户水量'),
+        ('广州自来水公司',   '公共管网漏损率'),
         (  '中区分公司', '分区供水总量'), 
         (  '中区分公司',    '售水量'), 
         (  '中区分公司',    '在册水量'),
@@ -220,7 +226,7 @@ test5=test4.reindex(columns =[
         (  '北区分公司',   '免费水量'),
         (  '北区分公司',   '售水天数'),
         ])
-test5.to_excel(r'C:\Users\XieJie\mypyworks\输出\2016-2021售水量明细水量.xlsx')
+test5.to_excel(r'C:\Users\XieJie\mypyworks\输出\2021年3月售水量明细水量.xlsx')
 #list1 = [x+'_'+y for x,y in zip(test.columns.get_level_values(0).values , test.columns.get_level_values(1).values)]  
 #test.columns = list1
 test6=test5.swaplevel(axis=1)[['售水量','分区供水总量']].resample('Y').sum()
