@@ -59,10 +59,10 @@ fenqushuiliang$fName <- iconv(as.vector(fenqushuiliang$fName), 'GB2312', 'UTF-8'
 '''
 
 robjects.r(r_script)
-matrix = robjects.r['fenqushuiliang']
+matrix = robjects.r['fenqushuiliang']#将dataframe变量通过运行变量名调出来
 
 #耗水30976，稽查24299，每月发单23765，每月追收24293，每月剔除24294，两月发单23594，两月追收23595，两月剔除23596
-a = np.array(matrix)
+a = np.array(matrix)#转化为二维数组
 a = a.transpose()
 
 
