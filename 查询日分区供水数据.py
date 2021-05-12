@@ -31,8 +31,8 @@ options(scipen=10)
 
 odbcCloseAll()
 
-startd = '20210101'
-endd= '20210331'
+startd = '20210301'
+endd= '20210509'
 
 startyear<-as.numeric(substr(startd,1,4))
 channel2<-odbcConnect("ShenChanBu.Fenqu",uid = "jitongbu",pwd = "xiejie")
@@ -70,7 +70,7 @@ list1 = [
          ['00','00718','d'],
                
          ]
-shuju_df = tjfx.TjfxData().getdata('20210101','20210331',list1)
+shuju_df = tjfx.TjfxData().getdata('20210301','20210509',list1)
 
 shuju_df.info()
 
