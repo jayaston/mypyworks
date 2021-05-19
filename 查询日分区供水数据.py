@@ -17,8 +17,9 @@ import tjfxdata as tjfx
 #import re    
 import datetime as dt
 import rpy2.robjects as robjects
+startd = '20210101'
+endd =   '20210517'
 r_script = '''
-
 Sys.setlocale('LC_ALL', locale = "English_United States.1252") 
 
 library(RODBC)
@@ -31,8 +32,8 @@ options(scipen=10)
 
 odbcCloseAll()
 
-startd = '20210301'
-endd= '20210509'
+startd = ''' + startd +'''
+endd= '''+endd+'''
 
 startyear<-as.numeric(substr(startd,1,4))
 channel2<-odbcConnect("ShenChanBu.Fenqu",uid = "jitongbu",pwd = "xiejie")
@@ -70,7 +71,7 @@ list1 = [
          ['00','00718','d'],
                
          ]
-shuju_df = tjfx.TjfxData().getdata('20210301','20210509',list1)
+shuju_df = tjfx.TjfxData().getdata(startd,endd,list1)
 
 shuju_df.info()
 
