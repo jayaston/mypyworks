@@ -18,7 +18,7 @@ import tjfxdata as tjfx
 import datetime as dt
 import rpy2.robjects as robjects
 startd = '20210101'
-endd =   '20210517'
+endd =   '20210519'
 r_script = '''
 Sys.setlocale('LC_ALL', locale = "English_United States.1252") 
 
@@ -69,7 +69,9 @@ a = a.transpose()
 
 list1 = [         
          ['00','00718','d'],
-               
+         ['00','12190','d'],
+         ['00','12225','d'],
+         ['00','12260','d'],      
          ]
 shuju_df = tjfx.TjfxData().getdata(startd,endd,list1)
 
@@ -81,7 +83,7 @@ shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').filln
 
 shuju_df['mon']=shuju_df['QUOTA_DATE'].dt.strftime('%m')
 shuju_df['day']=shuju_df['QUOTA_DATE'].dt.strftime('%d')
-test = pd.pivot_table(shuju_df,index=['mon','GROUP_NAME'],columns='day',values='QUOTA_VALUE')
+test = pd.pivot_table(shuju_df,index=['mon','QUOTA_NAME'],columns='day',values='QUOTA_VALUE')
 test1=test.reset_index()
 test2=test1.values
 test3 = np.concatenate((a,test2), axis=0)

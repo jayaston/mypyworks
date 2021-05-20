@@ -4,16 +4,26 @@ Created on Sat Apr 25 16:48:26 2020
 
 @author: Jay
 """
-
+#import re
 import requests
 from  bs4 import BeautifulSoup
 import pandas as pd
-url = 'http://www.weather.com.cn/weather1d/101280101.shtml'
+url = 'http://www.weather.com.cn/weather40d/101280101.shtml'
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36',
+           'Accept': 'application/json, text/javascript, */*; q=0.01'}
+
+r = requests.get(url, headers=headers)
+r.json()
+
 html = requests.get(url)
 html.encoding = 'utf-8'
 soup = BeautifulSoup(html.text,'html.parser',from_encoding='utf-8')
-res_data = soup.findAll('script') #获取页面内的所有<script>标签
-weather_data = res_data[3]        #获取第5个<script>标签，返回一个list
+
+soup.td
+#soup.find_all(text=re.compile("script"))
+res_data = soup.findAll('tr') 
+res_data = soup.find_all("td") #获取页面内的所有<script>标签
+weather_data = res_data[10]        #获取第5个<script>标签，返回一个list
 for x in weather_data:
    weather1 = x           #因为weather_data是一个list，我们取list的第一个
 
