@@ -13,23 +13,44 @@ from bs4 import UnicodeDammit
 import urllib.request
 
 
+
+
+
 url = 'http://www.weather.com.cn/weather40d/101280101.shtml'
 url1= 'http://www.weather.com.cn/weather/101280101.shtml'
 url2='http://www.weather.com.cn/weather15d/101280101.shtml'
 url3= 'https://www.tianqi.com/guangzhou/40/'
+
+
+
+
+
+
 myheader = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36',
            'Accept': 'application/json, text/javascript, */*; q=0.01'}
 
-myheader1 = {"User-Agent":"Mozilla/5.0(Windows; U; Windows NT 6.0 x64; en-US; rv:1.9pre)Gecko/2008072421 Minefield/3.0.2pre"
+myheader1 = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36 Maxthon/5.3.8.2000",
+             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
         }
 
 myheader2= {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36"
     }
 
-req = urllib.request.Request(url1, headers=myheader1)
-data = urllib.request.urlopen(req)
+myheader3 = {"User-Agent": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0;","Accept": "application/json, text/javascript, */*; q=0.01"
+    }
+
+
+
+
+data = urllib.request.urlopen("file:///C:/Users/xiejie/Desktop/123.mhtml")
 data = data.read()
+
+req = urllib.request.Request(url, headers=myheader1)
+data = urllib.request.urlopen(req)
+data = data.read().decode('utf-8')
+
+
 dammit = UnicodeDammit(data, ["utf-8","gbk"])
 data = dammit.unicode_markup
 soup = BeautifulSoup(data, features="html.parser")
@@ -45,13 +66,10 @@ div_tatall = soup.find("span",class_="nowday") #find() 找符合要求的第一�
 
 
 
-myheader3 = {"User-Agent": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0;","Accept": "application/json, text/javascript, */*; q=0.01"
-    }
-
-html = requests.get(url,headers=myheader3)
+html = requests.get(url,headers=myheader1)
 html.encoding = 'utf-8'
 soup = BeautifulSoup(html.text,"html.parser",from_encoding='utf-8')
-soup.find('span',class_='w_day')
+soup.find('table')
 soup.find_all(text=re.compile("35℃"))
 soup.select("tbody tr")[-1].select("td")[-1].select("div[class='ks'] ")[0].find('span')
 res_data = soup.findAll("ul[class='t clearfix'] li") 
