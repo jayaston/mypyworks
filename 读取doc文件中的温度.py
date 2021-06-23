@@ -24,7 +24,7 @@ def doSaveAas(doc_path):
         doc.Close()
         word.Quit()
 startmon = '202106' 
-name = "20210603"        
+name = "20210618"        
 doc_path="C:\\Users\\xiejie/mypyworks/自来水数据/天气预测网页数据/"+name+".doc"
 docx_path = doc_path.replace("doc", "docx")
 

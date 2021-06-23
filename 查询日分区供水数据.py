@@ -17,8 +17,8 @@ import tjfxdata as tjfx
 #import re    
 import datetime as dt
 import rpy2.robjects as robjects
-startd = '20210501'
-endd =   '20210531'
+startd = '20210601'
+endd =   '20210617'
 r_script = '''
 Sys.setlocale('LC_ALL', locale = "English_United States.1252") 
 
