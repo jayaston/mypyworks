@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>获取行政区域边界坐标</title>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=EoDE9x4kPxLNCtUMxfGEYlvG9inVGaUr"></script>
+	</head>
+	<body>
+		<div id="container" style="top: 30px;width: 100%;height: 100%;overflow: hidden;position: absolute;"></div>
+输入省、直辖市或县名称：
+<input type="text" id="districtName" style="width:200px" value="重庆市" />
+<input type="button" id="getButton" name="getButton" onclick="getBoundary()" value="获取轮廓线" />
+ 
+<script type="text/javascript" >
+var map = new BMap.Map("container");
+ 
+map.centerAndZoom(new BMap.Point(116.403765, 39.914850), 9);
+ 
+map.addControl(new BMap.NavigationControl({type: BMAP_NAVIGATION_CONTROL_SMALL}));
+ 
+map.enableScrollWheelZoom();
+ 
+function getBoundary(){       
+  
+    var bdary = new BMap.Boundary();
+ 
+    var name = document.getElementById("districtName").value;
+ 
+    bdary.get(name, function(rs){       //获取行政区域
+ 
+        map.clearOverlays();        //清除地图覆盖物       
+ 
+        var count = rs.boundaries.length; //行政区域的点有多少个
+ 
+        for(var i = 0; i < count; i++){
+ 
+            var ply = new BMap.Polygon(rs.boundaries[i], {strokeWeight: 2, strokeColor: "#ff0000"}); //建立多边形覆盖物
+            
+            console.log("当前辖区坐标：" + name);
+            console.log(rs.boundaries[i]);
+            
+            map.addOverlay(ply);  //添加覆盖物
+ 
+            map.setViewport(ply.getPath());    //调整视野         
+ 
+        }                
+ 
+    });   
+ 
+}
+</script>
+</body>
+</html>
