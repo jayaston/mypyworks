@@ -10,11 +10,11 @@
 
 </head>
 <body>
-    <div id="5b30b4125599404dba2e82593ed86e1c" class="chart-container" style="width:1200px; height:800px;"></div>
+    <div id="0db5b05bfaca4bbc857baeda26077e03" class="chart-container" style="width:1200px; height:800px;"></div>
     <script>
-        var chart_5b30b4125599404dba2e82593ed86e1c = echarts.init(
-            document.getElementById('5b30b4125599404dba2e82593ed86e1c'), 'white', {renderer: 'canvas'});
-        var option_5b30b4125599404dba2e82593ed86e1c = {
+        var chart_0db5b05bfaca4bbc857baeda26077e03 = echarts.init(
+            document.getElementById('0db5b05bfaca4bbc857baeda26077e03'), 'white', {renderer: 'canvas'});
+        var option_0db5b05bfaca4bbc857baeda26077e03 = {
     "animation": true,
     "animationThreshold": 2000,
     "animationDuration": 1000,
@@ -134,7 +134,7 @@
             "type": "custom",
             "name": "\u4e8c\u7ea7\u5206\u533a",
             "coordinateSystem": "bmap",
-            "renderItem":     function renderItem(params, api) {        var coords = eval(api.value(1));        var points = [];        for (var i = 0; i < coords.length; i++) {            points.push(api.coord(coords[i]));        }        var color = api.visual('color');        return {            type: 'polygon',            shape: {                points: new echarts.graphic.clipPointsByRect(points, {                    x: params.coordSys.x,                    y: params.coordSys.y,                    width: params.coordSys.width,                    height: params.coordSys.height                })            },            style: api.style({                fill: color,                z: 1,                            opacity:0.6,                text: api.value(0)+':'+(api.value(2)*100).toFixed(2)+'%',                textFill: '#fff',                                    font: '14px Microsoft YaHei',                lineWidth: 1,                textAlign: 'center',                textVerticalAlign:'bottom',                stroke: new echarts.color.lift(color)                               }),            styleEmphasis: api.styleEmphasis()        };    }        ,
+            "renderItem":     function renderItem(params, api) {        var coords = eval(api.value(1));        var points = [];        for (var i = 0; i < coords.length; i++) {            points.push(api.coord(coords[i]));        }        var color = api.visual('color');        return {            type: 'polygon',            shape: {                points: new echarts.graphic.clipPointsByRect(points, {                    x: params.coordSys.x,                    y: params.coordSys.y,                    width: params.coordSys.width,                    height: params.coordSys.height                })            },            style: api.style({                fill: color,                z: 1,                            opacity:0.6,                text: api.value(0)+':'+(api.value(2)*100).toFixed(2)+'%',                textFill: '#000',                                    font: '14px Microsoft YaHei',                lineWidth: 1,                textAlign: 'center',                textVerticalAlign:'bottom',                stroke: new echarts.color.lift(color)                               }),            styleEmphasis: api.styleEmphasis()        };    }        ,
             "emphasis": {},
             "data": [
                 {
@@ -5457,7 +5457,7 @@
             "padding": 5,
             "itemGap": 10,
             "textStyle": {
-                "color": "#fff"
+                "color": "#000"
             }
         }
     ],
@@ -5471,7 +5471,7 @@
             "\u4ea7\u9500\u5dee\u7387\u4f4e"
         ],
         "textStyle": {
-            "color": "#fff"
+            "color": "#000"
         },
         "inRange": {
             "color": [
@@ -5498,143 +5498,11 @@
             23.174159
         ],
         "zoom": 12,
-        "roam": true,
-        "mapStyle": {
-            "styleJson": [
-                {
-                    "featureType": "water",
-                    "elementType": "all",
-                    "stylers": {
-                        "color": "#044161"
-                    }
-                },
-                {
-                    "featureType": "land",
-                    "elementType": "all",
-                    "stylers": {
-                        "color": "#004981"
-                    }
-                },
-                {
-                    "featureType": "boundary",
-                    "elementType": "geometry",
-                    "stylers": {
-                        "color": "#064f85"
-                    }
-                },
-                {
-                    "featureType": "railway",
-                    "elementType": "all",
-                    "stylers": {
-                        "visibility": "off"
-                    }
-                },
-                {
-                    "featureType": "highway",
-                    "elementType": "geometry",
-                    "stylers": {
-                        "color": "#004981"
-                    }
-                },
-                {
-                    "featureType": "highway",
-                    "elementType": "geometry.fill",
-                    "stylers": {
-                        "color": "#005b96",
-                        "lightness": 1
-                    }
-                },
-                {
-                    "featureType": "highway",
-                    "elementType": "labels",
-                    "stylers": {
-                        "visibility": "off"
-                    }
-                },
-                {
-                    "featureType": "arterial",
-                    "elementType": "geometry",
-                    "stylers": {
-                        "color": "#004981"
-                    }
-                },
-                {
-                    "featureType": "arterial",
-                    "elementType": "geometry.fill",
-                    "stylers": {
-                        "color": "#00508b"
-                    }
-                },
-                {
-                    "featureType": "poi",
-                    "elementType": "all",
-                    "stylers": {
-                        "visibility": "off"
-                    }
-                },
-                {
-                    "featureType": "green",
-                    "elementType": "all",
-                    "stylers": {
-                        "color": "#056197",
-                        "visibility": "off"
-                    }
-                },
-                {
-                    "featureType": "subway",
-                    "elementType": "all",
-                    "stylers": {
-                        "visibility": "off"
-                    }
-                },
-                {
-                    "featureType": "manmade",
-                    "elementType": "all",
-                    "stylers": {
-                        "visibility": "off"
-                    }
-                },
-                {
-                    "featureType": "local",
-                    "elementType": "all",
-                    "stylers": {
-                        "visibility": "off"
-                    }
-                },
-                {
-                    "featureType": "arterial",
-                    "elementType": "labels",
-                    "stylers": {
-                        "visibility": "off"
-                    }
-                },
-                {
-                    "featureType": "boundary",
-                    "elementType": "geometry.fill",
-                    "stylers": {
-                        "color": "#029fd4"
-                    }
-                },
-                {
-                    "featureType": "building",
-                    "elementType": "all",
-                    "stylers": {
-                        "color": "#1a5787"
-                    }
-                },
-                {
-                    "featureType": "label",
-                    "elementType": "all",
-                    "stylers": {
-                        "visibility": "off"
-                    }
-                }
-            ]
-        }
+        "roam": true
     }
 };
-        chart_5b30b4125599404dba2e82593ed86e1c.setOption(option_5b30b4125599404dba2e82593ed86e1c);
-            var bmap = chart_5b30b4125599404dba2e82593ed86e1c.getModel().getComponent('bmap').getBMap();
+        chart_0db5b05bfaca4bbc857baeda26077e03.setOption(option_0db5b05bfaca4bbc857baeda26077e03);
+            var bmap = chart_0db5b05bfaca4bbc857baeda26077e03.getModel().getComponent('bmap').getBMap();
                     bmap.addControl(new BMap.NavigationControl({"anchor": 0, "offset": {"width": 10, "height": 10}, "type": 0, "showZoomInfo": false, "enableGeolocation": false}));
                     var overview = new BMap.OverviewMapControl({"anchor": 3, "offset": {"width": 10, "height": 50}, "isOpen": false});
                     bmap.addControl(overview);

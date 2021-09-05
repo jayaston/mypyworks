@@ -17,8 +17,8 @@ import tjfxdata as tjfx
 #import re    
 import datetime as dt
 import rpy2.robjects as robjects
-startd = '20210501'
-endd =   '20210531'
+startd = '20210101'
+endd =   '20210831'
 r_script = '''
 Sys.setlocale('LC_ALL', locale = "English_United States.1252") 
 
@@ -94,4 +94,4 @@ idex=np.lexsort([test3[:,1], test3[:,0]])
 sorted_data = test3[idex, :]
 sorted_data = pd.DataFrame(sorted_data)
 
-sorted_data.to_excel(r'C:\Users\XieJie\mypyworks\输出\分区供水.xlsx')
+sorted_data.to_excel(r'C:\Users\XieJie\mypyworks\输出\2021分区供水.xlsx')
