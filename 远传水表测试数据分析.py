@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 import datetime as dt
 
-meterinfo = pd.read_excel('d:\\工作\\远传表\\测试清单.xlsx',dtype={'客户编号':str,'智能表码':str})
+meterinfo = pd.read_excel('d:\\专题工作（重要）\\远传表\\测试清单.xlsx',dtype={'客户编号':str,'智能表码':str})
 meterinfo['智能表生产厂家'].unique()
 meterinfo['厂家'] = meterinfo['智能表生产厂家'].str.replace('唐山汇中仪表股份有限公司','汇中')\
     .replace('江苏迈拓智能仪表有限公司','迈拓')\
@@ -25,7 +25,7 @@ testdate = pd.date_range(start='2021-8-21', end='2021-9-1',  closed=None,)
 testdate = pd.Series(testdate).dt.strftime('%m-%d').str.lstrip("0").str.replace("-0", "-")
 meterdata  = pd.DataFrame()
 for i in testdate:    
-    df = pd.read_excel('d:\工作\远传表\原始数据汇总\测试表'+i+'原始数据.xlsx',usecols="A:E",
+    df = pd.read_excel('d:\\专题工作（重要）\\远传表\原始数据汇总\测试表'+i+'原始数据.xlsx',usecols="A:E",
                        names=['楼栋','详细地址','表码','时间','行度'])
     df = df[df['表码']!='站号']
     meterdata = pd.concat([meterdata,df],ignore_index=1)
@@ -38,3 +38,35 @@ meterdf = meterdf.reset_index()
 meterdf.columns =['表码','日期','抄见率']
 meterdf = meterdf.groupby(['表码']).apply(lambda df:len(df[df['抄见率']==1])/len(df['抄见率']))
 meterdf = pd.DataFrame(meterdf.values.T,columns=['全抄天数比'],index=meterdf.index).reset_index().query('全抄天数比<1')
+
+dfmerge = pd.merge(meterdata,meterinfo,how='left',left_on='表码', right_on='智能表码')
+dfmerge = dfmerge.groupby(['厂家','表码']).apply(lambda df:df['行度'].count()/len(df['行度'])).reset_index()
+dfmerge.columns =['厂家','表码','抄见率']
+dfmerge['抄见率']= dfmerge['抄见率'].round(4)
+
+
+import seaborn as sns
+#sns.set_theme(style="whitegrid")
+import matplotlib as mpl
+mpl.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
+mpl.rcParams['axes.unicode_minus'] = False # 用来正常显示负号
+import matplotlib.pyplot as plt
+from matplotlib import ticker
+
+bins=[0.85,0.9,0.95,0.98,1]
+
+xticks=[0.875,0.925,0.965,0.99]
+xlabel=['85~90%','90~95%','95~98%','98%以上']
+
+fig=plt.figure(figsize=(6,4),dpi=100)
+#fig.suptitle("我是画布的标题",fontsize=20)
+g=sns.histplot(data=dfmerge, x="抄见率",kde=True,hue="厂家",bins=bins, multiple="dodge")
+sns.despine() #移除边框
+#plt.xticks([-16,-6,4,14,24,34,44],labels=['-10以下','-10~0','0~10','10~20','20~30','30~40','40以上'])
+plt.ylabel('水表数量分布')
+plt.xlabel('抄见率')
+plt.xticks(ticks=xticks,labels=xlabel)
+
+
+
+
