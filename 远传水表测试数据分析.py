@@ -8,6 +8,9 @@ import pandas as pd
 import numpy as np
 import datetime as dt
 
+startd='2021-8-21'
+endd = '2021-9-21'
+
 meterinfo = pd.read_excel('d:\\专题工作（重要）\\远传表\\测试清单.xlsx',dtype={'客户编号':str,'智能表码':str})
 meterinfo['智能表生产厂家'].unique()
 meterinfo['厂家'] = meterinfo['智能表生产厂家'].str.replace('唐山汇中仪表股份有限公司','汇中')\
@@ -19,19 +22,34 @@ meterinfo['厂家'] = meterinfo['智能表生产厂家'].str.replace('唐山汇�
                         .replace('汇中仪表股份有限公司','汇中')\
                             .replace('三川智慧科技股份有限公司','三川')
 meterinfo['水表类型'] = meterinfo['厂家'].apply(lambda x:'超声波' if x in ['迈拓','汇中'] else '机械表')                        
-                    
 
-testdate = pd.date_range(start='2021-8-21', end='2021-9-1',  closed=None,)
+
+testdate = pd.date_range(start=startd, end=endd,  closed=None,)
 testdate = pd.Series(testdate).dt.strftime('%m-%d').str.lstrip("0").str.replace("-0", "-")
 meterdata  = pd.DataFrame()
 for i in testdate:    
-    df = pd.read_excel('d:\\专题工作（重要）\\远传表\原始数据汇总\测试表'+i+'原始数据.xlsx',usecols="A:E",
-                       names=['楼栋','详细地址','表码','时间','行度'])
-    df = df[df['表码']!='站号']
+    df = pd.read_excel('d:\\专题工作（重要）\\远传表\原始数据汇总\测试表'+i+'原始数据.xlsx',usecols=['站号','时间','P20'],
+                       )
+    df = df[df['站号']!='站号']
     meterdata = pd.concat([meterdata,df],ignore_index=1)
 
+meterdata.columns=['表码','时间','行度']
 meterdata['日期'] = pd.to_datetime(meterdata['时间']).dt.strftime('%Y-%m-%d')
 meterdata['年月'] = pd.to_datetime(meterdata['时间']).dt.strftime('%Y%m')
+
+
+list_wrong_meter1 = list(meterinfo[meterinfo['厂家']=='迈拓']['智能表码'].unique())
+list_wrong_date1 = ['2021-09-04','2021-09-05','2021-09-06']
+
+list_wrong_meter2 = list(meterinfo[meterinfo['厂家']=='威铭']['智能表码'].unique())
+list_wrong_date2 = ['2021-09-17']
+
+
+meterdata = meterdata[~((meterdata['表码'].isin(list_wrong_meter1) & 
+                         meterdata['日期'].isin(list_wrong_date1)) |
+                        (meterdata['表码'].isin(list_wrong_meter2) & 
+                         meterdata['日期'].isin(list_wrong_date2)))]
+
 
 meterdf = meterdata.groupby(['表码','日期']).apply(lambda df:df['行度'].count()/len(df['行度']))
 meterdf = meterdf.reset_index()
@@ -42,6 +60,8 @@ meterdf = pd.DataFrame(meterdf.values.T,columns=['全抄天数比'],index=meterd
 dfmerge = pd.merge(meterdata,meterinfo,how='left',left_on='表码', right_on='智能表码')
 dfmerge = dfmerge.groupby(['厂家','表码']).apply(lambda df:df['行度'].count()/len(df['行度'])).reset_index()
 dfmerge.columns =['厂家','表码','抄见率']
+
+
 dfmerge['抄见率']= dfmerge['抄见率'].round(4)
 
 
