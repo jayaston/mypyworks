@@ -9,7 +9,7 @@ import numpy as np
 import datetime as dt
 
 startd='2021-8-21'
-endd = '2021-9-21'
+endd = '2021-10-13'
 
 meterinfo = pd.read_excel('d:\\专题工作（重要）\\远传表\\测试清单.xlsx',dtype={'客户编号':str,'智能表码':str})
 meterinfo['智能表生产厂家'].unique()
@@ -37,6 +37,9 @@ meterdata.columns=['表码','时间','行度']
 meterdata['日期'] = pd.to_datetime(meterdata['时间']).dt.strftime('%Y-%m-%d')
 meterdata['年月'] = pd.to_datetime(meterdata['时间']).dt.strftime('%Y%m')
 
+meterdata[meterdata[['表码','时间']].isnull().any(axis=1)]
+meterdata.dropna(subset=['表码','时间'],inplace=True)
+
 
 list_wrong_meter1 = list(meterinfo[meterinfo['厂家']=='迈拓']['智能表码'].unique())
 list_wrong_date1 = ['2021-09-04','2021-09-05','2021-09-06']
@@ -45,10 +48,19 @@ list_wrong_meter2 = list(meterinfo[meterinfo['厂家']=='威铭']['智能表码'
 list_wrong_date2 = ['2021-09-17']
 
 
-meterdata = meterdata[~((meterdata['表码'].isin(list_wrong_meter1) & 
-                         meterdata['日期'].isin(list_wrong_date1)) |
-                        (meterdata['表码'].isin(list_wrong_meter2) & 
-                         meterdata['日期'].isin(list_wrong_date2)))]
+# meterdata = meterdata[~((meterdata['表码'].isin(list_wrong_meter1) & 
+#                          meterdata['日期'].isin(list_wrong_date1)) |
+#                         (meterdata['表码'].isin(list_wrong_meter2) & 
+#                          meterdata['日期'].isin(list_wrong_date2)))]
+list_wrong_meter3 = list(meterinfo[meterinfo['厂家']=='东海']['智能表码'].unique())
+list_wrong_date3 = list(pd.date_range('2021-09-28','2021-10-7').strftime('%Y-%m-%d'))
+
+meterdata = meterdata[~(
+                        ( meterdata['表码'].isin(list_wrong_meter1) & meterdata['日期'].isin(list_wrong_date1) ) |
+                        ( meterdata['表码'].isin(list_wrong_meter2) & meterdata['日期'].isin(list_wrong_date2) ) |
+                        ( meterdata['表码'].isin(list_wrong_meter3) & meterdata['日期'].isin(list_wrong_date3) ) 
+                        )]
+
 
 meterdf1 = meterdata.groupby(['表码','日期']).apply(lambda df:df['行度'].count()/len(df['行度']))
 meterdf1 = meterdf1.reset_index()
@@ -66,6 +78,18 @@ meterdf = pd.DataFrame(meterdf.values.T,columns=['全抄天数比'],index=meterd
 dfmerge = pd.merge(meterdata,meterinfo,how='left',left_on='表码', right_on='智能表码')
 dfmerge = dfmerge.groupby(['厂家','表码']).apply(lambda df:df['行度'].count()/len(df['行度'])).reset_index()
 dfmerge.columns =['厂家','表码','抄见率']
+
+
+wuchadf1= pd.read_excel('d:\\专题工作（重要）\\远传表\\手抄数及相对偏差汇总.xls',sheet_name='0910', usecols=['智能表码','手抄行度','系统行度'],dtype={'智能表码':str})
+wuchadf1['日期']='2021-09-10'
+wuchadf2= pd.read_excel('d:\\专题工作（重要）\\远传表\\手抄数及相对偏差汇总.xls',sheet_name='0918', usecols=['智能表码','手抄行度','系统行度'],dtype={'智能表码':str})
+wuchadf2['日期']='2021-09-18'
+wuchadf3= pd.read_excel('d:\\专题工作（重要）\\远传表\\手抄数及相对偏差汇总.xls',sheet_name='1015', usecols=['智能表码','手抄行度','系统行度'],dtype={'智能表码':str})
+wuchadf3['日期']='2021-10-15'
+
+wuchadf = pd.concat([wuchadf1,wuchadf2,wuchadf3],ignore_index=1)
+wuchadf['绝对误差'] = abs(wuchadf['系统行度']-wuchadf['手抄行度']) 
+wuchadf['相对偏差率'] = wuchadf['绝对误差']/wuchadf['手抄行度']
 
 
 

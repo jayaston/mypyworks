@@ -17,8 +17,8 @@ import tjfxdata as tjfx
 #import re    
 import datetime as dt
 import rpy2.robjects as robjects
-startd = '20210901'
-endd =   '20210927' #不能跨年
+startd = '20200101'
+endd =   '20211019' #不能跨年
 r_script = '''
 Sys.setlocale('LC_ALL', locale = "English_United States.1252") 
 
@@ -115,18 +115,36 @@ test_a1=test_a1.values
 
 list1 = [         
          ['00','00718','d'],
-         ['00','11930','d']    #公司总取水量        
+         ['00','11930','d'],    #公司总取水量  
+         ['1001','04281','d'], #西村取水
+         ['1001','00718','d'],
+         ['1002','04281','d'],
+         ['1002','00718','d'],
+         ['1003','04281','d'],
+         ['1003','00718','d'],
+         ['1004','04281','d'],
+         ['1004','00718','d'],
+         ['1005','04281','d'],
+         ['1005','00718','d'],
+         ['1007','04281','d'],
+         ['1007','00718','d'],
+         ['1016','04281','d'],
+         ['1016','00718','d'],
          ]
+
 shuju_df = tjfx.TjfxData().getdata(startd,endd,list1)
 
 shuju_df.info()
 
 shuju_df.QUOTA_VALUE = pd.to_numeric(shuju_df.QUOTA_VALUE,errors='coerce').fillna(0)
+shuju_df['QUOTA_NAME'].replace(['取水量','入厂取水量','水厂供水总量'],['0取水量','1入厂取水量','2供水总量'],inplace=True)
+shuju_df['DEPT_QUOTA'] = shuju_df['QUOTA_NAME']+'_'+shuju_df['GROUP_NAME']
+
 
 shuju_df['mon']=shuju_df['QUOTA_DATE'].dt.strftime('%m')
 shuju_df['day']=shuju_df['QUOTA_DATE'].dt.strftime('%d')
 
-test = pd.pivot_table(shuju_df,index=['mon','QUOTA_NAME'],columns='day',values='QUOTA_VALUE')
+test = pd.pivot_table(shuju_df,index=['mon','DEPT_QUOTA'],columns='day',values='QUOTA_VALUE')
 test1=test.reset_index()
 test2=test1.values
 test3 = np.concatenate((a,test2,test_a1), axis=0)
