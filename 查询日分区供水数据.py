@@ -17,8 +17,8 @@ import tjfxdata as tjfx
 #import re    
 import datetime as dt
 import rpy2.robjects as robjects
-startd = '20200101'
-endd =   '20211019' #不能跨年
+startd = '20210101'
+endd =   '20211031' #不能跨年
 r_script = '''
 Sys.setlocale('LC_ALL', locale = "English_United States.1252") 
 
@@ -154,5 +154,7 @@ idex=np.lexsort([test3[:,1], test3[:,0]])
 #注意先按后边的关键词排序
 sorted_data = test3[idex, :]
 sorted_data = pd.DataFrame(sorted_data)
-
+sorted_data.iloc[:,2:] = sorted_data.iloc[:,2:].apply((lambda x: pd.to_numeric(x,errors='coerce')))
 sorted_data.to_excel(r'C:\Users\XieJie\mypyworks\输出\2021分区供水.xlsx')
+
+
