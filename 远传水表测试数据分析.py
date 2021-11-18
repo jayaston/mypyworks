@@ -37,9 +37,7 @@ meterdata.columns=['表码','时间','行度']
 meterdata['日期'] = pd.to_datetime(meterdata['时间']).dt.strftime('%Y-%m-%d')
 meterdata['年月'] = pd.to_datetime(meterdata['时间']).dt.strftime('%Y%m')
 
-meterdata[meterdata[['表码','时间']].isnull().any(axis=1)]
 meterdata.dropna(subset=['表码','时间'],inplace=True)
-
 
 list_wrong_meter1 = list(meterinfo[meterinfo['厂家']=='迈拓']['智能表码'].unique())
 list_wrong_date1 = ['2021-09-04','2021-09-05','2021-09-06']
@@ -47,11 +45,6 @@ list_wrong_date1 = ['2021-09-04','2021-09-05','2021-09-06']
 list_wrong_meter2 = list(meterinfo[meterinfo['厂家']=='威铭']['智能表码'].unique())
 list_wrong_date2 = ['2021-09-17']
 
-
-# meterdata = meterdata[~((meterdata['表码'].isin(list_wrong_meter1) & 
-#                          meterdata['日期'].isin(list_wrong_date1)) |
-#                         (meterdata['表码'].isin(list_wrong_meter2) & 
-#                          meterdata['日期'].isin(list_wrong_date2)))]
 list_wrong_meter3 = list(meterinfo[meterinfo['厂家']=='东海']['智能表码'].unique())
 list_wrong_date3 = list(pd.date_range('2021-09-28','2021-10-7').strftime('%Y-%m-%d'))
 
@@ -61,13 +54,11 @@ meterdata = meterdata[~(
                         ( meterdata['表码'].isin(list_wrong_meter3) & meterdata['日期'].isin(list_wrong_date3) ) 
                         )]
 
-
 meterdf1 = meterdata.groupby(['表码','日期']).apply(lambda df:df['行度'].count()/len(df['行度']))
 meterdf1 = meterdf1.reset_index()
 meterdf1.columns =['表码','日期','抄见率']
 meterdf1 = meterdf1.groupby(['表码']).apply(lambda df:len(df[df['抄见率']>0])/len(df['抄见率']))
 meterdf1 = pd.DataFrame(meterdf1.values.T,columns=['上线天数比'],index=meterdf1.index).reset_index().query('上线天数比<1').sort_values('上线天数比')
-
 
 meterdf = meterdata.groupby(['表码','日期']).apply(lambda df:df['行度'].count()/len(df['行度']))
 meterdf = meterdf.reset_index()
@@ -78,7 +69,6 @@ meterdf = pd.DataFrame(meterdf.values.T,columns=['全抄天数比'],index=meterd
 dfmerge = pd.merge(meterdata,meterinfo,how='left',left_on='表码', right_on='智能表码')
 dfmerge = dfmerge.groupby(['厂家','表码']).apply(lambda df:df['行度'].count()/len(df['行度'])).reset_index()
 dfmerge.columns =['厂家','表码','抄见率']
-
 
 wuchadf1= pd.read_excel('d:\\专题工作（重要）\\远传表\\手抄数及相对偏差汇总.xls',sheet_name='0910', usecols=['智能表码','手抄行度','系统行度'],dtype={'智能表码':str})
 wuchadf1['日期']='2021-09-10'

@@ -17,8 +17,8 @@ import tjfxdata as tjfx
 #import re    
 import datetime as dt
 import rpy2.robjects as robjects
-startd = '20210101'
-endd =   '20211031' #不能跨年
+startd = '20211101'
+endd =   '20211117' #不能跨年
 r_script = '''
 Sys.setlocale('LC_ALL', locale = "English_United States.1252") 
 
@@ -145,6 +145,16 @@ shuju_df['mon']=shuju_df['QUOTA_DATE'].dt.strftime('%m')
 shuju_df['day']=shuju_df['QUOTA_DATE'].dt.strftime('%d')
 
 test = pd.pivot_table(shuju_df,index=['mon','DEPT_QUOTA'],columns='day',values='QUOTA_VALUE')
+
+# test = test.unstack(level=0)
+# test.loc['0供水总量_江村水厂'] = test.loc['0供水总量_江村一厂'] + test.loc['0供水总量_江村二厂'] 
+# test.loc['0供水总量_广州自来水公司'] = test.loc['0供水总量_北部水厂'] + test.loc['0供水总量_南洲水厂'] + test.loc['0供水总量_新塘水厂'] + test.loc['0供水总量_石门水厂'] \
+#     + test.loc['0供水总量_西村水厂'] + test.loc['0供水总量_西洲水厂'] + test.loc['0供水总量_江村水厂']
+
+# test.drop(['0供水总量_江村一厂','0供水总量_江村二厂'],inplace=True)
+# test = test.stack(level=1, dropna=True) 
+# test = test.swaplevel('mon','DEPT_QUOTA', axis=0)
+
 test1=test.reset_index()
 test2=test1.values
 test3 = np.concatenate((a,test2,test_a1), axis=0)
@@ -155,6 +165,6 @@ idex=np.lexsort([test3[:,1], test3[:,0]])
 sorted_data = test3[idex, :]
 sorted_data = pd.DataFrame(sorted_data)
 sorted_data.iloc[:,2:] = sorted_data.iloc[:,2:].apply((lambda x: pd.to_numeric(x,errors='coerce')))
-sorted_data.to_excel(r'C:\Users\XieJie\mypyworks\输出\2021分区供水.xlsx')
+sorted_data.to_excel(r'C:\Users\XieJie\mypyworks\输出\202111分区供水.xlsx')
 
 
