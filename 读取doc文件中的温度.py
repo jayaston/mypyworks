@@ -23,8 +23,8 @@ def doSaveAas(doc_path):
         doc.SaveAs(docx_path, 12, False, "", True, "", False, False, False, False)  # 转化后路径下的文件
         doc.Close()
         word.Quit()
-startmon = '202107' 
-name = "20210705"        
+startmon = '202112' 
+name = "20211221"        
 doc_path="C:\\Users\\xiejie/mypyworks/自来水数据/天气预测网页数据/"+name+".doc"
 docx_path = doc_path.replace("doc", "docx")
 

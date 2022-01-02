@@ -158,11 +158,11 @@ BumenData().imp_tbl(formula,'FORMULA')
 
 
 
-#同步数据表
+#同步数据表，务必修改日期
 sql="select t.*\
     from zls_tjfx.tj_quota_data t \
         where t.quota_date >= to_date('19900101','yyyymmdd')\
-           and t.quota_date < to_date('20211010','yyyymmdd')\
+           and t.quota_date < to_date('20211206','yyyymmdd')\
              and to_char(quota_date,'ss')='00'\
              and t.quota_value != '0'\
              and t.quota_value is not null\
