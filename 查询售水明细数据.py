@@ -24,7 +24,7 @@ import datetime as dt
 
 #耗水30976，稽查24299，每月发单23765，每月追收24293，每月剔除24294，两月发单23594，两月追收23595，两月剔除23596
 start = '20211101'
-end = '20211130'
+end = '20211231'
 #list1每个单位的指标务必要完全一致。否则会出现冲突。不一致的指标放到list2
 list1 = [#公司         
          ['00','00409','m'],#售水量
@@ -226,7 +226,7 @@ test5=test4.reindex(columns =[
         (  '北区分公司',   '免费水量'),
         (  '北区分公司',   '售水天数'),
         ])
-test5.to_excel(r'C:\Users\XieJie\mypyworks\输出\2021年11月售水量明细水量.xlsx')
+test5.to_excel(r'C:\Users\XieJie\mypyworks\输出\2021年1112月售水量明细水量.xlsx')
 #list1 = [x+'_'+y for x,y in zip(test.columns.get_level_values(0).values , test.columns.get_level_values(1).values)]  
 #test.columns = list1
 #test6=test5.swaplevel(axis=1)[['售水量','分区供水总量']].resample('Y').sum()
