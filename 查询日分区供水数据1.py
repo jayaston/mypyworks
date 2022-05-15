@@ -17,8 +17,8 @@ import tjfxdata as tjfx
 #import re    
 import datetime as dt
 import rpy2.robjects as robjects
-startd = '20220130'
-endd =   '20220131' #不能跨年
+startd = '20220401'
+endd =   '20220430' #不能跨年不跨月
 r_script = '''
 Sys.setlocale('LC_ALL', locale = "English_United States.1252") 
 
@@ -159,6 +159,8 @@ a3 = a3.transpose()
 test_a1= pd.DataFrame(a1,columns=['QUOTA_DATE','QUOTA_DEPT','QUOTA_NAME','QUOTA_VALUE'])
 test_a1['QUOTA_DATE'] = pd.to_datetime(test_a1['QUOTA_DATE'], format='%Y-%m-%d')
 test_a1.QUOTA_VALUE = pd.to_numeric(test_a1.QUOTA_VALUE,errors='coerce').fillna(0)
+#test_a1.set_index('QUOTA_DATE',inplace=True)
+
 
 test_a1['mon']=test_a1['QUOTA_DATE'].dt.strftime('%m')
 test_a1['day']=test_a1['QUOTA_DATE'].dt.strftime('%d')
@@ -166,6 +168,8 @@ test_a1['QUOTA_NAME'].replace(['12190','12225','12260'],['最高温','最低温'
 
 test_a1.info()
 test_a1 = pd.pivot_table(test_a1,index=['mon','QUOTA_NAME'],columns='day',values='QUOTA_VALUE')
+#下行处理防止某些天温度无法取到数据而缺列影响后面二维数组合并
+test_a1 = test_a1.reindex(columns=['%02d'%x for x in range(min(pd.date_range(startd,endd).strftime('%d').map(int)),max(pd.date_range(startd,endd).strftime('%d').map(int))+1)])
 test_a1=test_a1.reset_index()
 test_a1=test_a1.values
 
@@ -240,9 +244,12 @@ test = test.swaplevel('mon','DEPT_QUOTA', axis=0)
 
 test1=test.reset_index()
 test2=test1.values
-test3 = np.concatenate((a,
+test3 = np.concatenate((
+                        a,
                         test2,
-                        test_a1,a2,a3), axis=0)
+                        test_a1,
+                        a2,
+                        a3), axis=0)
 
 idex=np.lexsort([test3[:,1], test3[:,0]])
 #先按第一列升序，再按第二列升序，.
@@ -307,5 +314,5 @@ sorted_data = sorted_data.reindex(columns=['取水量_广州自来水公司', '�
 
 sorted_data.index = sorted_data.index.map(lambda x:x.strftime('%Y年%m月%d日'))
 
-sorted_data.to_excel(r'C:\Users\XieJie\mypyworks\输出\2022分区供水.xlsx')
+sorted_data.to_excel(r'C:\Users\XieJie\mypyworks\输出\2022年4月分区供水.xlsx')
 
