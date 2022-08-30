@@ -17,8 +17,8 @@ import tjfxdata as tjfx
 #import re    
 import datetime as dt
 import rpy2.robjects as robjects
-startd = '20220501'
-endd =   '20220531' #不能跨年不跨月
+startd = '20220801'
+endd =   '20220827' #不能跨年不跨月
 r_script = '''
 Sys.setlocale('LC_ALL', locale = "English_United States.1252") 
 
@@ -314,5 +314,5 @@ sorted_data = sorted_data.reindex(columns=['取水量_广州自来水公司', '�
 
 sorted_data.index = sorted_data.index.map(lambda x:x.strftime('%Y年%m月%d日'))
 
-sorted_data.to_excel(r'C:\Users\XieJie\mypyworks\输出\2022年5月分区供水.xlsx')
+sorted_data.to_excel(r'C:\Users\XieJie\mypyworks\输出\2022年8月分区供水.xlsx')
 
