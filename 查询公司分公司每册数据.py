@@ -22,8 +22,8 @@ import tjfxdata as tjfx
 #import re    
 import datetime as dt
 
-startd = '20220101'
-endd = '20220731'
+startd = '20230101'
+endd = '20230131'
 #双月
 list1 = [ 
           #公司  
