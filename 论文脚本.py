@@ -292,5 +292,52 @@ for group in groups:
     i += 1
 plt.show()  
 
+#----------------------------
+#prophet预测
+#调用prophet模型
+from fbprophet import Prophet
+from fbprophet.diagnostics import cross_validation 
+#修改变量名为prophet标准变量名
+sup_water=sup_water.reset_index()[['QUOTA_DATE','水厂供水总量','平均温度']].rename(columns={'QUOTA_DATE':'ds','水厂供水总量':'y'})
+#划分训练数据集和测试数据集
+sup_water_train = sup_water[:-test_len] #训练数据集
+sup_water_test = sup_water[-test_len:]  #测试数据集
+print(sup_water_train)
+print(sup_water_test)
+m = Prophet(holidays=holidays,
+    growth='logistic', 
+    interval_width = 0.8,           #预测不确定区间宽度
+    n_changepoints = 25,            #识别变点的上限数量             
+    changepoint_range = 0.8 ,       #使用前80%比例数据作为变点识别数据
+    changepoint_prior_scale = 0.05, #changepoint_prior_scale越大，识别为变点越多；越小，识别为变点越少。
+    holidays_prior_scale=10)        #holidays_prior_scale越大，假期对目标值的影响越大。越小，假期对目标值的影响越小。
+m.add_seasonality(name='weekly', period=7, fourier_order=3, prior_scale=10) #fourier_order越大，对周期变化的拟合越细致也越容易过拟合。
+m.add_seasonality(name='yearly', period=365.25, fourier_order=10, prior_scale=10)#prior_scale越大，对于目标变量影响越大。
+m.add_regressor('平均温度',prior_scale=10,mode='multiplicative') #回归量采用乘法模型
+#按照测试集前两年的数据训练模型
+m.fit(sup_water_train[-730:])
+
+def fun_mape(df):
+    return np.mean(np.abs((df['yhat']-df['y'])/df['y']))
+df_cv = cross_validation(m, initial='730 days', period='7 days', horizon = '31 days') 
+                mape_ave = df_cv.groupby('cutoff').apply(fun_mape).mean()
+                
+#计算测试数据集预测值的mape
+np.mean(np.abs((forecast['yhat'].values - sup_water_test['y'].values)/sup_water_test['y'].values))
+#m如果不能提取出来预测值则在预测完成以后提取
+sup_water['cap']= 5100000 #设置增长饱和值
+m.fit(sup_water[-730:])
+#预测未来30天
+future = m.make_future_dataframe(periods=29,freq = 'd', 
+                                 include_history = False)
+
+#输入预测期的饱和最大值
+future['cap'] = 5100000
+#输入天气预报中未来30日的平均温度
+future['平均温度'] = [32,32.5,31.5,31.5,31.5,31.5,31.5,28.5,29,29.5,30,30,30.5,30.5,30.5,29.5,30.5,29,28.5,26,27,26.5,28,30.5,29.5,31,32,32.5,32]
+future 
+forecast = m.predict(future)
+fig = m.plot(forecast)
+tmp = forecast[['ds','yhat']]
 
 
