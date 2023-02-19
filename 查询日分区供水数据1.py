@@ -18,7 +18,7 @@ import tjfxdata as tjfx
 import datetime as dt
 import rpy2.robjects as robjects
 startd = '20230101'
-endd =   '20230131' #不能跨年不跨月
+endd =   '20230214' #不能跨年不跨月
 r_script = '''
 Sys.setlocale('LC_ALL', locale = "English_United States.1252") 
 
@@ -314,5 +314,5 @@ sorted_data = sorted_data.reindex(columns=['取水量_广州自来水公司', '�
 
 sorted_data.index = sorted_data.index.map(lambda x:x.strftime('%Y年%m月%d日'))
 
-sorted_data.to_excel(r'C:\Users\XieJie\mypyworks\输出\2023年1月分区供水.xlsx')
+sorted_data.to_excel(r'C:\Users\XieJie\mypyworks\输出\2023年2月分区供水.xlsx')
 
