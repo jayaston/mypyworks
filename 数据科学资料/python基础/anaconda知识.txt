@@ -3,11 +3,13 @@ conda config —show 查看所有配置
 conda clean -i换源后清除缓存
 conda clean -a 下载强制停止后清理lock部分
 anaconda search -t conda在扩展库中找包
+conda install -c conda-forge fbprophet 指定扩展库安装包
 conda update — strick-channel-priority —all 
 换源之后出现版本不一致警告的时候进行同步
 
 linux 下查询安装包用
 conda list | grep -q -i pillow
 wimows cmd 下查询
+conda list 包名
 方法一：grep 更改为 findstr    | findstr com.******.**
 方法二：先cmd输入adb shell，然后在输入top | grep com.*****.**
