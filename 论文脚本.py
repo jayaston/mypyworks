@@ -8,6 +8,7 @@ import matplotlib as mpl
 mpl.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
 mpl.rcParams['axes.unicode_minus'] = False # 用来正常显示负号
 import matplotlib.pyplot as plt
+from matplotlib import ticker
 
 import pandas as pd
 import numpy as np
@@ -27,18 +28,48 @@ data_H=pd.read_excel(io=r'd:\BaiduSyncdisk\谢杰\My Documents\个人所有填�
 data_H.info()
 data_h=data_H[(data_H['QUOTA_DATE']>='2022/9/1')&(data_H['QUOTA_DATE']<='2022/9/30 23:00:00')].set_index('QUOTA_DATE')
 data_h.info()
-data_h.to_excel(r'd:\BaiduSyncdisk\谢杰\My Documents\个人所有填写表格\谢杰同等学力\论文\小时实验数据.xlsx')
+#data_h.to_excel(r'd:\BaiduSyncdisk\谢杰\My Documents\个人所有填写表格\谢杰同等学力\论文\小时实验数据.xlsx')
 
 #日月数据处理
 data_d=pd.read_excel(io=r'd:\BaiduSyncdisk\谢杰\My Documents\个人所有填写表格\谢杰同等学力\论文\2016至2022供水量.xlsx')
-data_d.info()
-data_m=data_d.set_index('QUOTA_DATE').resample('MS')[['供水总量','最高温度','平均温度','西村水厂']].agg(
+data_d = data_d.set_index('QUOTA_DATE')
+data_m=data_d.resample('MS')[['供水总量','最高温度','平均温度','西村水厂']].agg(
         {'供水总量':['sum'],'最高温度':['mean'],'平均温度':['mean'],'西村水厂':['sum']})
 data_m.columns = data_m.columns.get_level_values(0).values
-data_m = data_m[~(data_m.index.strftime("%m").isin(["01","02","03"]))] 
 
-#日数据
+data_d = data_d['2022-8':'2022-9'][['供水总量','最高温度','平均温度','西村水厂']]
+
+#画图--------------------------------------------------------------------------------
+plt.figure(figsize=(12,10))
+plt.subplot(311)
+plt.plot(data_h.index.values,data_h['广州自来水公司_小时供水量'])
+plt.title('小时供水量序列')
+#plt.gca().xaxis.set_major_formatter(mpl.dates.DateFormatter('%H'))
+#plt.gca().xaxis.set_major_locator(ticker.MultipleLocator(6))
+plt.ylabel('供水量（m3）')
+plt.subplot(312)
+plt.plot(data_d.index.values,data_d['供水总量'])
+plt.title('日供水量序列')
+plt.gca().yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1000000, decimals=0, symbol='万', is_latex=False))
+plt.ylabel('供水量（m3）')
+plt.subplot(313)
+data_m['供水总量'].plot()
+plt.gca().yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1000000, decimals=0, symbol='万', is_latex=False))
+plt.title('月供水量序列')
+#plt.gca().xaxis.set_major_formatter(mpl.dates.DateFormatter('%Y%m'))
+plt.xlabel('时间')
+plt.ylabel('供水量（m3）')
+plt.gcf().subplots_adjust(left=0.2,bottom=0.1,right=0.8,top=0.8,hspace=0.3)
+plt.show()
+
+
+
+data_d=pd.read_excel(io=r'd:\BaiduSyncdisk\谢杰\My Documents\个人所有填写表格\谢杰同等学力\论文\2016至2022供水量.xlsx')
 data_d = data_d.set_index('QUOTA_DATE')['2021-7':'2021-9'][['供水总量','最高温度','平均温度','西村水厂']]
+
+data_m = data_m[~(data_m.index.strftime("%m").isin(["01","02","03"]))] 
+data_m.info()
+#日数据
 
 
 
