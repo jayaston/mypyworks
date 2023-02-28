@@ -18,7 +18,7 @@ import tjfxdata as tjfx
 import datetime as dt
 import rpy2.robjects as robjects
 startd = '20230101'
-endd =   '20230214' #不能跨年不跨月
+endd =   '20230227' #不能跨年不跨月
 r_script = '''
 Sys.setlocale('LC_ALL', locale = "English_United States.1252") 
 
