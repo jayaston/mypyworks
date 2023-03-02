@@ -43,23 +43,23 @@ data_d = data_d['2022-8':'2022-9'][['供水总量','最高温度','平均温度'
 plt.figure(figsize=(12,10))
 plt.subplot(311)
 plt.plot(data_h.index.values,data_h['广州自来水公司_小时供水量'])
-plt.title('小时供水量序列')
-plt.gca().xaxis.set_major_formatter(mpl.dates.DateFormatter('%H'))
+plt.title('(a)小时供水量序列')
+plt.gca().xaxis.set_major_formatter(mpl.dates.DateFormatter('%m/%d'))
 #plt.gca().xaxis.set_major_locator(ticker.MultipleLocator(6))
 plt.ylabel('供水量（m3）')
 plt.subplot(312)
 plt.plot(data_d.index.values,data_d['供水总量'])
-plt.title('日供水量序列')
+plt.title('(b)日供水量序列')
 plt.gca().yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1000000, decimals=0, symbol='万', is_latex=False))
 plt.ylabel('供水量（m3）')
 plt.subplot(313)
 data_m['供水总量'].plot()
 plt.gca().yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1000000, decimals=0, symbol='万', is_latex=False))
-plt.title('月供水量序列')
+plt.title('(c)月供水量序列')
 #plt.gca().xaxis.set_major_formatter(mpl.dates.DateFormatter('%Y%m'))
 plt.xlabel('时间')
 plt.ylabel('供水量（m3）')
-plt.gcf().subplots_adjust(left=0.2,bottom=0.1,right=0.8,top=0.8,hspace=0.3)
+plt.gcf().subplots_adjust(left=0.1,bottom=0.08,right=0.95,top=0.95,hspace=0.3)
 plt.show()
 
 
@@ -114,8 +114,7 @@ print("Best ARIMA{} model - AIC:{}".format(best_pdq, best_aic))
 model = sm.tsa.ARIMA(xdata,(5,0,2)).fit()
 print(model.summary())
 model.fittedvalues
-
-
+pd.DataFrame({'实际值':xdata,'arima':model.fittedvalues}).to_excel(r'd:\BaiduSyncdisk\谢杰\My Documents\个人所有填写表格\谢杰同等学力\论文\论文初稿\小时输出结果.xlsx')
 #每个质保评分
 abs_=(xdata- model.fittedvalues).abs()
 mae=abs_.mean()#Mean Absolute Error ，平均绝对误差
@@ -185,7 +184,8 @@ mape=(abs_/y).mean()# mean absolute percentage error，平均绝对百分比误�
 R2 = r2_score(y, yhat)
 print("平均绝对误差MAE={:.0f}；\n平均绝对百分比误差MAPE={:.2%}；\nR方={:.2%}；\n均方根误差RMSE={:.0f}。".format(mae,mape,R2,rmse))
 
-ma
+pd.concat([sup_water_train,forecast['yhat'][:-48]],axis=1).to_excel(r'd:\BaiduSyncdisk\谢杰\My Documents\个人所有填写表格\谢杰同等学力\论文\论文初稿\小时输出结果prophet.xlsx')
+
 
 
 def fun_mape(df):
