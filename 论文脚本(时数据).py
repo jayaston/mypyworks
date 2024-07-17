@@ -22,16 +22,17 @@ from sklearn.metrics import r2_score
 import statsmodels.api as sm
 from statsmodels.graphics.api import qqplot
 
-
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+from statsmodels.tsa.stattools import adfuller as ADF
 #小时数据读取9月数据
-data_H=pd.read_excel(io=r'd:\BaiduSyncdisk\谢杰\My Documents\个人所有填写表格\谢杰同等学力\论文\2021至2022时数据.xlsx')
+data_H=pd.read_excel(io=r'd:\BaiduSyncdisk\谢杰\My Documents\谢杰同等学力\论文\2021至2022时数据.xlsx')
 data_H.info()
 data_h=data_H[(data_H['QUOTA_DATE']>='2022/9/1')&(data_H['QUOTA_DATE']<='2022/9/30 23:00:00')].set_index('QUOTA_DATE')
 data_h.info()
 #data_h.to_excel(r'd:\BaiduSyncdisk\谢杰\My Documents\个人所有填写表格\谢杰同等学力\论文\小时实验数据.xlsx')
 
 #日月数据处理
-data_d=pd.read_excel(io=r'd:\BaiduSyncdisk\谢杰\My Documents\个人所有填写表格\谢杰同等学力\论文\2016至2022供水量.xlsx')
+data_d=pd.read_excel(io=r'd:\BaiduSyncdisk\谢杰\My Documents\谢杰同等学力\论文\2016至2022供水量.xlsx')
 data_d = data_d.set_index('QUOTA_DATE')
 data_m=data_d.resample('MS')[['供水总量','最高温度','平均温度','西村水厂']].agg(
         {'供水总量':['sum'],'最高温度':['mean'],'平均温度':['mean'],'西村水厂':['sum']})
@@ -39,7 +40,22 @@ data_m.columns = data_m.columns.get_level_values(0).values
 
 data_d = data_d['2022-8':'2022-9'][['供水总量','最高温度','平均温度','西村水厂']]
 
+
+np.std(data_h['广州自来水公司_小时供水量']) / np.mean(data_h['广州自来水公司_小时供水量']) * 100
+
+np.std(data_d['2022']['供水总量']) / np.mean(data_d['2022']['供水总量']) * 100
+np.std(data_m['供水总量']) / np.mean(data_m['供水总量']) * 100
+
 #画图--------------------------------------------------------------------------------
+
+data_d=pd.read_excel(io=r'd:\BaiduSyncdisk\谢杰\My Documents\谢杰同等学力\论文\2016至2022供水量.xlsx')
+data_d = data_d.set_index('QUOTA_DATE')
+data_m=data_d.resample('MS')[['供水总量','最高温度','平均温度','西村水厂']].agg(
+        {'供水总量':['sum'],'最高温度':['mean'],'平均温度':['mean'],'西村水厂':['sum']})
+data_m.columns = data_m.columns.get_level_values(0).values
+
+data_d = data_d['2022'][['供水总量','最高温度','平均温度','西村水厂']]
+
 plt.figure(figsize=(12,10))
 plt.subplot(311)
 plt.plot(data_h.index.values,data_h['广州自来水公司_小时供水量'])
@@ -76,6 +92,34 @@ data_m.info()
 #小时水量用三种模型测试
 xdata = data_h['广州自来水公司_小时供水量']
 
+def diff(timeseries):
+    timeseries_diff1 = timeseries.diff(1)
+    timeseries_diff2 = timeseries_diff1.diff(1)
+
+    timeseries_diff1 = timeseries_diff1.fillna(0)
+    timeseries_diff2 = timeseries_diff2.fillna(0)
+
+    timeseries_adf = ADF(timeseries.tolist())
+    timeseries_diff1_adf = ADF(timeseries_diff1.tolist())
+    timeseries_diff2_adf = ADF(timeseries_diff2.tolist())
+
+    print('timeseries_adf : ', timeseries_adf)
+    print('timeseries_diff1_adf : ', timeseries_diff1_adf)
+    print('timeseries_diff2_adf : ', timeseries_diff2_adf)
+
+    plt.figure(figsize=(12, 8))
+    plt.plot(timeseries, label='Original', color='blue')
+    plt.plot(timeseries_diff1, label='Diff1', color='red')
+    plt.plot(timeseries_diff2, label='Diff2', color='purple')
+    plt.legend(loc='best')
+    plt.show()
+
+diff(xdata)
+
+
+xdata_diff = xdata.diff(1).dropna()
+plot_acf(xdata_diff)
+plot_pacf(xdata_diff)
 import warnings
 import itertools
 # 设置自相关(AR)、差分(I)、移动平均(MA)的三个参数的取值范围
@@ -118,7 +162,41 @@ print("平均绝对误差MAE={:.0f}；\n平均绝对百分比误差MAPE={:.2%}�
 
 
 #预测多期
-test = model.forecast(24)
+#k=4
+model1 = sm.tsa.ARIMA(xdata[0:672],(5,0,2)).fit()
+test = model1.forecast(4)[0]
+
+model1 = sm.tsa.ARIMA(xdata[0:676],(5,0,2)).fit()
+test= np.r_[test,model1.forecast(4)[0]]
+
+model1 = sm.tsa.ARIMA(xdata[0:680],(5,0,2)).fit()
+test= np.r_[test,model1.forecast(4)[0]]
+
+model1 = sm.tsa.ARIMA(xdata[0:684],(5,0,2)).fit()
+test= np.r_[test,model1.forecast(4)[0]]
+
+model1 = sm.tsa.ARIMA(xdata[0:688],(5,0,2)).fit()
+test= np.r_[test,model1.forecast(4)[0]]
+
+model1 = sm.tsa.ARIMA(xdata[0:692],(5,0,2)).fit()
+test= np.r_[test,model1.forecast(4)[0]]
+
+pd.DataFrame({'实际值':xdata[672:696],'arimak4':test}).to_excel(r'd:\BaiduSyncdisk\谢杰\My Documents\谢杰同等学力\论文\论文初稿\小时arimak=4输出结果.xlsx')
+#k=24
+model1 = sm.tsa.ARIMA(xdata[0:672],(5,0,2)).fit()
+test = model1.forecast(24)[0]
+
+#每个质保评分
+abs_=(xdata[672:696]- test).abs()
+mae=abs_.mean()#Mean Absolute Error ，平均绝对误差
+rmse= np.sqrt((abs_**2).mean()) #Root Mean Square Error,均方根误差
+mape=(abs_/xdata[672:696]).mean()# mean absolute percentage error，平均绝对百分比误差
+R2 = r2_score(xdata[672:696], test)
+print("平均绝对误差MAE={:.0f}；\n平均绝对百分比误差MAPE={:.2%}；\nR方={:.2%}；\n均方根误差RMSE={:.0f}。".format(mae,mape,R2,rmse))
+
+pd.DataFrame({'实际值':xdata[672:696],'arimak24':test}).to_excel(r'd:\BaiduSyncdisk\谢杰\My Documents\谢杰同等学力\论文\论文初稿\小时arimak=24输出结果.xlsx')
+
+
 
 test = model.predict(720,744)
 test.plot()
@@ -154,7 +232,7 @@ m = Prophet(#holidays=holidays,
     )        
 m = Prophet(yearly_seasonality=False)
 #m.add_seasonality(name='weekly', period=168, fourier_order=10, prior_scale=10) #fourier_order越大，对周期变化的拟合越细致也越容易过拟合。
-#m.add_seasonality(name='hourly', period=24, fourier_order=10, prior_scale=10)#prior_scale越大，对于目标变量影响越大。
+m.add_seasonality(name='hourly', period=24, fourier_order=10, prior_scale=10)#prior_scale越大，对于目标变量影响越大。
 #m.add_regressor('平均温度',prior_scale=10,mode='multiplicative') #回归量采用乘法模型
 #时间戳的格式应该是YYYY-MM-DD - HH:MM:SS。当使用子日(日以下)数据时，日季节性将自动匹配
 
@@ -178,6 +256,90 @@ R2 = r2_score(y, yhat)
 print("平均绝对误差MAE={:.0f}；\n平均绝对百分比误差MAPE={:.2%}；\nR方={:.2%}；\n均方根误差RMSE={:.0f}。".format(mae,mape,R2,rmse))
 
 pd.concat([sup_water_train,forecast['yhat'][:-48]],axis=1).to_excel(r'd:\BaiduSyncdisk\谢杰\My Documents\个人所有填写表格\谢杰同等学力\论文\论文初稿\小时输出结果prophet.xlsx')
+
+
+
+
+#k=4
+test=pd.Series()
+for i in range(6):    
+    m = Prophet(#holidays=holidays,
+    #growth='logistic', 
+    #interval_width = 0.8,           #预测不确定区间宽度
+    #n_changepoints = 25,            #识别变点的上限数量             
+    #changepoint_range = 0.8 ,       #使用前80%比例数据作为变点识别数据
+    #changepoint_prior_scale = 0.05, #changepoint_prior_scale越大，识别为变点越多；越小，识别为变点越少。
+    #holidays_prior_scale=10  #holidays_prior_scale越大，假期对目标值的影响越大。越小，假期对目标值的影响越小。
+    )        
+    m = Prophet(yearly_seasonality=False)
+    #m.add_seasonality(name='weekly', period=168, fourier_order=10, prior_scale=10) #fourier_order越大，对周期变化的拟合越细致也越容易过拟合。
+    m.add_seasonality(name='hourly', period=24, fourier_order=10, prior_scale=10)#prior_scale越大，对于目标变量影响越大。
+    #m.add_regressor('平均温度',prior_scale=10,mode='multiplicative') #回归量采用乘法模型
+    #时间戳的格式应该是YYYY-MM-DD - HH:MM:SS。当使用子日(日以下)数据时，日季节性将自动匹配
+    m.fit(sup_water[:(-48+4*i)])
+    future = m.make_future_dataframe(periods=4,freq = 'H', 
+                                     #include_history = False
+                                     )
+    forecast = m.predict(future)
+    test = pd.concat([test,forecast['yhat'][-4:]],axis=0)
+
+# m.plot_components(forecast)
+# m.plot(forecast)
+
+#每个质保评分
+y=sup_water['y'][-48:-24]
+yhat=test
+abs_=(y- yhat).abs()
+mae=abs_.mean()#Mean Absolute Error ，平均绝对误差  
+rmse= np.sqrt((abs_**2).mean()) #Root Mean Square Error,均方根误差
+mape=(abs_/y).mean()# mean absolute percentage error，平均绝对百分比误差
+R2 = r2_score(y, yhat)
+print("平均绝对误差MAE={:.0f}；\n平均绝对百分比误差MAPE={:.2%}；\nR方={:.2%}；\n均方根误差RMSE={:.0f}。".format(mae,mape,R2,rmse))
+
+pd.concat([sup_water[-48:-24],test],axis=1).to_excel(r'd:\BaiduSyncdisk\谢杰\My Documents\谢杰同等学力\论文\论文初稿\小时prophetk=4输出结果.xlsx')
+
+
+#k=24
+test=pd.Series()
+  
+m = Prophet(#holidays=holidays,
+#growth='logistic', 
+#interval_width = 0.8,           #预测不确定区间宽度
+#n_changepoints = 25,            #识别变点的上限数量             
+#changepoint_range = 0.8 ,       #使用前80%比例数据作为变点识别数据
+#changepoint_prior_scale = 0.05, #changepoint_prior_scale越大，识别为变点越多；越小，识别为变点越少。
+#holidays_prior_scale=10  #holidays_prior_scale越大，假期对目标值的影响越大。越小，假期对目标值的影响越小。
+)        
+m = Prophet(yearly_seasonality=False)
+#m.add_seasonality(name='weekly', period=168, fourier_order=10, prior_scale=10) #fourier_order越大，对周期变化的拟合越细致也越容易过拟合。
+m.add_seasonality(name='hourly', period=24, fourier_order=10, prior_scale=10)#prior_scale越大，对于目标变量影响越大。
+#m.add_regressor('平均温度',prior_scale=10,mode='multiplicative') #回归量采用乘法模型
+#时间戳的格式应该是YYYY-MM-DD - HH:MM:SS。当使用子日(日以下)数据时，日季节性将自动匹配
+m.fit(sup_water[:-48])
+future = m.make_future_dataframe(periods=24,freq = 'H', 
+                                 #include_history = False
+                                 )
+forecast = m.predict(future)
+test = forecast['yhat'][-24:]
+
+# m.plot_components(forecast)
+# m.plot(forecast)
+
+#每个质保评分
+y=sup_water['y'][-48:-24]
+yhat=test
+abs_=(y- yhat).abs()
+mae=abs_.mean()#Mean Absolute Error ，平均绝对误差  
+rmse= np.sqrt((abs_**2).mean()) #Root Mean Square Error,均方根误差
+mape=(abs_/y).mean()# mean absolute percentage error，平均绝对百分比误差
+R2 = r2_score(y, yhat)
+print("平均绝对误差MAE={:.0f}；\n平均绝对百分比误差MAPE={:.2%}；\nR方={:.2%}；\n均方根误差RMSE={:.0f}。".format(mae,mape,R2,rmse))
+
+pd.concat([sup_water[-48:-24],test],axis=1).to_excel(r'd:\BaiduSyncdisk\谢杰\My Documents\谢杰同等学力\论文\论文初稿\小时prophetk=24输出结果.xlsx')
+
+
+
+
 
 
 
@@ -256,17 +418,20 @@ dataset.index.name = 'date'
 dataset.fillna(0, inplace=True)
 values = dataset.values
 type(values)
-# 指定要绘制的列
-groups = range(1)
-i = 1
-# 绘制每一列
-plt.figure()
-for group in groups:
-    plt.subplot(len(groups), 1, i)
-    plt.plot(values[:, group])
-    plt.title(dataset.columns[group], y=0.5, loc='right')
-    i += 1
-plt.show()  
+
+
+
+# # 指定要绘制的列
+# groups = range(1)
+# i = 1
+# # 绘制每一列
+# plt.figure()
+# for group in groups:
+#     plt.subplot(len(groups), 1, i)
+#     plt.plot(values[:, group])
+#     plt.title(dataset.columns[group], y=0.5, loc='right')
+#     i += 1
+# plt.show()  
 
 
 
@@ -295,7 +460,7 @@ scaled = scaler.fit_transform(values)
 #values[:,4] = encoder.fit_transform(values[:,4])
 # 指定滞后时间大小,和指标数量
 n_steps =168 #滞后期
-n_pre_steps =1 #预测期
+n_pre_steps =24#预测期 注意默认选1期，多步预测选了4期
 n_features = 1# 自变量指标数
 n_pre_features = 1 #预测指标数必须摆在矩阵前列
 
@@ -343,7 +508,7 @@ model.add(LSTM(50, input_shape=(train_X.shape[1], train_X.shape[2]))) #input_sha
 #另外, input_length指的也是输入句子的长度,即Time_step. 如下两种定义方式,表达的内容相同:
     #model.add(LSTM(32, input_shape=(None，10，64)));model.add(LSTM(32, input_lenth=10, input_dim=64 ))
 
-model.add(Dense(1))#设置输出目标变量  多部预测的神经元怎么设置。
+model.add(Dense(1))#设置输出目标变量 这里是单步预测， 多部预测的神经元设置请看后面K=4。
 model.compile(loss='mae', optimizer='adam')#设置评估的函数，以及优化器
 # 拟合网络模型
 history = model.fit(train_X, train_y, epochs=100, batch_size=10, validation_data=(test_X, test_y), verbose=2, shuffle=False)
@@ -384,18 +549,152 @@ inv_yhat = scaler.inverse_transform(inv_yhat)
 inv_yhat = inv_yhat[:,:n_pre_features]#得到正式预测值
 inv_y = scaler.inverse_transform(train_y)
 
+result = pd.DataFrame( dataset[n_steps:n_steps+n_train_months])
+result['预测'] = inv_yhat
+result.to_excel(r'd:\BaiduSyncdisk\谢杰\My Documents\个人所有填写表格\谢杰同等学力\论文\论文初稿\小时输出结果lstm1.xlsx')
+
+
+
+
 #每个质保评分
 def print_rmse_mape(abs_):
     mae=abs_.mean()#Mean Absolute Error ，平均绝对误差
     rmse= sqrt((abs_**2).mean()) #Root Mean Square Error,均方根误差
     mape=(abs_/inv_y.reshape(1,-1)[0,:]).mean()# mean absolute percentage error，平均绝对百分比误差
-    R2 = r2_score(inv_yhat.reshape(1,-1)[0,:], inv_y.reshape(1,-1)[0,:])
+    R2 = r2_score(inv_y.reshape(1,-1)[0,:],inv_yhat.reshape(1,-1)[0,:])
     print("平均绝对误差MAE={}；\n平均绝对百分比误差MAPE={:.2%}；\nR方={:.2%}；\n均方根误差RMSE={:.3f}。".format(mae,mape,R2,rmse))
 
 
 abs_=np.abs(inv_yhat.reshape(1,-1)[0,:]-inv_y.reshape(1,-1)[0,:])
 print_rmse_mape(abs_)
 
+
+
+#多个时间步的预测问题----------------------------------------------------------------------------
+#k=4
+
+# 设计神经网络
+model = Sequential() #生成模型实例
+model.add(LSTM(50,return_sequences=True, input_shape=(train_X.shape[1], train_X.shape[2]))) #input_shape是2维（Time_step, Input_Sizes), 
+#只有第一层需要定义LSTM的参数input_shape或input_dim，官方文档给出的batch_input shape是3维: (Batch_size, Time_step, Input_Sizes), 
+#其中Time_step是时间序列的长度, 对应到语句里就是语句的最大长度; Input_Sizes是每个时间点输入x的维度, 对于语句来说,就是一个字的embedding的向量维度.
+#在没有定义batch_size的情况下, 可以通过model.fit中的batch_size参数进行定义, 但是这种方法无法再使用model.train_on_batch()函数.  
+#如果这里定义了batch_size,那么在test的时候, 也要保证有该batch_size的数据, 否则会出现错误, 这样对只预测一个样本的问题无法兼容.  
+#比较好的方法是将Batch_size设置为None, 这样不需要实现设置固定的batch_size,且可以调用train_on_batch.
+#在没有定义Input_Sizes的情况下, 我尝试的训练, 会将其默认为1处理.
+#另外, input_length指的也是输入句子的长度,即Time_step. 如下两种定义方式,表达的内容相同:
+    #model.add(LSTM(32, input_shape=(None，10，64)));model.add(LSTM(32, input_lenth=10, input_dim=64 ))
+model.add(LSTM(50))
+model.add(Dense(4))
+model.compile(loss='mae', optimizer='adam')#设置评估的函数，以及优化器
+# 拟合网络模型
+history = model.fit(train_X, train_y, epochs=100, batch_size=10, validation_data=(test_X, test_y), verbose=2, shuffle=False)
+#epochs整个样本被训练优化多少次,重复fit可以再以后模型基础上再训练
+#batch_size整个样本被分成几次塞进模型，每次塞进去的样本量。在小样本数的数据库中，不使用Batch Size是可行的，而且效果也很好。但是一旦是大型的数据库，一次性把所有数据输进网络，肯定会引起内存的爆炸。所以就提出Batch Size的概念。
+#iterations（迭代）：每一次迭代都是一次权重更新,训练集有1000个样本，batchsize=10，那么：训练完整个样本集需要： 100次iteration，1次epoch。
+#validation的数据并不会被用来调整参数，不会被用于更新权重。对于validation data来说，主要就是为了防止过拟合。
+#比如说在训练过程中，查看模型在validation data上的accuracy，如果训练了10个epochs，发现accuracy都没提高，我们就可以及时停止训练，这个技巧被称为Early stopping，可以防止模型过度训练。
+
+#计算训练数据集的R方,rmse,mape
+testyhat = model.predict(test_X)
+inv_yhat = scaler.inverse_transform(testyhat)
+inv_yhat=inv_yhat[-48:-24,-1:]
+
+result = pd.DataFrame( dataset[-48:-24])
+result['预测'] = inv_yhat
+result.info()
+result.to_excel(r'd:\BaiduSyncdisk\谢杰\My Documents\谢杰同等学力\论文\论文初稿\输出结果\小时lstmk=4输出结果.xlsx')
+
+
+#每个质保评分
+def print_rmse_mape(abs_):
+    mae=abs_.mean()#Mean Absolute Error ，平均绝对误差
+    rmse= sqrt((abs_**2).mean()) #Root Mean Square Error,均方根误差
+    mape=(abs_/result['广州自来水公司_小时供水量'].values).mean()# mean absolute percentage error，平均绝对百分比误差
+    R2 = r2_score(result['广州自来水公司_小时供水量'].values,result['预测'].values)
+    print("平均绝对误差MAE={}；\n平均绝对百分比误差MAPE={:.2%}；\nR方={:.2%}；\n均方根误差RMSE={:.3f}。".format(mae,mape,R2,rmse))
+
+
+abs_=np.abs(result['广州自来水公司_小时供水量']-result['预测']).values
+print_rmse_mape(abs_)
+
+#k=24
+
+# 设计神经网络
+model = Sequential() #生成模型实例
+model.add(LSTM(50,return_sequences=True, input_shape=(train_X.shape[1], train_X.shape[2]))) #input_shape是2维（Time_step, Input_Sizes), 
+#只有第一层需要定义LSTM的参数input_shape或input_dim，官方文档给出的batch_input shape是3维: (Batch_size, Time_step, Input_Sizes), 
+#其中Time_step是时间序列的长度, 对应到语句里就是语句的最大长度; Input_Sizes是每个时间点输入x的维度, 对于语句来说,就是一个字的embedding的向量维度.
+#在没有定义batch_size的情况下, 可以通过model.fit中的batch_size参数进行定义, 但是这种方法无法再使用model.train_on_batch()函数.  
+#如果这里定义了batch_size,那么在test的时候, 也要保证有该batch_size的数据, 否则会出现错误, 这样对只预测一个样本的问题无法兼容.  
+#比较好的方法是将Batch_size设置为None, 这样不需要实现设置固定的batch_size,且可以调用train_on_batch.
+#在没有定义Input_Sizes的情况下, 我尝试的训练, 会将其默认为1处理.
+#另外, input_length指的也是输入句子的长度,即Time_step. 如下两种定义方式,表达的内容相同:
+    #model.add(LSTM(32, input_shape=(None，10，64)));model.add(LSTM(32, input_lenth=10, input_dim=64 ))
+model.add(LSTM(50))
+
+model.add(Dense(24))
+model.compile(loss='mae', optimizer='adam')#设置评估的函数，以及优化器
+# 拟合网络模型
+history = model.fit(train_X, train_y, epochs=100, batch_size=10, validation_data=(test_X, test_y), verbose=2, shuffle=False)
+#epochs整个样本被训练优化多少次,重复fit可以再以后模型基础上再训练
+#batch_size整个样本被分成几次塞进模型，每次塞进去的样本量。在小样本数的数据库中，不使用Batch Size是可行的，而且效果也很好。但是一旦是大型的数据库，一次性把所有数据输进网络，肯定会引起内存的爆炸。所以就提出Batch Size的概念。
+#iterations（迭代）：每一次迭代都是一次权重更新,训练集有1000个样本，batchsize=10，那么：训练完整个样本集需要： 100次iteration，1次epoch。
+#validation的数据并不会被用来调整参数，不会被用于更新权重。对于validation data来说，主要就是为了防止过拟合。
+#比如说在训练过程中，查看模型在validation data上的accuracy，如果训练了10个epochs，发现accuracy都没提高，我们就可以及时停止训练，这个技巧被称为Early stopping，可以防止模型过度训练。
+
+#计算训练数据集的R方,rmse,mape
+testyhat = model.predict(test_X)
+inv_yhat = scaler.inverse_transform(testyhat)
+inv_yhat=inv_yhat[-48:-24,-1:]
+
+result = pd.DataFrame( dataset[-48:-24])
+result['预测'] = inv_yhat
+result.info()
+result.to_excel(r'd:\BaiduSyncdisk\谢杰\My Documents\谢杰同等学力\论文\论文初稿\输出结果\小时lstmk=24输出结果.xlsx')
+
+
+#每个质保评分
+def print_rmse_mape(abs_):
+    mae=abs_.mean()#Mean Absolute Error ，平均绝对误差
+    rmse= sqrt((abs_**2).mean()) #Root Mean Square Error,均方根误差
+    mape=(abs_/result['广州自来水公司_小时供水量'].values).mean()# mean absolute percentage error，平均绝对百分比误差
+    R2 = r2_score(result['广州自来水公司_小时供水量'].values,result['预测'].values)
+    print("平均绝对误差MAE={}；\n平均绝对百分比误差MAPE={:.2%}；\nR方={:.2%}；\n均方根误差RMSE={:.3f}。".format(mae,mape,R2,rmse))
+
+
+abs_=np.abs(result['广州自来水公司_小时供水量']-result['预测']).values
+print_rmse_mape(abs_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def R2_0(y_test,y_pred):
+    SStot=np.sum((y_test-np.mean(y_test))**2)
+    SSres=np.sum((y_test-y_pred)**2)
+    r2=1-SSres/SStot
+    return r2
+def R2_1_(y_pred, y_test):
+    y_mean = np.array(y_test)
+    y_mean[:] = y_mean.mean()
+    return 1 - rmse(y_pred, y_test) / rmse(y_mean, y_test)
+def R2_2_(y_pred,y_test):
+    SStot=np.sum((y_test-np.mean(y_test))**2)
+    SSres=np.sum((y_test-y_pred)**2)
+    r2=SSres/SStot
+    return r2
 
 
 
